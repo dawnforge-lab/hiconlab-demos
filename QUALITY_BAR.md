@@ -21,7 +21,8 @@ This is version 1. It will be adjusted after the user reviews the pilot round.
 ## C. Tour and recording
 - [ ] `?tour=1` plays a scripted story with the shared tour engine; the demo works normally without it, and a real click or key press during `?tour=1` hands control to the viewer.
 - [ ] The story is 20–45 seconds, has a clear beginning (settled first frame), middle (the one or two moments that sell the service) and end (a resolved state held for at least 1.5 seconds).
-- [ ] Poster frame marked with `t.poster()` on the most telling moment, not the first frame.
+- [ ] Poster frame marked with `t.poster()` on the most telling moment, not the first frame. It must read as a thumbnail: a website's poster is a full, designed screen (usually the hero), not a modal or form over a dimmed page.
+- [ ] The tour is deterministic: in tour mode the demo pins its own "today" (a sensible weekday and time), slots, references and random choices, so every recording matches. The live clock is fine outside tour mode. Avoid showing a year where it would date the video.
 - [ ] The tour finishes with `done` in `npm run check -- <id> --tour`.
 - [ ] Hover styles are written as `:hover, .is-tour-hover` so they show in the recording.
 - [ ] Nothing in the recording moves faster than a person could follow. Typing looks human. The cursor never jumps.
@@ -49,5 +50,5 @@ Use the frontend-design skill. The test: could this pass as the real product or 
 - **3D (12, 13):** at least three scroll-driven moments (for example rotate, exploded view, colour or variant change). Holds 60 fps on a normal laptop, loads under 5 MB of 3D assets, shows a styled loading state, and has a static fallback if WebGL is unavailable.
 
 ## G. Video
-- [ ] 1920×1080 H.264 MP4, 20–45 s, no audio (music only if explicitly agreed), plus a poster in JPG and WebP.
+- [ ] 1920×1080 H.264 MP4 at 30 fps, 20–45 s, ideally under 8 MB, no audio (music only if explicitly agreed), plus a poster in JPG and WebP.
 - [ ] Sharp text, smooth motion, no dropped frames in scroll or 3D scenes, no browser chrome, no scrollbars.

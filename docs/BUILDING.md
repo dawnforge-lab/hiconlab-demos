@@ -99,7 +99,7 @@ API (all async):
 
 Also: `HiconTour.active` (true in tour mode), `HiconTour.ready(async fn)` to hold the tour until assets load, and the `tour:start` / `tour:end` window events. Style hovers as `:hover, .is-tour-hover`.
 
-Write the story for a 1920×1080 viewport: that is the video size. Keep it 20–45 s. Lead with a calm first frame, build to the one or two moments that sell the service, end on a resolved state held for 1.5 s or more.
+The video is always 1920×1080. By default the page is recorded at a 1920×1080 viewport; dense interfaces (SaaS, dashboards) record at 1536×864, set in `demos/demos.json` as `"record": {"viewport": "1536x864"}` and scaled up, so the UI reads about 25% larger in the video. Write and check the story at that viewport. Keep it 20–45 s. Lead with a calm first frame, build to the one or two moments that sell the service, end on a resolved state held for 1.5 s or more.
 
 ## Checking
 ```bash
@@ -108,7 +108,7 @@ npm run record -- <id>           # media/<id>.mp4 and posters (add --headed for 
 ```
 Look at every screenshot in `.checks/<id>/` yourself (375px and 1440px, fold and full page, reduced motion, tour end) before you call it done.
 
-When the demo is ready, update its entry in `demos/demos.json`: set `"status": "built"`, set `"title"`/`"summary"` to match the brand, and add `"pages": ["demos/<id>/", "demos/<id>/<inner>.html"]` if it has more than one page.
+When the demo is ready, do not edit `demos/demos.json` yourself (builders run in parallel). Put the entry in your report instead: `"status": "built"`, a `"title"` and `"summary"` that match the brand, and `"pages": ["demos/<id>/", "demos/<id>/<inner>.html"]` if it has more than one page. The lead updates the file.
 
 ## Phone numbers and addresses
-Use Ofcom's ranges reserved for drama: 01632 960000–960999, 020 7946 0000–0999, 0113 496 0000–0999, 0117 496 0000–0999, 0121 496 0000–0999, 0131 496 0000–0999, 0161 496 0000–0999, 07700 900000–900999. Emails at the brand's own fictional domain, never linked out. Real towns and plausible (not real) street addresses are fine.
+Use Ofcom's ranges reserved for drama: 020 7946 0000–0999, 01632 960000–960999, the 496 0000–0999 block of the big-city codes (0113, 0114, 0115, 0116, 0117, 0118, 0121, 0131, 0141, 0151, 0161, 0191), and mobiles 07700 900000–900999. Emails at the brand's own fictional domain, never linked out. Real towns and plausible (not real) street addresses are fine.

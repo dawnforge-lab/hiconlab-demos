@@ -3,13 +3,16 @@
     {
       "id": "conversational-search",
       "number": 1,
-      "title": "Conversational product search",
+      "title": "Fettle Trade Supply: conversational product search",
       "service": "ecommerce",
       "kind": "ai-ecommerce",
-      "summary": "Search that understands the job, not just the keyword: autocomplete, then a scripted assistant that streams answers with product cards and follow-up chips.",
+      "summary": "A trade supplier’s search that understands the job: live autocomplete with synonyms, then an assistant that checks the catalogue, streams an answer with the right parts, stock and lead times, and suggests what to ask next.",
       "source": "docs/sources/ai-shopping-assistant.md",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "record": {
+        "viewport": "1536x864"
+      }
     },
     {
       "id": "ai-chat-assistant",
@@ -20,18 +23,24 @@
       "summary": "A help assistant that answers from the business's own content, recommends products, confirms before adding to the basket and hands over to a person.",
       "source": "docs/sources/ai-shopping-assistant.md",
       "tryIt": true,
-      "status": "planned"
+      "status": "planned",
+      "record": {
+        "viewport": "1536x864"
+      }
     },
     {
       "id": "garage-saas",
       "number": 3,
-      "title": "Garage management software",
+      "title": "Liftbay workshop software",
       "service": "web-development",
       "kind": "saas",
-      "summary": "Workshop board, ramps, parts and invoicing for an independent garage, redesigned as a modern SaaS.",
+      "summary": "A redesigned garage management SaaS for an independent Kendal garage: a live workshop board with ramps, drag and drop, parts, and invoicing from pricing to paid and handed over.",
       "source": "docs/sources/garage-manager.md",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "record": {
+        "viewport": "1536x864"
+      }
     },
     {
       "id": "job-scheduling-saas",
@@ -42,7 +51,10 @@
       "summary": "Quotes, crew scheduling, job sheets on the phone and invoicing for a trades business.",
       "source": "docs/sources/job-management.md",
       "tryIt": true,
-      "status": "planned"
+      "status": "planned",
+      "record": {
+        "viewport": "1536x864"
+      }
     },
     {
       "id": "kreativehub",
@@ -67,12 +79,12 @@
     {
       "id": "dentist",
       "number": 7,
-      "title": "Dental practice website",
+      "title": "Fanlight Dental, Frome",
       "service": "web-design",
       "kind": "website",
-      "summary": "A calm, trustworthy site for an independent UK dental practice, with treatments, fees and online booking.",
+      "summary": "Website for an independent dental practice in Frome: clear private fees and a monthly plan, NHS places for children, a clear aligners page with a finance calculator, and online booking from reason to confirmed slot.",
       "tryIt": true,
-      "status": "planned",
+      "status": "built",
       "pages": [
         "demos/dentist/",
         "demos/dentist/treatment.html"
@@ -127,17 +139,23 @@
       "kind": "3d",
       "summary": "A scroll-driven 3D product story for a supplements brand.",
       "tryIt": true,
-      "status": "planned"
+      "status": "planned",
+      "record": {
+        "headed": true
+      }
     },
     {
       "id": "watch-3d",
       "number": 13,
-      "title": "3D watch showcase",
+      "title": "Fenwright P39",
       "service": "web-design",
       "kind": "3d",
-      "summary": "A scroll-driven 3D product story for a watchmaker: rotate, exploded view, colour change.",
+      "summary": "A scroll-driven 3D launch for a Prescot watchmaker: the watch turns over to show its movement, comes apart into labelled parts and changes dial and strap live.",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "record": {
+        "headed": true
+      }
     },
     {
       "id": "gym",

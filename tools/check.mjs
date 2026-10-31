@@ -36,6 +36,7 @@ const VIEWPORTS = [
 const server = await startServer(0);
 const base = `http://127.0.0.1:${server.address().port}`;
 const browser = await chromium.launch({ args: ['--ignore-gpu-blocklist', '--hide-scrollbars'] });
+let headedBrowser = null;
 
 let failedDemos = 0;
 for (const id of ids) {
@@ -52,6 +53,7 @@ for (const id of ids) {
   console.log(`  screenshots: .checks/${entry.id}/`);
 }
 await browser.close();
+if (headedBrowser) await headedBrowser.close();
 server.close();
 process.exit(failedDemos ? 1 : 0);
 
@@ -64,8 +66,10 @@ function slug(p) {
   return (p.replace(/^demos\/[^/]+\/?/, '').replace(/[/?.=&]+/g, '-').replace(/^-|-$/g, '') || 'home');
 }
 
-async function newContext(options, extra = {}) {
-  const context = await browser.newContext({ ...options, locale: 'en-GB', timezoneId: 'Europe/London', ...extra });
+async function newContext(options, extra = {}, useHeaded = false) {
+  // 3D demos run their tour in a real window: headless Chromium only has software WebGL.
+  if (useHeaded) headedBrowser ??= await chromium.launch({ headless: false, args: ['--ignore-gpu-blocklist', '--hide-scrollbars'] });
+  const context = await (useHeaded ? headedBrowser : browser).newContext({ ...options, locale: 'en-GB', timezoneId: 'Europe/London', ...extra });
   const blocked = [];
   await context.route('**/*', (route) => {
     const url = new URL(route.request().url());
@@ -165,7 +169,8 @@ async function checkDemo(entry) {
   }
 
   if (runTour && entry.id !== 'index') {
-    const { context, blocked } = await newContext({ viewport: { width: 1920, height: 1080 } });
+    const [tw, th] = (entry.record?.viewport || '1920x1080').split('x').map(Number);
+    const { context, blocked } = await newContext({ viewport: { width: tw, height: th } }, {}, entry.record?.headed === true);
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
