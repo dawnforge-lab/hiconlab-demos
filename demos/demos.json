@@ -190,12 +190,16 @@
     {
       "id": "gym",
       "number": 14,
-      "title": "Gym website",
+      "title": "Dryside, Leicester: gym website",
       "service": "web-design",
       "kind": "website",
-      "summary": "An independent gym's site with classes, timetable and membership.",
+      "summary": "Website for an independent gym in Leicester’s old swimming baths: a week’s timetable filtered by day, class and coach with places left, booking a free first session through to confirmation, and honest monthly prices with plain-English terms.",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "pages": [
+        "demos/gym/",
+        "demos/gym/memberships.html"
+      ]
     }
   ]
 }

@@ -116,6 +116,15 @@
       "height": 1080,
       "seconds": 35.8,
       "recordedAt": "2026-10-31T20:36:15.031Z"
+    },
+    "gym": {
+      "video": "gym.mp4",
+      "posterWebp": "gym-poster.webp",
+      "posterJpg": "gym-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 37.3,
+      "recordedAt": "2026-10-31T20:45:56.562Z"
     }
   }
 }
