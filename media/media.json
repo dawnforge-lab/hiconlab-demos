@@ -44,6 +44,15 @@
       "height": 1080,
       "seconds": 39.8,
       "recordedAt": "2026-10-31T14:47:17.636Z"
+    },
+    "kreativehub": {
+      "video": "kreativehub.mp4",
+      "posterWebp": "kreativehub-poster.webp",
+      "posterJpg": "kreativehub-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 36.9,
+      "recordedAt": "2026-10-31T19:13:41.631Z"
     }
   }
 }

@@ -59,12 +59,16 @@
     {
       "id": "kreativehub",
       "number": 5,
-      "title": "Kreativehub",
+      "title": "KreativeHub: website recreation",
       "service": "web-design",
       "kind": "website-recreation",
-      "summary": "A showcase recreating the current kreativehub.net design.",
+      "summary": "A faithful recreation of kreativehub.net as built: the design-canvas homepage with its framed sections, service cards, proof stamps and FAQ, and the SEO service page with its own illustrations.",
       "tryIt": false,
-      "status": "planned"
+      "status": "built",
+      "pages": [
+        "demos/kreativehub/",
+        "demos/kreativehub/seo.html"
+      ]
     },
     {
       "id": "colour-and-style",
