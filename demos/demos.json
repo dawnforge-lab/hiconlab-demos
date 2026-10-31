@@ -3,13 +3,13 @@
     {
       "id": "conversational-search",
       "number": 1,
-      "title": "Conversational product search",
+      "title": "Scarth, Settle: conversational product search",
       "service": "ecommerce",
       "kind": "ai-ecommerce",
-      "summary": "A shop search that understands what you need: type it in plain English and the search shows how it read your request, then picks and ranks the products that fit, with the reason for each.",
+      "summary": "A walking shop’s search that reads a plain-English request, shows how it understood it, narrows the shop step by step and ranks what fits, with a reason for each and the near misses one click away.",
       "source": "docs/sources/conversational-search.md",
       "tryIt": true,
-      "status": "planned",
+      "status": "built",
       "record": {
         "viewport": "1536x864"
       }

@@ -9,6 +9,15 @@
       "seconds": 43.2,
       "recordedAt": "2026-10-31T14:45:41.451Z"
     },
+    "conversational-search": {
+      "video": "conversational-search.mp4",
+      "posterWebp": "conversational-search-poster.webp",
+      "posterJpg": "conversational-search-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 39.1,
+      "recordedAt": "2026-10-31T15:52:14.695Z"
+    },
     "dentist": {
       "video": "dentist.mp4",
       "posterWebp": "dentist-poster.webp",

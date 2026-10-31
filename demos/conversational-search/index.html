@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scarth · Walking kit, fitted in Settle</title>
+  <meta name="description" content="Boots, waterproofs, insulation, rucksacks, base layers and socks from a walking shop in Settle. Describe what you need and the search picks what fits.">
+  <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-basket" viewBox="0 0 24 24"><path d="M4 9h16l-1.6 9.2a2 2 0 0 1-2 1.8H7.6a2 2 0 0 1-2-1.8z"/><path d="M8.5 9 11 4M15.5 9 13 4"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19 13 11"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
+    <symbol id="i-miss" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4.5M12 16v.01"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-boot" viewBox="0 0 48 48"><path d="M14 6h12l1 14 9 5c4 2 6 5 6 9v3H8l2-9z"/><path d="M8 37v4h34v-4M16 12h8M16 17h9"/></symbol>
+    <symbol id="i-jacket" viewBox="0 0 48 48"><path d="M18 6h12l8 5 4 26h-6l-2-14v19H14V23l-2 14H6l4-26z"/><path d="M24 8v34M18 6c0 4 3 6 6 6s6-2 6-6"/></symbol>
+    <symbol id="i-pack" viewBox="0 0 48 48"><rect x="11" y="10" width="26" height="32" rx="7"/><path d="M18 10V7a6 6 0 0 1 12 0v3M11 22h26M17 30h14v8H17z"/></symbol>
+    <symbol id="i-top" viewBox="0 0 48 48"><path d="M17 7c2 3 4 4 7 4s5-1 7-4l9 5-3 10-4-2v21H15V20l-4 2-3-10z"/></symbol>
+    <symbol id="i-sock" viewBox="0 0 48 48"><path d="M17 5h13v20l6 6c3 3 3 7 0 10s-7 3-10 0L17 32z"/><path d="M17 10h13"/></symbol>
+  </svg>
+
+  <header class="top" id="top">
+    <div class="top__in">
+      <a class="brand" href="./" aria-label="Scarth, home">
+        <svg class="brand__mark" viewBox="0 0 40 24" aria-hidden="true"><path class="brand__ridge" d="M1 21 C6 14 10 9 15 9 L20 17 L25 6 C29 6 34 12 39 21"/><circle class="brand__notch" cx="20" cy="17" r="2.2"/></svg>
+        <span class="brand__name">Scarth</span>
+      </a>
+      <nav class="sections" aria-label="Sections">
+        <ul>
+          <li><button type="button" data-search="walking boots">Boots</button></li>
+          <li><button type="button" data-search="walking shoes">Shoes</button></li>
+          <li><button type="button" data-search="waterproof jackets">Waterproofs</button></li>
+          <li><button type="button" data-search="insulated jackets">Insulation</button></li>
+          <li><button type="button" data-search="rucksacks">Rucksacks</button></li>
+          <li><button type="button" data-search="base layers">Base layers</button></li>
+          <li><button type="button" data-search="socks">Socks</button></li>
+        </ul>
+      </nav>
+      <p class="top__shop"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Boots fitted in Settle</p>
+      <button class="basket" type="button" id="basket">
+        <svg class="ic" aria-hidden="true"><use href="#i-basket"/></svg><span class="basket__label">Basket</span><span class="basket__n" id="basketN">0</span><span class="sr-only" id="basketSr"> items</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="band" id="band" aria-label="Search">
+    <div class="band__map" aria-hidden="true"></div>
+    <div class="band__in">
+      <div class="fold" id="hero"><div class="fold__in hero">
+        <p class="hero__eyebrow">Walking kit from the foot of the Dales</p>
+        <h1 class="hero__title">Tell us what you need. <span>We’ll find what fits.</span></h1>
+        <p class="hero__sub">Say it the way you would in the shop: where you’re going, your feet, your budget. We’ll show you how we read it and why each one made the cut.</p>
+      </div></div>
+
+      <form class="search" id="searchForm" role="search" autocomplete="off">
+        <label class="sr-only" for="q">Search Scarth</label>
+        <div class="search__box">
+          <svg class="ic search__ic" aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="q" name="q" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest" aria-describedby="qHint"
+                 placeholder="e.g. waterproof boots for wide feet under £120" spellcheck="false" enterkeyhint="search">
+          <button class="search__clear" type="button" id="qClear" aria-label="Clear search" hidden><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+          <button class="search__go" type="submit" aria-label="Find kit"><span aria-hidden="true">Find kit</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+        <p class="sr-only" id="qHint">Describe what you need in your own words. Suggestions appear as you type; use the up and down arrows to move through them.</p>
+        <div class="suggest" id="suggestWrap" hidden>
+          <ul class="suggest__list" id="suggest" role="listbox" aria-label="Suggestions"></ul>
+        </div>
+      </form>
+
+      <div class="fold" id="tryFold"><div class="fold__in"><div class="try" id="try">
+        <span class="try__label">Try</span>
+        <button type="button" class="try__q" data-search="warm jacket for winter hillwalking">warm jacket for winter hillwalking</button>
+        <button type="button" class="try__q" data-search="30 litre daypack, not black">30 litre daypack, not black</button>
+        <button type="button" class="try__q" data-search="women’s merino base layer, size 12">women’s merino base layer, size 12</button>
+      </div></div></div>
+
+      <div class="reading" id="reading" hidden>
+        <h2 class="reading__h">Understood as</h2>
+        <ul class="chips" id="chips"></ul>
+        <p class="reading__notes" id="readingNotes"></p>
+      </div>
+    </div>
+    <p class="band__grid" aria-hidden="true">SD 819 637</p>
+  </section>
+
+  <main id="main" tabindex="-1">
+    <div class="home" id="home">
+      <section class="shelves" aria-labelledby="shelvesH">
+        <div class="wrap">
+          <div class="shelves__head">
+            <h2 id="shelvesH">Browse the shop</h2>
+            <p>74 things we’d wear ourselves. Every boot is fitted in the shop or by video call before it leaves.</p>
+          </div>
+          <ul class="shelves__list" id="shelves"></ul>
+        </div>
+      </section>
+
+      <section class="how" aria-labelledby="howH">
+        <div class="wrap how__in">
+          <h2 id="howH">How the search works</h2>
+          <ol class="how__steps">
+            <li><span class="how__n">1</span><h3>Say it your way</h3><p>“Boots for boggy fells, wide feet, about a hundred quid” is fine. So is “cagoule, not black”.</p></li>
+            <li><span class="how__n">2</span><h3>Check how we read it</h3><p>Each thing we picked up shows as a tag. Change one, make it optional or take it off.</p></li>
+            <li><span class="how__n">3</span><h3>See why each one fits</h3><p>Every result says what it meets. The near misses say what they miss, so you can decide.</p></li>
+          </ol>
+        </div>
+      </section>
+    </div>
+
+    <div class="results" id="results" hidden>
+      <section class="picked" aria-labelledby="pickedH">
+        <div class="wrap">
+          <div class="picked__head">
+            <h2 id="pickedH">How we picked these</h2>
+            <p class="picked__note" id="pickedNote"></p>
+          </div>
+          <ol class="strip" id="strip"></ol>
+        </div>
+      </section>
+
+      <div class="wrap layout">
+        <aside class="filters" aria-labelledby="filtersH">
+          <details class="filters__d" id="filtersD" open>
+            <summary class="filters__s"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg><h2 id="filtersH">Filters</h2><span class="filters__hint">kept in step with your tags</span><svg class="ic filters__chev" aria-hidden="true"><use href="#i-down"/></svg></summary>
+            <form class="filters__f" id="filters" onsubmit="return false"></form>
+          </details>
+        </aside>
+
+        <section class="found" aria-labelledby="foundH">
+          <div class="found__head">
+            <h2 id="foundH">Results</h2>
+            <p class="found__sort" id="foundSort"></p>
+          </div>
+          <div class="nomatch" id="nomatch" hidden></div>
+          <ol class="grid" id="grid"></ol>
+          <p class="more" id="moreWrap" hidden><button type="button" class="btn btn--ghost" id="more">Show all</button></p>
+
+          <section class="nearly" id="nearly" aria-labelledby="nearlyH" hidden>
+            <h2 id="nearlyH">Nearly</h2>
+            <p class="nearly__sub">Close, but each misses one thing you asked for.</p>
+            <ul class="nearly__list" id="nearlyList"></ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <section class="shopstrip" aria-label="About the shop">
+      <div class="wrap shopstrip__in">
+        <p><strong>Fitted in Settle.</strong> Free boot fitting, Tuesday to Sunday, 09:30 to 17:30.</p>
+        <p><strong>60-day returns.</strong> Worn indoors and not right? Send it back free.</p>
+        <p><strong>Next-day delivery</strong> on orders before 2pm, free over £60.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__in">
+      <div class="foot__brand">
+        <svg class="brand__mark" viewBox="0 0 40 24" aria-hidden="true"><path class="brand__ridge" d="M1 21 C6 14 10 9 15 9 L20 17 L25 6 C29 6 34 12 39 21"/><circle class="brand__notch" cx="20" cy="17" r="2.2"/></svg>
+        <p><strong>Scarth</strong>, 2 Ribble Yard, Station Road, Settle BD24 9ZZ</p>
+      </div>
+      <p><a href="tel:+441632960418">01632 960 418</a> · <a href="mailto:hello@scarth.example.co.uk">hello@scarth.example.co.uk</a></p>
+      <p class="foot__demo">A Hiconlab demo. All businesses, people and data are fictional.</p>
+    </div>
+  </footer>
+
+  <div class="pop" id="pop" role="dialog" aria-modal="false" aria-labelledby="popH" hidden></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="sr-only" id="announce" aria-live="polite"></div>
+
+  <script src="../../shared/tour/tour.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/reader.js"></script>
+  <script src="assets/js/decide.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/tour.js"></script>
+</body>
+</html>
