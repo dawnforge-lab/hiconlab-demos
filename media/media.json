@@ -98,6 +98,15 @@
       "height": 1080,
       "seconds": 40.4,
       "recordedAt": "2026-10-31T19:38:15.176Z"
+    },
+    "job-scheduling-saas": {
+      "video": "job-scheduling-saas.mp4",
+      "posterWebp": "job-scheduling-saas-poster.webp",
+      "posterJpg": "job-scheduling-saas-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 39.3,
+      "recordedAt": "2026-10-31T20:13:53.912Z"
     }
   }
 }

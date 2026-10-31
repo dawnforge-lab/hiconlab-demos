@@ -45,13 +45,13 @@
     {
       "id": "job-scheduling-saas",
       "number": 4,
-      "title": "Job scheduling software",
+      "title": "Stampwell for Hartwell & Lowe Heating, Stroud: job scheduling software",
       "service": "web-development",
       "kind": "saas",
-      "summary": "Quotes, crew scheduling, job sheets on the phone and invoicing for a trades business.",
+      "summary": "Job software for a Stroud heating firm: drop a call-out on an engineer and the clash is caught, check yesterday’s job sheet from the office, then invoice it, send it and mark it paid while the day’s figures keep up.",
       "source": "docs/sources/job-management.md",
       "tryIt": true,
-      "status": "planned",
+      "status": "built",
       "record": {
         "viewport": "1536x864"
       }
