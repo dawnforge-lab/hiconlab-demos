@@ -1,3 +1,40 @@
 {
-  "media": {}
+  "media": {
+    "conversational-search": {
+      "video": "conversational-search.mp4",
+      "posterWebp": "conversational-search-poster.webp",
+      "posterJpg": "conversational-search-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 40.5,
+      "recordedAt": "2026-10-31T12:58:04.790Z"
+    },
+    "dentist": {
+      "video": "dentist.mp4",
+      "posterWebp": "dentist-poster.webp",
+      "posterJpg": "dentist-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 37.9,
+      "recordedAt": "2026-10-31T12:36:26.833Z"
+    },
+    "garage-saas": {
+      "video": "garage-saas.mp4",
+      "posterWebp": "garage-saas-poster.webp",
+      "posterJpg": "garage-saas-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 37.5,
+      "recordedAt": "2026-10-31T12:31:54.347Z"
+    },
+    "watch-3d": {
+      "video": "watch-3d.mp4",
+      "posterWebp": "watch-3d-poster.webp",
+      "posterJpg": "watch-3d-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 36.7,
+      "recordedAt": "2026-10-31T12:59:10.930Z"
+    }
+  }
 }

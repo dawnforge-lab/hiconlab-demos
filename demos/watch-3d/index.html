@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fenwright P39 · An automatic watch made in Prescot</title>
+  <meta name="description" content="The Fenwright P39: a 39 mm steel automatic with Calibre FW-1, designed, made and finished in Prescot. First batch of 150.">
+  <meta name="theme-color" content="#0c100e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%230c100e%22/%3E%3Ctext x=%2232%22 y=%2246%22 font-family=%22Georgia,serif%22 font-style=%22italic%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23c9a46a%22%3EF%3C/text%3E%3C/svg%3E">
+  <link rel="preload" href="assets/fonts/bodoni-moda-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script type="importmap">
+  { "imports": {
+    "three": "../../shared/vendor/three@0.187.0/three.module.js",
+    "three/addons/": "../../shared/vendor/three@0.187.0/addons/"
+  } }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader__dial">
+      <svg class="loader__ticks" viewBox="0 0 120 120" aria-hidden="true"></svg>
+      <span class="loader__mark" aria-hidden="true">F</span>
+    </div>
+    <p class="loader__text">Setting the movement <span class="loader__pct">0%</span></p>
+  </div>
+
+  <div class="stage" id="stage" aria-hidden="true">
+    <canvas id="scene"></canvas>
+  </div>
+  <img class="still" id="still" alt="" hidden width="900" height="1234">
+
+  <div class="callouts" id="callouts" aria-hidden="true">
+    <svg class="callouts__svg"></svg>
+    <div class="callouts__labels"></div>
+  </div>
+
+  <header class="masthead">
+    <a class="wordmark" href="#watch">
+      <span class="wordmark__name">Fenwright</span>
+      <span class="wordmark__place">Prescot</span>
+    </a>
+    <nav class="masthead__nav" aria-label="Main">
+      <a href="#movement">Movement</a>
+      <a href="#parts">In pieces</a>
+      <a href="#dial">Dial &amp; strap</a>
+      <a href="#specification">Specification</a>
+    </nav>
+    <a class="btn btn--small" href="#reserve">Reserve</a>
+  </header>
+
+  <nav class="track" aria-label="Page sections">
+    <div class="track__rail" aria-hidden="true"><span class="track__fill"></span></div>
+    <ol class="track__list">
+      <li><a href="#watch" data-track="watch"><span class="track__num">I</span><span class="track__name">The P39</span></a></li>
+      <li><a href="#movement" data-track="movement"><span class="track__num">II</span><span class="track__name">Movement</span></a></li>
+      <li><a href="#parts" data-track="parts"><span class="track__num">III</span><span class="track__name">In pieces</span></a></li>
+      <li><a href="#dial" data-track="dial"><span class="track__num">IV</span><span class="track__name">Dial &amp; strap</span></a></li>
+      <li><a href="#specification" data-track="specification"><span class="track__num">V</span><span class="track__name">Specification</span></a></li>
+      <li><a href="#reserve" data-track="reserve"><span class="track__num">VI</span><span class="track__name">Reserve</span></a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+    <section class="scene scene--hero scene--left" id="watch" data-pose="hero" aria-labelledby="hero-title">
+      <div class="copy">
+        <p class="eyebrow"><span>The P39</span><span class="eyebrow__rule"></span><span>First batch of 150</span></p>
+        <h1 id="hero-title" class="display">Made in Prescot. <em>Again.</em></h1>
+        <p class="lede">For two centuries the movements inside English watches were made in Prescot. The P39 is the first since the 1950s to be designed, made and finished here again, at our workshop on Atherton Street.</p>
+        <div class="actions">
+          <a class="btn" href="#reserve">Reserve a P39</a>
+          <a class="link" href="#movement">Turn it over <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v11M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+        </div>
+      </div>
+      <dl class="facts">
+        <div><dt>Case</dt><dd>39 mm steel</dd></div>
+        <div><dt>Movement</dt><dd>Calibre FW-1, automatic</dd></div>
+        <div><dt>Power reserve</dt><dd>68 hours</dd></div>
+        <div><dt>Price</dt><dd>£4,850</dd></div>
+      </dl>
+    </section>
+
+    <section class="scene scene--right" id="movement" data-pose="back" aria-labelledby="movement-title">
+      <div class="copy">
+        <p class="eyebrow"><span>II</span><span class="eyebrow__rule"></span><span>The movement</span></p>
+        <h2 id="movement-title" class="display">Turn it over.</h2>
+        <p class="lede">Calibre FW-1 is built the English way, under a frosted gilt three-quarter plate, with its jewels set in gold chatons and held by blued screws. We cut, finish and assemble every one in Prescot, and the sapphire back lets you watch it work.</p>
+        <ul class="stats">
+          <li><span class="stats__n">25</span><span class="stats__l">jewels</span></li>
+          <li><span class="stats__n">28,800</span><span class="stats__l">beats an hour</span></li>
+          <li><span class="stats__n">68</span><span class="stats__l">hours of reserve</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="scene scene--parts" id="parts" data-pose="exploded" aria-labelledby="parts-title">
+      <div class="copy copy--sticky">
+        <p class="eyebrow"><span>III</span><span class="eyebrow__rule"></span><span>In pieces</span></p>
+        <h2 id="parts-title" class="display display--md">Every part, laid out.</h2>
+        <p class="lede lede--short">A P39 has 164 parts. These are the nine you will see and touch. Keep scrolling and they go back together.</p>
+        <ol class="parts-list" id="parts-list"></ol>
+      </div>
+    </section>
+
+    <section class="scene scene--right" id="dial" data-pose="colour" aria-labelledby="dial-title">
+      <div class="copy">
+        <p class="eyebrow"><span>IV</span><span class="eyebrow__rule"></span><span>Dial and strap</span></p>
+        <h2 id="dial-title" class="display">Three dials. <em>Three straps.</em></h2>
+        <p class="lede">Each dial is brass, brushed in a sunburst from the centre and lacquered six times, so it goes from bright to deep as the light moves across it. Choose one, then a strap to go with it.</p>
+        <fieldset class="swatches">
+          <legend>Dial</legend>
+          <label class="swatch" data-dial="mersey"><input type="radio" name="dial" value="mersey" checked><span class="swatch__chip" style="--chip:#1d3d66"></span><span class="swatch__text"><span class="swatch__name">Mersey</span><span class="swatch__note">Deep blue sunburst</span></span></label>
+          <label class="swatch" data-dial="fell"><input type="radio" name="dial" value="fell"><span class="swatch__chip" style="--chip:#2d4a37"></span><span class="swatch__text"><span class="swatch__name">Fell</span><span class="swatch__note">Moss green sunburst</span></span></label>
+          <label class="swatch" data-dial="salt"><input type="radio" name="dial" value="salt"><span class="swatch__chip swatch__chip--light" style="--chip:#d4d7d6"></span><span class="swatch__text"><span class="swatch__name">Salt</span><span class="swatch__note">Silvered grey, gilt hands</span></span></label>
+        </fieldset>
+        <fieldset class="swatches">
+          <legend>Strap</legend>
+          <label class="swatch" data-strap="chestnut"><input type="radio" name="strap" value="chestnut" checked><span class="swatch__chip swatch__chip--leather" style="--chip:#6b3a1f"></span><span class="swatch__text"><span class="swatch__name">Chestnut calf</span><span class="swatch__note">Cream stitching</span></span></label>
+          <label class="swatch" data-strap="black"><input type="radio" name="strap" value="black"><span class="swatch__chip swatch__chip--leather" style="--chip:#1c1918"></span><span class="swatch__text"><span class="swatch__name">Black calf</span><span class="swatch__note">Grey stitching</span></span></label>
+          <label class="swatch" data-strap="oxblood"><input type="radio" name="strap" value="oxblood"><span class="swatch__chip swatch__chip--leather" style="--chip:#5a1a1e"></span><span class="swatch__text"><span class="swatch__name">Oxblood cordovan</span><span class="swatch__note">Tonal stitching</span></span></label>
+        </fieldset>
+        <p class="choice" id="choice" aria-live="polite">Mersey dial on chestnut calf</p>
+      </div>
+    </section>
+
+    <section class="scene scene--right scene--specs" id="specification" data-pose="specs" aria-labelledby="spec-title">
+      <div class="copy copy--wide">
+        <p class="eyebrow"><span>V</span><span class="eyebrow__rule"></span><span>Specification</span></p>
+        <h2 id="spec-title" class="display display--md">The numbers.</h2>
+        <div class="spec">
+          <section class="spec__group" aria-labelledby="spec-case">
+            <h3 id="spec-case">Case</h3>
+            <dl>
+              <div><dt>Material</dt><dd>316L steel, brushed and polished</dd></div>
+              <div><dt>Diameter</dt><dd>39.0 mm</dd></div>
+              <div><dt>Thickness</dt><dd>11.4 mm</dd></div>
+              <div><dt>Lug to lug</dt><dd>46.5 mm</dd></div>
+              <div><dt>Crystal</dt><dd>Domed sapphire, anti-reflective inside</dd></div>
+              <div><dt>Back</dt><dd>Sapphire display, screw-down</dd></div>
+              <div><dt>Water resistance</dt><dd>100 m (10 bar)</dd></div>
+            </dl>
+          </section>
+          <section class="spec__group" aria-labelledby="spec-movement">
+            <h3 id="spec-movement">Movement</h3>
+            <dl>
+              <div><dt>Calibre</dt><dd>FW-1, made in Prescot</dd></div>
+              <div><dt>Winding</dt><dd>Automatic, with hand winding</dd></div>
+              <div><dt>Jewels</dt><dd>25</dd></div>
+              <div><dt>Frequency</dt><dd>28,800 vph (4 Hz)</dd></div>
+              <div><dt>Power reserve</dt><dd>68 hours</dd></div>
+              <div><dt>Accuracy</dt><dd>−2 to +4 seconds a day, adjusted in five positions</dd></div>
+              <div><dt>Finishing</dt><dd>Frosted gilt plate, gold chatons, blued screws</dd></div>
+            </dl>
+          </section>
+          <section class="spec__group" aria-labelledby="spec-strap">
+            <h3 id="spec-strap">Strap</h3>
+            <dl>
+              <div><dt>Width</dt><dd>20 mm, tapering to 17 mm</dd></div>
+              <div><dt>Leather</dt><dd>Calf or cordovan, stitched by hand in Walsall</dd></div>
+              <div><dt>Fitting</dt><dd>Quick-release bars, steel pin buckle</dd></div>
+            </dl>
+          </section>
+          <section class="spec__group" aria-labelledby="spec-care">
+            <h3 id="spec-care">Care</h3>
+            <dl>
+              <div><dt>Warranty</dt><dd>Five years</dd></div>
+              <div><dt>Servicing</dt><dd>First service free, done at our workshop</dd></div>
+            </dl>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scene--left scene--reserve" id="reserve" data-pose="reserve" aria-labelledby="reserve-title">
+      <div class="copy">
+        <p class="eyebrow"><span>VI</span><span class="eyebrow__rule"></span><span>Reserve</span></p>
+        <h2 id="reserve-title" class="display">One of <em>150.</em></h2>
+        <p class="lede">The first batch is 150 watches, delivered from April 2027 in the order they were reserved. A £500 deposit holds yours, and you can have it back at any time before we start on your watch.</p>
+        <p class="price"><span class="price__amount">£4,850</span><span class="price__note">including VAT, on any dial and strap</span></p>
+
+        <form class="reserve" id="reserve-form" novalidate>
+          <div class="field">
+            <label for="r-name">Your name</label>
+            <input id="r-name" name="name" type="text" autocomplete="name" required>
+            <p class="field__error" id="r-name-error" hidden>Please tell us your name.</p>
+          </div>
+          <div class="field">
+            <label for="r-email">Email</label>
+            <input id="r-email" name="email" type="email" autocomplete="email" required aria-describedby="r-email-error">
+            <p class="field__error" id="r-email-error" hidden>Please enter an email address we can reply to.</p>
+          </div>
+          <div class="field field--half">
+            <label for="r-dial">Dial</label>
+            <select id="r-dial" name="dial">
+              <option value="mersey">Mersey (blue)</option>
+              <option value="fell">Fell (green)</option>
+              <option value="salt">Salt (silvered)</option>
+            </select>
+          </div>
+          <div class="field field--half">
+            <label for="r-strap">Strap</label>
+            <select id="r-strap" name="strap">
+              <option value="chestnut">Chestnut calf</option>
+              <option value="black">Black calf</option>
+              <option value="oxblood">Oxblood cordovan</option>
+            </select>
+          </div>
+          <button class="btn btn--wide" type="submit">Reserve with a £500 deposit</button>
+          <p class="reserve__small">Nothing is charged today. We will email you to arrange the deposit and answer any questions first.</p>
+        </form>
+
+        <div class="reserved" id="reserved" hidden tabindex="-1">
+          <p class="eyebrow"><span>Reserved</span></p>
+          <h3 class="reserved__title" id="reserved-title">Thank you.</h3>
+          <p id="reserved-text"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__brand">
+      <span class="wordmark__name">Fenwright</span>
+      <p>Watchmakers, Prescot. Founded 2019.</p>
+    </div>
+    <div>
+      <h2 class="footer__h">Workshop</h2>
+      <p>Unit 4, Atherton Street Works<br>Prescot, Merseyside L34 5QX</p>
+    </div>
+    <div>
+      <h2 class="footer__h">Visits</h2>
+      <p>By appointment, Tuesday to Saturday, 10:00–16:00</p>
+    </div>
+    <div>
+      <h2 class="footer__h">Talk to us</h2>
+      <p>0151 496 0732<br>workshop@fenwright.example</p>
+    </div>
+    <p class="footer__demo">A Hiconlab demo. All businesses, people and data are fictional.</p>
+  </footer>
+
+  <script src="../../shared/vendor/gsap@3.15.0/gsap.min.js"></script>
+  <script src="../../shared/vendor/gsap@3.15.0/ScrollTrigger.min.js"></script>
+  <script src="../../shared/tour/tour.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/tour.js"></script>
+  <script type="module" src="assets/js/scene.js"></script>
+</body>
+</html>
