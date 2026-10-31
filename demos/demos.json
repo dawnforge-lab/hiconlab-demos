@@ -72,7 +72,11 @@
       "kind": "website",
       "summary": "A calm, trustworthy site for an independent UK dental practice, with treatments, fees and online booking.",
       "tryIt": true,
-      "status": "planned"
+      "status": "planned",
+      "pages": [
+        "demos/dentist/",
+        "demos/dentist/treatment.html"
+      ]
     },
     {
       "id": "hair-salon",
