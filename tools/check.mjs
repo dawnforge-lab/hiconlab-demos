@@ -176,10 +176,13 @@ async function checkDemo(entry) {
     page.on('pageerror', (e) => errors.push(e.message));
     const path = pagesOf(entry)[0];
     const sep = path.includes('?') ? '&' : '?';
-    const started = Date.now();
     await page.goto(`${base}/${path}${sep}tour=record&speed=3`, { waitUntil: 'load' });
     let result = 'timeout';
+    let started = Date.now();
     try {
+      // Time the story itself, not page and asset loading.
+      await page.waitForFunction(() => ['running', 'done', 'error'].includes(document.documentElement.dataset.tour), null, { timeout: 60000, polling: 50 });
+      started = Date.now();
       await page.waitForFunction(() => ['done', 'error'].includes(document.documentElement.dataset.tour), null, { timeout: 60000, polling: 250 });
       result = await page.evaluate(() => document.documentElement.dataset.tour);
     } catch { /* timeout */ }

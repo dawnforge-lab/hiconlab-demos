@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fettle Trade Supply · Fixings, plumbing and electrical, Sheffield</title>
+  <meta name="description" content="Trade counter in Attercliffe, Sheffield. Search by product, size or SKU, or describe the job and ask the counter.">
+  <link rel="preload" href="assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#q">Skip to search</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></symbol>
+      <symbol id="i-counter" viewBox="0 0 24 24"><path d="M4 5.5h16v10H11l-4.5 3.5v-3.5H4z"/><path d="M8 9.5h8M8 12.5h5"/></symbol>
+      <symbol id="i-basket" viewBox="0 0 24 24"><path d="M3.5 8.5h17l-1.6 10.2a1.5 1.5 0 0 1-1.5 1.3H6.6a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M8.5 8.5 11 4M15.5 8.5 13 4"/></symbol>
+      <symbol id="i-tick" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3v3h-7z"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6.5-6.1 6.5-11a6.5 6.5 0 0 0-13 0c0 4.9 6.5 11 6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a10 10 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5.5" y="10.5" width="13" height="9.5" rx="1.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M6 12h12M12 6v12"/></symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24"><path d="M5 9h13l-3.5-3.5M19 15H6l3.5 3.5"/></symbol>
+      <symbol id="i-section" viewBox="0 0 24 24"><path d="M4.5 5.5h6v6h-6zM13.5 5.5h6v6h-6zM4.5 14.5h6v6h-6zM13.5 14.5h6v6h-6z"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="strip">
+    <div class="wrap strip-in">
+      <p><svg class="ic" aria-hidden="true"><use href="#i-truck"/></svg>Order by 2pm for next working day delivery</p>
+      <p class="strip-hide-s">Free delivery over £75 ex VAT</p>
+      <p class="strip-hide-m"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Attercliffe Road counter open from 6.30am</p>
+      <p class="strip-vat">All prices shown ex VAT</p>
+    </div>
+  </div>
+
+  <header class="top">
+    <div class="wrap top-in">
+      <a class="logo" href="./" data-home aria-label="Fettle Trade Supply, home">
+        <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3.5 34.3 11.75v16.5L20 36.5 5.7 28.25v-16.5z"/><circle cx="20" cy="20" r="6.2"/></svg>
+        <span class="logo-word">Fettle</span>
+        <span class="logo-sub">Trade<br>Supply</span>
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <ul id="nav-list"></ul>
+      </nav>
+      <div class="top-actions">
+        <button class="link-btn top-trade" type="button" data-ask="How do I open a trade account?">Trade account</button>
+        <button class="basket-btn" id="basket-btn" type="button" aria-haspopup="dialog" aria-controls="basket">
+          <svg class="ic" aria-hidden="true"><use href="#i-basket"/></svg>
+          <span class="basket-label">Basket</span>
+          <span class="basket-count" id="basket-count" aria-hidden="true">0</span>
+          <span class="sr-only" id="basket-sr">, empty</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="stage" id="stage" aria-labelledby="stage-h">
+      <div class="wrap stage-in">
+        <div class="stage-copy">
+          <p class="kicker stage-kicker">Fettle Trade Supply · Sheffield since 1987</p>
+          <h1 id="stage-h" class="stage-h">What’s the job?</h1>
+          <p class="stage-sub">Search by product, size or SKU. Or describe the job and ask the counter: it checks the catalogue, the datasheets and the stock for you.</p>
+
+          <form class="search" id="search-form" role="search" autocomplete="off">
+            <label class="sr-only" for="q">Search products or describe the job</label>
+            <div class="search-field" id="search-field">
+              <svg class="search-ic" aria-hidden="true"><use href="#i-search"/></svg>
+              <input id="q" name="q" type="text" spellcheck="false"
+                role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ac-list"
+                aria-describedby="q-hint"
+                placeholder="Describe the job, or search by name, size or SKU">
+              <button class="search-go" type="submit">Search</button>
+              <div class="ac" id="ac" hidden>
+                <p class="ac-note" id="ac-note" hidden></p>
+                <div class="ac-list" id="ac-list" role="listbox" aria-label="Suggestions"></div>
+                <p class="ac-keys" aria-hidden="true"><kbd>↑</kbd><kbd>↓</kbd> to move <kbd>Enter</kbd> to choose <kbd>Esc</kbd> to close</p>
+              </div>
+            </div>
+            <p class="sr-only" id="q-hint">Suggestions appear as you type. Use the up and down arrows to move through them.</p>
+          </form>
+          <div class="sr-only" aria-live="polite" id="ac-status"></div>
+
+          <div class="tries">
+            <p class="tries-label">Ask about</p>
+            <ul class="tries-list">
+              <li><button class="try" type="button" data-ask="I need something to fix a heavy bracket into concrete">Heavy bracket into concrete</button></li>
+              <li><button class="try" type="button" data-ask="I’m running 15mm PEX to a radiator, which fittings do I need?">15mm PEX to a radiator</button></li>
+              <li><button class="try" type="button" data-ask="I need M10 bolts about 50mm long">M10 bolts, about 50mm</button></li>
+            </ul>
+          </div>
+        </div>
+
+        <figure class="counter" aria-hidden="true">
+          <div class="counter-top">
+            <img class="obj obj-anchor" src="assets/img/products/anchor-pe-640.webp" width="640" height="640" alt="">
+            <img class="obj obj-bolt" src="assets/img/products/bolt-a2-640.webp" width="640" height="640" alt="">
+            <img class="obj obj-elbow" src="assets/img/products/pf-elbow-640.webp" width="640" height="640" alt="">
+            <span class="tag tag-anchor"><b>TR-CA-PE380</b>Polyester resin 380ml<i>£8.95</i></span>
+            <span class="tag tag-bolt"><b>FT-HB-A2-M1050</b>M10 × 50 A2, box of 50<i>£23.76</i></span>
+            <span class="tag tag-elbow"><b>CV-PF-ELB15</b>Push-fit elbow 15mm<i>£3.20</i></span>
+          </div>
+          <figcaption class="counter-cap">On the counter this week</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div id="home">
+      <section class="index-sec" aria-labelledby="sec-h">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2 id="sec-h" class="sec-title">Sections</h2>
+            <p class="sec-aside">Stock levels live from the Attercliffe Road counter</p>
+          </div>
+          <ol class="index" id="index"></ol>
+        </div>
+      </section>
+
+      <section class="popular" aria-labelledby="pop-h">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2 id="pop-h" class="sec-title">Most ordered this week</h2>
+            <p class="sec-aside">Trade counter, Attercliffe Road</p>
+          </div>
+          <div class="grid" id="popular"></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="results" id="results" hidden aria-labelledby="results-h">
+      <div class="wrap results-in">
+        <h2 class="sr-only" id="results-h">Results</h2>
+        <div class="results-main">
+          <div id="thread" class="thread"></div>
+          <div id="listing" class="listing"></div>
+        </div>
+        <p class="thread-note" id="thread-note"><svg class="ic" aria-hidden="true"><use href="#i-counter"/></svg><span>The counter is an AI assistant. It answers from our catalogue, datasheets and help pages, and checks stock as it goes. Check critical specs on the datasheet. Rather talk to a person? Call <a href="tel:01144960372">0114 496 0372</a>, 7am–5pm weekdays.</span></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <div class="foot-brand">
+        <p class="foot-logo">Fettle <span>Trade Supply</span></p>
+        <p>Fixings, plumbing, electrical, sealants, PPE and tools for Sheffield’s trades since 1987.</p>
+      </div>
+      <div class="foot-col">
+        <p class="foot-k">Trade counter</p>
+        <p><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Unit 7, Carbrook Works<br>Attercliffe Road, Sheffield</p>
+        <p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Mon–Fri 6.30am–5pm<br>Sat 7am–12pm</p>
+      </div>
+      <div class="foot-col">
+        <p class="foot-k">Sales and orders</p>
+        <p><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:01144960372">0114 496 0372</a></p>
+        <p><a href="mailto:sales@fettle.example.co.uk">sales@fettle.example.co.uk</a></p>
+      </div>
+      <div class="foot-col">
+        <p class="foot-k">Help</p>
+        <ul class="foot-links">
+          <li><button class="link-btn" type="button" data-ask="Is delivery free and when would I get it?">Delivery</button></li>
+          <li><button class="link-btn" type="button" data-ask="Can I return an opened tube of silicone?">Returns</button></li>
+          <li><button class="link-btn" type="button" data-ask="How does click and collect work?">Click and collect</button></li>
+          <li><button class="link-btn" type="button" data-ask="How do I open a trade account?">Trade accounts</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap foot-base">
+      <p>All prices exclude VAT at 20% unless marked inc VAT.</p>
+      <p class="foot-demo">A Hiconlab demo. All businesses, people and data are fictional.</p>
+    </div>
+  </footer>
+
+  <dialog class="basket" id="basket" aria-labelledby="basket-h">
+    <div class="basket-in">
+      <header class="basket-head">
+        <h2 id="basket-h">Your basket</h2>
+        <button class="icon-btn" type="button" id="basket-close" aria-label="Close basket"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </header>
+      <div class="basket-body" id="basket-body"></div>
+      <footer class="basket-foot" id="basket-foot"></footer>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../../shared/tour/tour.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/answers.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/tour.js"></script>
+</body>
+</html>
