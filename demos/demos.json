@@ -73,12 +73,16 @@
     {
       "id": "colour-and-style",
       "number": 6,
-      "title": "The Colour and Style",
+      "title": "Colour & Style: personal stylist website (recreation)",
       "service": "web-design",
       "kind": "website-recreation",
-      "summary": "A showcase recreating the current thecolourandstyle.com design.",
+      "summary": "A faithful recreation of a Leeds personal stylist’s site: warm, colourful and personal, with every service explained, real Google reviews and a booking request that takes a minute.",
       "tryIt": false,
-      "status": "planned"
+      "status": "built",
+      "pages": [
+        "demos/colour-and-style/",
+        "demos/colour-and-style/colour-analysis.html"
+      ]
     },
     {
       "id": "dentist",

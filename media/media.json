@@ -71,6 +71,15 @@
       "height": 1080,
       "seconds": 37.4,
       "recordedAt": "2026-10-31T19:25:58.211Z"
+    },
+    "colour-and-style": {
+      "video": "colour-and-style.mp4",
+      "posterWebp": "colour-and-style-poster.webp",
+      "posterJpg": "colour-and-style-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 43.9,
+      "recordedAt": "2026-10-31T19:24:28.642Z"
     }
   }
 }
