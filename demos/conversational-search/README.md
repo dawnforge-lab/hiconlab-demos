@@ -76,11 +76,13 @@ Views: footwear “Technical hiking footwear. Side profile view of the outer sid
 
 Pipeline (scripts kept in the builder's scratchpad): generate → cut out with `fal-ai/birefnet/v2` (General Use, Heavy) → composite on `#DDE2DE` at 1200 px with a contact shadow (standing items) or a soft drop shadow (flat items) → WebP at 480 and 960.
 
-## Photo status (fal account ran out of credit mid-batch)
-- **In use (19), checked at full size:** b01–b08, b10–b12, b14–b16, s03–s06, j02. They cover every product in the tour’s grid. One tour product still shows a placeholder: b09 Garron Crinkle Mid (women’s, teal) appears in the Nearly row for about two seconds after the budget is raised (around 27–29 s). It will be re-shot when fal credit is back.
-- **Rejected after the full-size check:** b09 (printed tag on the collar), b13 (near-duplicate of b01's shape), s01 and s02 (small printed tags), j01 (sleeve badge), j03 (neck label), j05 (sleeve badge and cuff lettering). j04 failed the cut-out (pale jacket on pale backdrop).
-- **Not generated yet (48):** j06–j14, all insulated jackets, rucksacks, base layers and socks.
-- Until they are shot, those products show a drawn placeholder (the category icon on the tile colour), set by the `PHOTOS` list in `data.js`. Adding a photo is: generate, cut out, composite, export, add its id to `PHOTOS`.
+## Photo status
+All 74 products have a photo, checked at full size and on a contact sheet (no duplicates; colours and materials match the data). The first round shot 19 that were kept. The second round (31 Oct 2026, after fal credit was added) shot the other 48 and re-shot the 7 rejects (b09, b13, s01, s02, j01, j03, j05) plus b07, re-briefed as a padded-collar hillwalking boot rather than a toe-capped work boot.
+- Prompt changes for round two: footwear “No tags or woven labels on the collar or tongue”; clothing and rucksacks “No logo patch … no printed lettering”. b13 became a sock-collar lightweight boot so it no longer duplicates b01.
+- Clean-up: flux-2-pro still printed small logos, neck labels and sleeve badges on 34 images, so those were edited with `fal-ai/flux-pro/kontext` (“Remove every logo, emblem, badge, patch, brand label, woven tag, printed text … keep everything else the same”), then cut out again. Nine needed a second pass (i01, i03, i07, i08, i09, j03, j07, j10, l03).
+- s01’s orange piping was lost in the clean-up, so its colour in the data is now plain Grey.
 
 ## fal spend
-35 flux-2-pro images (4 look tests, 4 prompt tests, 27 in the batch) and about 30 birefnet cut-outs: roughly $1.10–1.60 of the $6 budget. The account then reported “balance exhausted”, so the remaining 56 images (48 new and 8 re-shoots) need about $2–2.50 more once credit is added.
+- Round one: about $1.10–1.60 (35 flux-2-pro images and their cut-outs).
+- Round two: 56 flux-2-pro images at about $0.03 each (≈ $1.76), 46 Kontext edits at $0.04 (≈ $1.84), and about 100 birefnet cut-outs (≈ $0.12). That makes ≈ $3.70.
+- Total: about $4.80–5.30.

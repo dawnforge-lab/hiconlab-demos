@@ -51,7 +51,7 @@
     boot({ id: 'b06', cat: 'boots', name: 'Langstrath Waterproof Wide', brand: 'Garron', g: 'm', price: 129, colour: 'Fern green', fam: 'green', weight: 1060, upper: 'synthetic', wp: true, fit: 'wide', crampon: 'B0', rating: 4.8, reviews: 268, stock: 8, out: [], uses: ['hill', 'day', 'backpacking'],
       img: 'b06', subject: 'a single lightweight modern mid-height hiking boot in fern green knit-look synthetic fabric with black welded overlays, black and grey lugged sole, black laces' }),
     boot({ id: 'b07', cat: 'boots', name: 'Ridgeback Leather Wide', brand: 'Garron', g: 'm', price: 119, colour: 'Walnut', fam: 'brown', weight: 1300, upper: 'leather', wp: true, fit: 'wide', crampon: 'B1', rating: 4.7, reviews: 233, stock: 6, out: [11], uses: ['hill', 'winter'],
-      img: 'b07', subject: 'a single nubuck leather hillwalking boot in walnut brown, tan stitching, black rubber toe cap, black lugged sole, tan laces through metal hooks' }),
+      img: 'b07', subject: 'a single classic ankle-high hillwalking boot in walnut brown nubuck leather with a thick padded leather ankle collar and padded tongue, tan stitching, laces through D-rings and two open speed hooks at the top, a slim brown rubber rand low around the sole, chunky black lugged mountain sole with a curved rocker toe' }),
     boot({ id: 'b08', cat: 'boots', name: 'Crinkle Mid Waterproof', brand: 'Garron', g: 'm', price: 99, colour: 'Black', fam: 'black', weight: 1100, upper: 'synthetic', wp: true, fit: 'standard', crampon: 'B0', rating: 4.5, reviews: 190, stock: 17, out: [], uses: ['hill', 'day'],
       img: 'b08', subject: 'a single mid-height synthetic walking boot in black with dark grey mesh panels, black lugged rubber sole, black laces' }),
     boot({ id: 'b09', cat: 'boots', name: 'Crinkle Mid Waterproof', brand: 'Garron', g: 'w', price: 99, colour: 'Teal', fam: 'blue', weight: 940, upper: 'synthetic', wp: true, fit: 'standard', crampon: 'B0', rating: 4.5, reviews: 158, stock: 12, out: [], uses: ['hill', 'day'],
@@ -63,7 +63,7 @@
     boot({ id: 'b12', cat: 'boots', name: 'Coniston Pro Waterproof', brand: 'Garron', g: 'w', price: 189, colour: 'Dark grey', fam: 'grey', weight: 1380, upper: 'leather', wp: true, fit: 'standard', crampon: 'B2', rating: 4.7, reviews: 64, stock: 0, back: 8, out: [], uses: ['winter', 'hill', 'scrambling'],
       img: 'b12', subject: "a single women's stiff high-cut winter mountain boot in dark grey leather with a dark red rubber rand, heel welt for crampons, black lugged sole, grey laces" }),
     boot({ id: 'b13', cat: 'boots', name: 'Pennine Lite Waterproof Narrow', brand: 'Scarth', g: 'w', price: 79, colour: 'Olive', fam: 'green', weight: 860, upper: 'synthetic', wp: true, fit: 'narrow', crampon: 'B0', rating: 4.3, reviews: 141, stock: 15, out: [], uses: ['day'],
-      img: 'b13', subject: "a single slim women's lightweight walking boot in olive green synthetic fabric, light grey midsole, dark lugged sole, olive laces" }),
+      img: 'b13', subject: "a single slim women's lightweight walking boot with a stretchy sock-like knit ankle collar, olive green woven upper with thin welded overlays, low-profile off-white foam midsole, thin dark grey lugged sole, olive laces" }),
     boot({ id: 'b14', cat: 'boots', name: 'Dales Suede Mid Wide', brand: 'Scarth', g: 'm', price: 65, colour: 'Tan', fam: 'brown', weight: 1050, upper: 'suede', wp: false, fit: 'wide', crampon: 'B0', rating: 4.2, reviews: 219, stock: 20, out: [], uses: ['day'],
       img: 'b14', subject: 'a single casual mid-height suede walking boot in tan, cream stitching, brown rubber sole, tan laces' }),
     boot({ id: 'b15', cat: 'boots', name: 'Dales Suede Mid', brand: 'Scarth', g: 'w', price: 65, colour: 'Sage', fam: 'green', weight: 900, upper: 'suede', wp: false, fit: 'standard', crampon: 'B0', rating: 4.2, reviews: 173, stock: 18, out: [], uses: ['day'],
@@ -72,7 +72,7 @@
       img: 'b16', subject: 'a single lightweight breathable mesh hiking boot in stone beige with light grey overlays, beige and grey lugged sole, beige laces' }),
 
     // ---- Walking shoes (6) -------------------------------------------------
-    boot({ id: 's01', cat: 'shoes', name: 'Trailhead Low Waterproof', brand: 'Scarth', g: 'm', price: 75, colour: 'Grey and orange', fam: 'grey', weight: 760, upper: 'synthetic', wp: true, fit: 'standard', crampon: 'B0', rating: 4.4, reviews: 254, stock: 19, out: [], uses: ['day', 'travel'],
+    boot({ id: 's01', cat: 'shoes', name: 'Trailhead Low Waterproof', brand: 'Scarth', g: 'm', price: 75, colour: 'Grey', fam: 'grey', weight: 760, upper: 'synthetic', wp: true, fit: 'standard', crampon: 'B0', rating: 4.4, reviews: 254, stock: 19, out: [], uses: ['day', 'travel'],
       img: 's01', subject: 'a single low-cut walking shoe in mid grey synthetic mesh with orange accents, black lugged sole, grey laces' }),
     boot({ id: 's02', cat: 'shoes', name: 'Trailhead Low Waterproof', brand: 'Scarth', g: 'w', price: 75, colour: 'Blue', fam: 'blue', weight: 640, upper: 'synthetic', wp: true, fit: 'standard', crampon: 'B0', rating: 4.5, reviews: 231, stock: 16, out: [], uses: ['day', 'travel'],
       img: 's02', subject: "a single women's low-cut walking shoe in mid blue synthetic mesh with light grey overlays, grey lugged sole, blue laces" }),
@@ -208,9 +208,7 @@
   });
   P.forEach(function (p) { p.popN = p.pop / maxPop; });
 
-  // Product photos that are in assets/img/products/ (the rest show a drawn placeholder until shot).
-  var PHOTOS = 'b01 b02 b03 b04 b05 b06 b07 b08 b10 b11 b12 b14 b15 b16 s03 s04 s05 s06 j02'.split(' ');
-  P.forEach(function (p) { p.photo = PHOTOS.indexOf(p.img) >= 0; });
+  P.forEach(function (p) { p.photo = true; });
 
   window.SCARTH = {
     categories: CATEGORIES,
