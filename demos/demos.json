@@ -115,12 +115,16 @@
     {
       "id": "exterior-cleaning",
       "number": 9,
-      "title": "Exterior cleaning website",
+      "title": "Hollis & Daughter, Bristol: exterior cleaning website",
       "service": "web-design",
       "kind": "website",
-      "summary": "A local exterior cleaning company: services, before and after, instant quote.",
+      "summary": "A family exterior cleaner’s site for south Bristol: drag a squeegee across real before-and-afters, build an honest guide price with VAT shown line by line, pick a regular window round and book a free visit on your street’s round day.",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "pages": [
+        "demos/exterior-cleaning/",
+        "demos/exterior-cleaning/areas.html"
+      ]
     },
     {
       "id": "auto-repair",

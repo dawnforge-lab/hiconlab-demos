@@ -89,6 +89,15 @@
       "height": 1080,
       "seconds": 42.1,
       "recordedAt": "2026-10-31T19:35:14.858Z"
+    },
+    "exterior-cleaning": {
+      "video": "exterior-cleaning.mp4",
+      "posterWebp": "exterior-cleaning-poster.webp",
+      "posterJpg": "exterior-cleaning-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 40.4,
+      "recordedAt": "2026-10-31T19:38:15.176Z"
     }
   }
 }
