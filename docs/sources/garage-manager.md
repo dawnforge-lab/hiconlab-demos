@@ -1,6 +1,6 @@
 # Source brief: Garage Manager (auto repair shop SaaS)
 
-Read-only study of `D:\Garage` (Next.js 14 + SQLite garage management app). Demo 3 redesigns it with a modern SaaS look, using a new fictional UK garage and a new product brand. The real screens, rules and data shapes are below. (Source confirmation pending: the brief named `D:\Auto-repai-shop`, which is a static garage website.)
+Read-only study of `D:\Garage` (Next.js 14 + SQLite garage management app). Demo 3 redesigns it with a modern SaaS look, using a new fictional UK garage and a new product brand. The real screens, rules and data shapes are below. The user confirmed `D:\Garage` as the source for demo 3; `D:\Auto-repai-shop` (a static garage website) is only a loose reference for demo 10.
 
 ## Navigation
 Side menu: Board, Calendar, Vehicles, Clients, Invoices, Outbox, Reports, Settings. A primary "+ New booking" button above. The Board item has a badge counting cars that are Ready with no invoice. Bottom: theme switch (Light/Dim/Dark), avatar "Name · role", log out. The menu folds to icons only.

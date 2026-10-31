@@ -9,10 +9,10 @@
 // full-quality still for the poster. Every request that is not to this local
 // server is blocked and reported, so a recording proves the demo works offline.
 //
-// Output: media/<id>.mp4, media/<id>-poster.jpg, media/<id>-poster.webp
+// Output: media/<id>.mp4, media/<id>-poster.jpg, media/<id>-poster.webp, and an entry in media/media.json
 import { chromium } from 'playwright';
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT, startServer } from './serve.mjs';
 
@@ -144,6 +144,16 @@ async function recordOne(entry) {
   console.log(`record ${id}: ${frames.length} frames, ${seconds.toFixed(1)} s -> media/${id}.mp4${note}`);
   if (errors.length) console.warn(`record ${id}: console errors: ${errors.join(' | ')}`);
   if (!flag('keep')) rmSync(work, { recursive: true, force: true });
+  updateMediaManifest(id, { video: `${id}.mp4`, posterWebp: `${id}-poster.webp`, posterJpg: `${id}-poster.jpg`, width: outW, height: outH, seconds: Math.round(seconds * 10) / 10, recordedAt: new Date().toISOString() });
+}
+
+// media/media.json tells the index which demos have a video, so it never probes for missing files.
+function updateMediaManifest(id, info) {
+  const file = join(ROOT, 'media', 'media.json');
+  const data = existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : { media: {} };
+  data.media[id] = info;
+  data.media = Object.fromEntries(Object.entries(data.media).sort(([a], [b]) => a.localeCompare(b)));
+  writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
 }
 
 function ffmpeg(argv, cwd) {

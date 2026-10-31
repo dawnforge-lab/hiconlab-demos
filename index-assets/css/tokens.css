@@ -1,0 +1,70 @@
+/* Hiconlab Modern Blueprint — generated from tokens.json */
+:root, [data-theme="blueprint"] {
+  --bg-base: #0b1630;
+  --bg-panel: #0f1d3d;
+  --line-subtle: #23396a;
+  --line-default: #2b4680;
+  --line-drafting: #8fb8ff;
+  --grid-major: rgba(143, 184, 255, 0.07);
+  --grid-minor: rgba(143, 184, 255, 0.035);
+  --hover-wash: rgba(143, 184, 255, 0.12);
+  --hover-wash-soft: rgba(143, 184, 255, 0.08);
+  --text-primary: #eef3ff;
+  --text-secondary: #b4c6ea;
+  --text-label: #8ea6d4;
+  --text-hover: #ffffff;
+  --accent: #67e8f9;
+  --on-accent: #0b1630;
+  --accent-alt-amber: #f2c46b;
+  --accent-alt-mint: #86efac;
+  --accent-alt-chalk: #f1f5ff;
+  --plane-1: #13285a;
+  --plane-2: #183372;
+  --plane-3: #1f4290;
+  --glow-hover: 0 0 0 4px rgba(143, 184, 255, 0.16), 0 12px 32px -10px rgba(143, 184, 255, 0.65);
+  --glow-press: 0 0 0 2px rgba(143, 184, 255, 0.2);
+  --glow-field: 0 0 0 4px rgba(143, 184, 255, 0.16);
+  --highlight-inset: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --radius-sm: 12px;
+  --radius-node: 14px;
+  --radius-md: 16px;
+  --radius-card: 20px;
+  --radius-panel: 24px;
+  --radius-band: 28px;
+  --radius-pill: 999px;
+  --layout-container: 1360px;
+  --layout-gutter: clamp(16px, 4vw, 40px);
+  --layout-section-y: clamp(64px, 8vw, 112px);
+  --layout-panel-pad: clamp(24px, 3vw, 36px);
+  --layout-touch-min: 44px;
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+.display-xl { font-family: var(--font-sans); font-size: 82px; line-height: 0.98; font-weight: 600; letter-spacing: -0.045em; }
+.display-l { font-family: var(--font-sans); font-size: 68px; line-height: 1; font-weight: 600; letter-spacing: -0.045em; }
+.heading-1 { font-family: var(--font-sans); font-size: 52px; line-height: 1.02; font-weight: 600; letter-spacing: -0.04em; }
+.heading-2 { font-family: var(--font-sans); font-size: 32px; line-height: 1.1; font-weight: 600; letter-spacing: -0.03em; }
+.stat { font-family: var(--font-sans); font-size: 28px; line-height: 1.2; font-weight: 600; letter-spacing: -0.03em; }
+.heading-3 { font-family: var(--font-sans); font-size: 24px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
+.heading-4 { font-family: var(--font-sans); font-size: 20px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; }
+.lead { font-family: var(--font-sans); font-size: 19px; line-height: 1.55; font-weight: 400; }
+.body { font-family: var(--font-sans); font-size: 16px; line-height: 1.5; font-weight: 400; }
+.body-s { font-family: var(--font-sans); font-size: 15px; line-height: 1.5; font-weight: 400; }
+.label { font-family: var(--font-mono); font-size: 12px; line-height: 1.5; font-weight: 400; }
+.label-caps { font-family: var(--font-mono); font-size: 11px; line-height: 1.5; font-weight: 400; letter-spacing: 0.08em; }
+.mono-data { font-family: var(--font-mono); font-size: 14px; line-height: 1.5; font-weight: 400; }
+.node-sub { font-family: var(--font-mono); font-size: 11px; line-height: 1.4; font-weight: 400; }
