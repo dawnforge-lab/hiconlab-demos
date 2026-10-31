@@ -1,6 +1,6 @@
-# Fettle Trade Supply: conversational product search
+# Fettle Trade Supply: AI shopping assistant
 
-Demo 1 of 14. Shows Hiconlab's ecommerce and AI work: a trade storefront whose search box understands the job, not just the keyword.
+Demo 2 of 14. Shows Hiconlab’s AI work: a trade counter assistant, built on the AI shopping assistant reference implementation, that understands the job, looks things up in the catalogue and answers with the right parts.
 
 ## Brand
 **Fettle Trade Supply**, Attercliffe Road, Sheffield. A family-run trade counter selling fixings, plumbing, electrical, sealants, PPE and tools to Sheffield's trades since 1987, now online with next-day delivery. "Fettle" is Yorkshire for putting something right, which is what the counter staff have always done.

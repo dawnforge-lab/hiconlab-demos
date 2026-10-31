@@ -6,11 +6,14 @@
 HiconTour.define(async function (t) {
   // A settled first frame: the busy board.
   await t.wait(1600);
+  await t.caption('The whole workshop on one live board');
+  await t.wait(600);
   await t.hover('.alert[data-alert="invoice"]', { hold: 900, at: [0.3, 0.5] });
 
   // LK19 XRT turns up.
   await t.click('[data-action="arrived"][data-id="lk19"]', { after: 1100 });
 
+  await t.caption('Drag a car onto a ramp and pick who works on it');
   // Drag it to In progress: the start-work picker asks who and where.
   await t.drag('.card[data-id="lk19"] .card-title', '#col-in_progress .col-body', { after: 300 });
   await t.waitFor('.dialog input[name="mech"]', 4000);
@@ -29,6 +32,7 @@ HiconTour.define(async function (t) {
   await t.wait(900);
 
   // Open the car that's waiting for its invoice.
+  await t.caption('Enter the cost and your markup is added for you');
   await t.click('.card[data-id="sf18"] .card-title', { after: 300 });
   await t.waitFor('#invoice', 4000);
   await t.wait(1100);
@@ -39,6 +43,7 @@ HiconTour.define(async function (t) {
   await t.click('.price-form button[type="submit"]', { after: 1300 });
 
   // Create the invoice.
+  await t.caption('Invoice, email and take payment in a few clicks');
   await t.click('[data-action="create-invoice"]', { after: 300 });
   await t.waitFor('.dialog [data-ok]', 3000);
   await t.wait(900);
@@ -55,6 +60,7 @@ HiconTour.define(async function (t) {
   await t.click('[data-action="deliver"][data-id="sf18"]', { after: 1200 });
 
   // Back to the board: SF18 UVC in Delivered, the invoice banner gone.
+  await t.caption('Paid and handed over, and the board keeps up');
   await t.click('#nav a[data-nav="board"]', { after: 300 });
   await t.waitFor('.card[data-id="sf18"][data-status="delivered"]', 3000);
   await t.wait(600);

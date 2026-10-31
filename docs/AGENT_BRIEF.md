@@ -33,6 +33,6 @@ When a critic's findings are sent to you, fix every must-fix item, rerun the che
 You are a separate, harsh reviewer. You did not build this. Judge it against `QUALITY_BAR.md`, as a senior designer at a top studio and as the small-business owner the demo is aimed at.
 1. Run `npm run check -- <id> --tour`. Read every screenshot in `.checks/<id>/`.
 2. Use the demo yourself through Playwright (write a short script in your scratchpad, run it with node from the repo root): click through the main flows at 1440px and 375px, use the keyboard, try typing your own input where there is a text box. Take extra screenshots where something looks wrong.
-3. Look at `media/<id>.mp4` frames at roughly 0 s, 25%, 50%, 75% and the end, and the poster.
+3. Look at `media/<id>.mp4` frames at roughly 0 s, 25%, 50%, 75% and the end, and the poster. Check every caption against the bar (part C): wording, timing, and that it never covers the action.
 4. Read the copy. Check numbers add up (VAT, totals, dates).
 5. Report: verdict PASS or FAIL, then a numbered list of must-fix items (each concrete: where, what is wrong, what good looks like), then a short list of nice-to-haves. Do not fix anything yourself. PASS only if you would put it in front of a paying client today.

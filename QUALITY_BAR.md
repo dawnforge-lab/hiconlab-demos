@@ -2,7 +2,7 @@
 
 Every demo must pass this before it is approved. Builders work to it; critics judge against it. Parts A–C are checked by `npm run check -- <id> --tour`. Parts D–G need a human (or a critic agent) looking at the screenshots and the running demo.
 
-This is version 1. It will be adjusted after the user reviews the pilot round.
+This is version 2, adjusted after the user reviewed the pilot round: tours now carry captions, and demo 1 is a search, not a chat (see F).
 
 ## A. Self-contained and safe
 - [ ] Opens with no network access beyond the local static server: no CDN, no Google Fonts, no analytics, no embeds, no remote images. Libraries and fonts are vendored and pinned (`vendor.json`, `npm run vendor`).
@@ -23,6 +23,7 @@ This is version 1. It will be adjusted after the user reviews the pilot round.
 - [ ] The story is 20–45 seconds, has a clear beginning (settled first frame), middle (the one or two moments that sell the service) and end (a resolved state held for at least 1.5 seconds).
 - [ ] Poster frame marked with `t.poster()` on the most telling moment, not the first frame. It must read as a thumbnail: a website's poster is a full, designed screen (usually the hero), not a modal or form over a dimmed page.
 - [ ] The tour is deterministic: in tour mode the demo pins its own "today" (a sensible weekday and time), slots, references and random choices, so every recording matches. The live clock is fine outside tour mode. Avoid showing a year where it would date the video.
+- [ ] Captions (agreed by the user after the pilots): 3–5 per tour with `t.caption()`, so a viewer with the sound off knows what they are watching and why it matters. Each one is a short plain-English line (about 4–9 words, under 60 characters, sentence case, no full stop), says what the business or customer gets rather than naming UI ("Customers describe the job in their own words", not "The search box has autocomplete"), stays up long enough to read twice (2.5 s or more), and never covers the action: use `{ place: 'top' }` when the action is at the bottom. The first caption appears after the calm first frame, the last one is cleared or still readable in the held final state, and no caption is in the poster (the engine hides it).
 - [ ] The tour finishes with `done` in `npm run check -- <id> --tour`.
 - [ ] Hover styles are written as `:hover, .is-tour-hover` so they show in the recording.
 - [ ] Nothing in the recording moves faster than a person could follow. Typing looks human. The cursor never jumps.
@@ -43,7 +44,8 @@ Use the frontend-design skill. The test: could this pass as the real product or 
 
 ## F. Kind-specific
 - **SaaS (3, 4):** a dashboard plus one or two complete flows with real state changes (items move, totals update, statuses change). Dense but calm, with a clear primary action per screen. Works at 375px as a usable mobile layout, not just a squeezed desktop.
-- **AI demos (1, 2):** the scripted replies stream token by token at a believable pace with a typing indicator first. Answers contain specific, correct-looking detail. Product cards, follow-up chips and confirmations behave. Typing your own question gets a sensible scripted reply (matched by keywords) or an honest fallback, never a dead end.
+- **Conversational search (1):** a search, not a chat: no bubbles, typing indicator, streamed prose or assistant persona. A plain-English query is read into editable "understood as" chips, the narrowing from the whole catalogue to the matches is shown, and the grid ranks products with a one-line reason each, plus close misses with what they miss. Typing more or editing a chip re-ranks smoothly. Any query you type gets a sensible reading or an honest one, never a dead end. See `docs/sources/conversational-search.md`.
+- **AI chat assistant (2):** the scripted replies stream token by token at a believable pace with a typing indicator first. Answers contain specific, correct-looking detail. Product cards, follow-up chips and confirmations behave. Typing your own question gets a sensible scripted reply (matched by keywords) or an honest fallback, never a dead end.
 - **Websites (7–10, 14):** homepage plus one inner page, linked both ways. Real navigation (with a mobile menu), a working booking or enquiry flow with a success state (no real submission), local-business details in the footer.
 - **Recreations (5, 6):** match the current live design faithfully (layout, type, colour, imagery) from screenshots taken for reference; local copies of any assets; no live links.
 - **CMS (11):** tells Hiconlab's real setup accurately (see `docs/sources/hiconlab-strapi.md`): dynamic-zone blocks, SEO fields, Draft & Publish, webhook → revalidate route → cache tags → live site.

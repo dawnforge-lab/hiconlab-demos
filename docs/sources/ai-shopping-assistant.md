@@ -1,10 +1,10 @@
 # Source brief: AI shopping assistant
 
-Read-only study of `D:\ai-shopping-assistant` (a reference implementation of a chat assistant for a fictional B2B trade supplier, Brackwell Trade Supply). Demos 1 (conversational product search) and 2 (AI chat assistant) are based on it. The demos must use their own fictional brand, not Brackwell, but the flows, rules and data shapes below are the real ones.
+Read-only study of `D:\ai-shopping-assistant` (a reference implementation of a chat assistant for a fictional B2B trade supplier, Brackwell Trade Supply). Demo 2 (AI chat assistant, built as Fettle Trade Supply) is based on it. Demo 1 (conversational product search) is not: see `conversational-search.md`. The demos must use their own fictional brand, not Brackwell, but the flows, rules and data shapes below are the real ones.
 
 ## What to keep in mind
 - The real widget does not stream. It shows a typing indicator, then the whole reply. The demos add realistic token streaming on top.
-- The demo storefront has no autocomplete. Demo 1 adds it, based on the real search behaviour (synonyms, in-stock first, then popularity).
+- The demo storefront has no autocomplete. The Fettle demo adds it, based on the real search behaviour (synonyms, in-stock first, then popularity).
 - The brand lives in the CSS, not in config.
 
 ## Widget anatomy (`public/widget/assistant.js`, `assistant.css`, all classes `sa-`)

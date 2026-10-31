@@ -9,9 +9,12 @@ HiconTour.ready(async function () {
 
 HiconTour.define(async function (t) {
   await t.wait(1200);
+  await t.caption('A calm, clear website for an independent practice');
   await t.moveToPoint(window.innerWidth * 0.44, window.innerHeight * 0.62, 900);
+  await t.wait(1800);
 
   // Treatments, with the clear aligners row.
+  await t.caption('Every treatment explained in plain English');
   await t.scrollTo('#treatments', { offset: 96, duration: 1500 });
   await t.hover('.treat-row[href="treatment.html"]', { hold: 700 });
 
@@ -22,6 +25,7 @@ HiconTour.define(async function (t) {
   await t.wait(300);
 
   // Prices on the wall: take a moment on the fee card, then the plan.
+  await t.caption('Fees shown up front, so patients know the cost');
   await t.scrollTo('#fees', { offset: 92, duration: 1500 });
   await t.move('.fee-card', { at: [0.55, 0.25], scroll: false });
   await t.moveToPoint(window.innerWidth * 0.42, window.innerHeight * 0.72, 1000);
@@ -29,6 +33,7 @@ HiconTour.define(async function (t) {
   await t.hover('.plan-tier--main', { hold: 800 });
 
   // Back to the top and book the check-up the hero card advertises.
+  await t.caption('New patients book online in a few steps');
   await t.scrollTo(0, { duration: 1300 });
   var advert = document.querySelector('[data-next-checkup]');
   await t.hover(advert, { hold: 500 });
@@ -55,6 +60,7 @@ HiconTour.define(async function (t) {
   await t.click('[data-bk-next]', { after: 300 });
 
   // The hero now shows the booking.
+  await t.caption('Booked, with the appointment shown on the homepage');
   await t.waitFor('.hero-note.is-booked', 4000);
   await t.moveToPoint(window.innerWidth * 0.86, window.innerHeight * 0.88, 800);
   await t.wait(500);

@@ -3,13 +3,13 @@
     {
       "id": "conversational-search",
       "number": 1,
-      "title": "Fettle Trade Supply: conversational product search",
+      "title": "Conversational product search",
       "service": "ecommerce",
       "kind": "ai-ecommerce",
-      "summary": "A trade supplier’s search that understands the job: live autocomplete with synonyms, then an assistant that checks the catalogue, streams an answer with the right parts, stock and lead times, and suggests what to ask next.",
-      "source": "docs/sources/ai-shopping-assistant.md",
+      "summary": "A shop search that understands what you need: type it in plain English and the search shows how it read your request, then picks and ranks the products that fit, with the reason for each.",
+      "source": "docs/sources/conversational-search.md",
       "tryIt": true,
-      "status": "built",
+      "status": "planned",
       "record": {
         "viewport": "1536x864"
       }
@@ -17,13 +17,13 @@
     {
       "id": "ai-chat-assistant",
       "number": 2,
-      "title": "AI chat assistant",
+      "title": "Fettle Trade Supply: AI shopping assistant",
       "service": "ai-workflows",
       "kind": "ai-ecommerce",
-      "summary": "A help assistant that answers from the business's own content, recommends products, confirms before adding to the basket and hands over to a person.",
+      "summary": "A trade counter’s assistant that understands the job: it checks the catalogue, streams an answer with the right parts, stock and lead times, adds to the basket on request and suggests what to ask next.",
       "source": "docs/sources/ai-shopping-assistant.md",
       "tryIt": true,
-      "status": "planned",
+      "status": "built",
       "record": {
         "viewport": "1536x864"
       }

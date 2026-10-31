@@ -76,12 +76,20 @@
       '  margin: -22px 0 0 -22px; border-radius: 50%; border: 2px solid rgba(255,255,255,.95);',
       '  box-shadow: 0 0 0 1px rgba(0,0,0,.25); animation: tour-ripple 520ms ease-out forwards; }',
       '@keyframes tour-ripple { from { transform: scale(.3); opacity: 1; } to { transform: scale(1.25); opacity: 0; } }',
-      '.tour-caption { position: fixed; left: 50%; bottom: 32px; z-index: 2147483645; pointer-events: none;',
-      '  transform: translate(-50%, 12px); opacity: 0; transition: opacity 320ms ease, transform 320ms ease;',
-      '  max-width: min(720px, calc(100vw - 32px)); padding: 10px 18px; border-radius: 999px;',
-      '  background: rgba(12,14,18,.82); color: #fff; font: 500 16px/1.35 system-ui, sans-serif; text-align: center;',
-      '  backdrop-filter: blur(6px); }',
+      // One caption style for every demo, so the set reads as one portfolio. It sits
+      // above any brand styling and never takes pointer events.
+      '.tour-caption { position: fixed; left: 50%; bottom: 36px; z-index: 2147483645; pointer-events: none;',
+      '  display: flex; align-items: center; gap: 12px; transform: translate(-50%, 10px); opacity: 0;',
+      '  transition: opacity 280ms ease, transform 280ms ease;',
+      '  max-width: min(760px, calc(100vw - 32px)); padding: 11px 22px 11px 16px; border-radius: 999px;',
+      '  background: rgba(10,12,16,.86); color: #fff; box-shadow: 0 6px 24px rgba(0,0,0,.28);',
+      '  font: 500 18px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: -0.005em;',
+      '  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }',
+      '.tour-caption::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #67e8f9; }',
+      '.tour-caption.is-top { top: 28px; bottom: auto; transform: translate(-50%, -10px); }',
       '.tour-caption.is-on { opacity: 1; transform: translate(-50%, 0); }',
+      '.tour-caption.is-hidden { visibility: hidden; }',
+      '@media (prefers-reduced-motion: reduce) { .tour-caption, .tour-caption.is-top { transform: translate(-50%, 0); } }',
     ].join('\n');
     document.head.appendChild(style);
 
@@ -352,8 +360,13 @@
       await sleep((opts && opts.after) || 320);
     },
 
-    // An optional short caption at the bottom of the screen.
-    caption: async function (text, ms) {
+    // A short caption that explains what the viewer is seeing. It stays up while the
+    // tour carries on, until the next caption replaces it (with a cross-fade) or
+    // t.caption(null) clears it. opts: a number of ms to hold it and then clear it
+    // (awaited), or { ms, place: 'bottom' | 'top' } when the action is at the bottom.
+    caption: async function (text, opts) {
+      if (typeof opts === 'number') opts = { ms: opts };
+      opts = opts || {};
       var c = document.querySelector('.tour-caption');
       if (!c) {
         c = document.createElement('div');
@@ -361,18 +374,32 @@
         c.setAttribute('aria-hidden', 'true');
         document.body.appendChild(c);
       }
-      if (!text) { c.classList.remove('is-on'); return; }
+      if (c.classList.contains('is-on')) {
+        c.classList.remove('is-on');
+        await sleep(280);
+      }
+      if (!text) return;
       c.textContent = text;
+      c.classList.toggle('is-top', opts.place === 'top');
+      void c.offsetWidth;
       c.classList.add('is-on');
-      if (ms) { await sleep(ms); c.classList.remove('is-on'); }
+      if (opts.ms) {
+        await sleep(opts.ms);
+        c.classList.remove('is-on');
+        await sleep(280);
+      }
     },
 
-    // Marks the poster frame. The recorder takes a full-quality still here.
+    // Marks the poster frame. The recorder takes a full-quality still here,
+    // without the cursor or caption, so the poster shows only the demo.
     poster: async function () {
       if (typeof window.__tourPoster === 'function') {
+        var cap = document.querySelector('.tour-caption');
         if (cursor) cursor.style.visibility = 'hidden';
+        if (cap) cap.classList.add('is-hidden');
         await window.__tourPoster();
         if (cursor) cursor.style.visibility = '';
+        if (cap) cap.classList.remove('is-hidden');
       }
     },
 

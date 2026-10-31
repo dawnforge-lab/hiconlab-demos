@@ -70,6 +70,7 @@ Load the engine, then define the story:
 ```js
 HiconTour.define(async (t) => {
   await t.wait(900);                         // a settled first frame
+  await t.caption('Customers describe the job in their own words');
   await t.type('#search', 'heavy bracket into concrete');
   await t.wait(500);
   await t.click('[data-suggestion="ask"]');
@@ -93,7 +94,7 @@ API (all async):
 | `t.select(target, value)` | set a `<select>` |
 | `t.drag(from, to)` | drag with pointer events; also fires `tour:drop` on `from` with `detail.target` |
 | `t.scrollTo(target or px or 'bottom', {offset, duration, within})` | smooth scroll of the page or a scroll container |
-| `t.caption(text, ms)` | optional caption pill (not used unless agreed) |
+| `t.caption(text, {ms, place})` | caption pill, required (3–5 per tour, see the bar, part C). Without `ms` it stays up while the tour carries on, until the next caption cross-fades in or `t.caption(null)` clears it; with `ms` it holds, clears and then resolves. `place: 'top'` when the action is at the bottom |
 | `t.poster()` | marks the poster frame |
 | `t.run(fn)` | call demo code directly for things a cursor can't reach |
 
