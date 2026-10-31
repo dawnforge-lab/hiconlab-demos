@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publishing on a headless CMS · Cowl &amp; Brush · Hiconlab demo</title>
+  <meta name="description" content="Edit a page in the CMS, preview the draft, publish, and watch the webhook refresh the live site’s cache.">
+  <link rel="preload" href="assets/fonts/public-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/martian-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-content" viewBox="0 0 24 24"><path d="M5 4h14v4H5zM5 10h14v4H5zM5 16h9v4H5z"/></symbol>
+      <symbol id="i-builder" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4z"/><path d="M16.5 14v6M13.5 17h6"/></symbol>
+      <symbol id="i-media" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M4 17l5-4.5 3.5 3 3-2.5 4.5 4"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 6L8.5 12l6 6"/></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></symbol>
+      <symbol id="i-drag" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1.4" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="18.5" cy="12" r="1.5" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+      <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-reload" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4.2h-4.2"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+      <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="9" rx="1"/><rect x="13" y="4" width="7" height="5" rx="1"/><rect x="4" y="15" width="7" height="5" rx="1"/><rect x="13" y="11" width="7" height="9" rx="1"/></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.3L12 16l-4.9 2.6 1.1-5.3-4-3.7 5.4-.6z"/></symbol>
+      <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="18" r="1" fill="currentColor"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-feather" viewBox="0 0 24 24"><path d="M19 5c-6 0-11 4-12 12l-2 3"/><path d="M19 5c0 7-4 11-11 12M10 11h6"/></symbol>
+      <symbol id="i-question" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.8v.5"/><circle cx="12" cy="17" r=".9" fill="currentColor"/></symbol>
+      <symbol id="i-cursor" viewBox="0 0 24 24"><path d="M6 4l12 6.5-5.2 1.6 3.2 6.1-2.3 1.2-3.2-6.1L6.5 17z"/></symbol>
+      <symbol id="i-picture" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="1.5"/><path d="M3.5 15.5l5-4 4 3 3-2 5 3.5"/></symbol>
+      <symbol id="i-paragraph" viewBox="0 0 24 24"><path d="M5 6h14M5 10h14M5 14h14M5 18h9"/></symbol>
+      <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M10 9.5v10"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.6 3.6 5.4 3.6 8.5s-1.1 5.9-3.6 8.5c-2.5-2.6-3.6-5.4-3.6-8.5s1.1-5.9 3.6-8.5z"/></symbol>
+      <symbol id="i-history" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.5"/><path d="M4 4v4.5h4.5M12 8v4.5l3 1.8"/></symbol>
+      <symbol id="i-signal" viewBox="0 0 24 24"><path d="M4 12h4l2-5 4 10 2-5h4"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="top">
+    <div class="top__title">
+      <p class="top__kicker"><span class="top__dot" aria-hidden="true"></span>Cowl &amp; Brush · chimney sweeps, Ludlow</p>
+      <h1>From the editor to the live site, with no rebuild</h1>
+    </div>
+    <p class="top__stack" aria-label="The stack"><span>Strapi 5 CMS</span><span>Next.js 16 site</span><span>Cache tags</span></p>
+  </header>
+
+  <div class="switch" role="tablist" aria-label="Show">
+    <button class="switch__btn" role="tab" id="tab-cms" aria-controls="pane-cms" aria-selected="true">Editor</button>
+    <button class="switch__btn" role="tab" id="tab-site" aria-controls="pane-site" aria-selected="false" tabindex="-1">Website</button>
+    <button class="switch__btn" role="tab" id="tab-path" aria-controls="path" aria-selected="false" tabindex="-1">Publish path</button>
+  </div>
+
+  <main class="desk">
+    <!-- ================= The CMS ================= -->
+    <section class="pane pane--cms is-shown" id="pane-cms" role="tabpanel" aria-labelledby="tab-cms" aria-label="The CMS">
+      <div class="pane__label"><svg class="i"><use href="#i-lock"/></svg>cms.cowlandbrush.example.co.uk<span class="pane__who">Signed in as Rhian Pryce</span></div>
+      <div class="cms">
+        <nav class="rail" aria-label="CMS sections">
+          <span class="rail__logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 5h12v5H6zM6 12h7v7H6zM15 12h3v7h-3z"/></svg></span>
+          <button class="rail__btn is-on" type="button" aria-current="page" aria-label="Content Manager"><svg class="i"><use href="#i-content"/></svg></button>
+          <button class="rail__btn" type="button" aria-label="Content-Type Builder" data-off><svg class="i"><use href="#i-builder"/></svg></button>
+          <button class="rail__btn" type="button" aria-label="Media Library" data-off><svg class="i"><use href="#i-media"/></svg></button>
+          <button class="rail__btn" type="button" aria-label="Settings" data-off><svg class="i"><use href="#i-settings"/></svg></button>
+          <span class="rail__me" aria-hidden="true">RP</span>
+        </nav>
+
+        <nav class="sub" aria-label="Content Manager">
+          <h2 class="sub__h">Content Manager</h2>
+          <p class="sub__group">Collection types</p>
+          <ul class="sub__list">
+            <li><button type="button" data-off>Article</button></li>
+            <li><button type="button" data-off>Category</button></li>
+            <li><button type="button" data-off>Page</button></li>
+            <li><button type="button" data-off>Project</button></li>
+            <li><button type="button" data-off>Redirect</button></li>
+            <li><button type="button" data-off>Service</button></li>
+          </ul>
+          <p class="sub__group">Single types</p>
+          <ul class="sub__list">
+            <li><button type="button" data-off>Contact page</button></li>
+            <li><button type="button" data-off>Global</button></li>
+            <li><button type="button" class="is-on" aria-current="page">Home page</button></li>
+          </ul>
+          <p class="sub__note" id="sub-note" role="status"></p>
+        </nav>
+
+        <div class="ed">
+          <header class="ed__head">
+            <div class="ed__titlerow">
+              <button class="ed__back" type="button" data-off aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button>
+              <h2 class="ed__title">Home page</h2>
+              <span class="badge" id="status-badge" data-status="published">Published</span>
+            </div>
+            <div class="ed__tabs" role="tablist" aria-label="Version">
+              <button class="ed__tab is-on" role="tab" aria-selected="true" id="ver-draft" data-ver="draft">Draft</button>
+              <button class="ed__tab" role="tab" aria-selected="false" id="ver-published" data-ver="published" tabindex="-1">Published</button>
+            </div>
+          </header>
+          <div class="ed__body">
+            <form class="ed__main" id="editor" novalidate aria-label="Edit Home page"></form>
+            <aside class="ed__side" aria-label="Entry">
+              <div class="box">
+                <p class="box__h">Entry</p>
+                <p class="box__status" id="status-line">Published. No changes since.</p>
+                <button class="btn btn--primary" type="button" id="btn-publish" disabled>Publish</button>
+                <div class="box__row">
+                  <button class="btn btn--secondary" type="button" id="btn-save" disabled>Save</button>
+                  <div class="menu">
+                    <button class="btn btn--icon" type="button" id="btn-more" aria-haspopup="true" aria-expanded="false" aria-label="More actions"><svg class="i"><use href="#i-more"/></svg></button>
+                    <div class="menu__list" role="menu" hidden>
+                      <button type="button" role="menuitem" id="btn-discard">Discard changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="box">
+                <p class="box__h">Preview</p>
+                <button class="btn btn--secondary btn--full" type="button" id="btn-preview"><svg class="i"><use href="#i-eye"/></svg><span class="btn__txt">Open preview</span></button>
+                <p class="box__fine">Shows the saved draft on the real site, in Draft Mode.</p>
+              </div>
+              <div class="box box--info">
+                <p class="box__h">Information</p>
+                <dl class="info">
+                  <div><dt>Created</dt><dd>12 Mar</dd></div>
+                  <div><dt>Last update</dt><dd id="info-updated">23 Oct, 16:40</dd></div>
+                  <div><dt>By</dt><dd id="info-by">Rhian Pryce</dd></div>
+                </dl>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= The website ================= -->
+    <section class="pane pane--site" id="pane-site" role="tabpanel" aria-labelledby="tab-site" aria-label="The live website">
+      <div class="browser">
+        <div class="browser__tabs" role="tablist" aria-label="Browser tabs">
+          <button class="btab is-on" role="tab" aria-selected="true" data-tab="live" id="btab-live"><svg class="i"><use href="#i-globe"/></svg><span>Cowl &amp; Brush</span><span class="btab__who">a visitor</span></button>
+          <button class="btab" role="tab" aria-selected="false" data-tab="preview" id="btab-preview" hidden tabindex="-1"><svg class="i"><use href="#i-eye"/></svg><span>Preview</span><span class="btab__who">Rhian</span></button>
+        </div>
+        <div class="browser__bar">
+          <button class="bbtn" type="button" id="btn-reload" aria-label="Reload the page as a new visit"><svg class="i"><use href="#i-reload"/></svg></button>
+          <p class="url"><svg class="i"><use href="#i-lock"/></svg><span id="url-text">www.cowlandbrush.example.co.uk/</span></p>
+          <p class="cache" id="cache-chip" data-state="fresh"><span class="cache__dot" aria-hidden="true"></span><span id="cache-text">Cache HIT · fresh</span></p>
+        </div>
+        <div class="browser__load" id="browser-load" aria-hidden="true"></div>
+        <iframe class="browser__frame" id="site-frame" title="Cowl &amp; Brush website" src="site.html"></iframe>
+      </div>
+    </section>
+
+    <!-- ================= The publish path ================= -->
+    <section class="path" id="path" role="tabpanel" aria-labelledby="path-h">
+      <header class="path__head">
+        <h2 class="path__h" id="path-h"><svg class="i"><use href="#i-signal"/></svg>Publish path</h2>
+        <p class="path__state" id="path-state" role="status">Idle. Last published 23 Oct, 16:40.</p>
+        <p class="path__note">Slowed down so you can follow it. Times are typical for this setup.</p>
+        <button class="path__code" type="button" id="btn-code"><svg class="i"><use href="#i-code"/></svg>Payload and route code</button>
+      </header>
+      <div class="path__track">
+        <div class="wire" aria-hidden="true"><span class="wire__fill" id="wire-fill"></span><span class="wire__pulse" id="wire-pulse"></span></div>
+        <ol class="stations" id="stations">
+          <li class="st" data-st="0">
+            <p class="st__top"><span class="st__n">1</span><span class="st__where">CMS</span><span class="st__t" data-t></span></p>
+            <h3 class="st__h">Publish</h3>
+            <div class="st__body" data-body><p>Save keeps a draft. Publish makes it the live version.</p></div>
+          </li>
+          <li class="st" data-st="1">
+            <p class="st__top"><span class="st__n">2</span><span class="st__where">Webhook</span><span class="st__t" data-t></span></p>
+            <h3 class="st__h">website revalidate</h3>
+            <div class="st__body" data-body><p><code>POST /api/revalidate</code></p><p><code>Authorization: Bearer ••••••</code></p></div>
+          </li>
+          <li class="st" data-st="2">
+            <p class="st__top"><span class="st__n">3</span><span class="st__where">Next.js route</span><span class="st__t" data-t></span></p>
+            <h3 class="st__h">/api/revalidate</h3>
+            <div class="st__body" data-body><p>Checks the secret, validates the payload, maps it to cache tags.</p></div>
+          </li>
+          <li class="st" data-st="3">
+            <p class="st__top"><span class="st__n">4</span><span class="st__where">Next.js cache</span><span class="st__t" data-t></span></p>
+            <h3 class="st__h">revalidateTag</h3>
+            <div class="st__body" data-body><p><code>revalidateTag(tag, "max")</code> marks tagged pages stale.</p></div>
+          </li>
+          <li class="st" data-st="4">
+            <p class="st__top"><span class="st__n">5</span><span class="st__where">Website</span><span class="st__t" data-t></span></p>
+            <h3 class="st__h">Next visitors</h3>
+            <div class="st__body" data-body><p>Pages come from the cache until a tag changes.</p></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">A Hiconlab demo. All businesses, people and data are fictional.</footer>
+
+  <!-- Block picker -->
+  <dialog class="dlg" id="picker" aria-labelledby="picker-h">
+    <div class="dlg__head"><h2 id="picker-h">Pick one component</h2><button class="btn btn--icon" type="button" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <p class="dlg__sub">Adds a block to the end of <code>sections</code>. Category: blocks</p>
+    <div class="picker" id="picker-grid"></div>
+  </dialog>
+
+  <!-- Payload and route code -->
+  <dialog class="dlg dlg--code" id="code" aria-labelledby="code-h">
+    <div class="dlg__head"><h2 id="code-h">What the webhook sends, and what the route does</h2><button class="btn btn--icon" type="button" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <div class="ctabs" role="tablist" aria-label="Code">
+      <button class="ctab is-on" role="tab" aria-selected="true" aria-controls="code-payload" id="ctab-payload">Payload</button>
+      <button class="ctab" role="tab" aria-selected="false" aria-controls="code-route" id="ctab-route" tabindex="-1">app/api/revalidate/route.ts</button>
+      <button class="ctab" role="tab" aria-selected="false" aria-controls="code-tags" id="ctab-tags" tabindex="-1">Cache tags</button>
+    </div>
+    <pre class="code" id="code-payload" role="tabpanel" aria-labelledby="ctab-payload" tabindex="0"></pre>
+    <pre class="code" id="code-route" role="tabpanel" aria-labelledby="ctab-route" tabindex="0" hidden></pre>
+    <div class="code code--tags" id="code-tags" role="tabpanel" aria-labelledby="ctab-tags" tabindex="0" hidden></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <p class="sr-only" id="live" aria-live="polite"></p>
+
+  <script src="../../shared/tour/tour.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/tour.js"></script>
+</body>
+</html>

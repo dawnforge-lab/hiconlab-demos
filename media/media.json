@@ -62,6 +62,15 @@
       "height": 1080,
       "seconds": 39.1,
       "recordedAt": "2026-10-31T19:20:38.831Z"
+    },
+    "strapi-cms": {
+      "video": "strapi-cms.mp4",
+      "posterWebp": "strapi-cms-poster.webp",
+      "posterJpg": "strapi-cms-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 37.4,
+      "recordedAt": "2026-10-31T19:25:58.211Z"
     }
   }
 }

@@ -127,13 +127,20 @@
     {
       "id": "strapi-cms",
       "number": 11,
-      "title": "Headless CMS publishing",
+      "title": "Cowl & Brush, Ludlow: headless CMS publishing",
       "service": "web-development",
       "kind": "cms",
-      "summary": "Edit a page in Strapi, publish, and watch the webhook revalidate the live site.",
+      "summary": "A sweep’s owner edits her home page in a Strapi-style CMS, previews the draft, and publishes: the webhook hits the revalidate route, the cache tag goes stale and the next visitors get the new page, with no rebuild.",
       "source": "docs/sources/hiconlab-strapi.md",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "pages": [
+        "demos/strapi-cms/",
+        "demos/strapi-cms/site.html"
+      ],
+      "record": {
+        "viewport": "1536x864"
+      }
     },
     {
       "id": "supplements-3d",
