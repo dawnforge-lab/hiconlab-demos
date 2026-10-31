@@ -80,6 +80,15 @@
       "height": 1080,
       "seconds": 43.9,
       "recordedAt": "2026-10-31T19:24:28.642Z"
+    },
+    "hair-salon": {
+      "video": "hair-salon.mp4",
+      "posterWebp": "hair-salon-poster.webp",
+      "posterJpg": "hair-salon-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 42.1,
+      "recordedAt": "2026-10-31T19:35:14.858Z"
     }
   }
 }

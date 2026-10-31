@@ -101,12 +101,16 @@
     {
       "id": "hair-salon",
       "number": 8,
-      "title": "Hair salon website",
+      "title": "Fankle, Leith: hair salon website",
       "service": "web-design",
       "kind": "website",
-      "summary": "A salon site with services, stylists and booking.",
+      "summary": "Website for an independent Leith hair salon: prices that change with your hair length and stylist, a live board of free chairs, and online booking from service and stylist to a confirmed time.",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "pages": [
+        "demos/hair-salon/",
+        "demos/hair-salon/services.html"
+      ]
     },
     {
       "id": "exterior-cleaning",
