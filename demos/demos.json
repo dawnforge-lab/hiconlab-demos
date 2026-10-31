@@ -138,15 +138,18 @@
     {
       "id": "supplements-3d",
       "number": 12,
-      "title": "3D supplements showcase",
+      "title": "Upwich, Droitwich Spa: 3D electrolyte tablets launch",
       "service": "web-design",
       "kind": "3d",
-      "summary": "A scroll-driven 3D product story for a supplements brand.",
+      "summary": "A scroll-driven 3D launch for a Droitwich Spa electrolyte tablet maker: the tube turns to show its printed label, opens to fan out its tablets, drops one into a glass to fizz, changes flavour live and ends in a working basket with subscription pricing.",
       "tryIt": true,
-      "status": "planned",
+      "status": "built",
       "record": {
         "headed": true
-      }
+      },
+      "pages": [
+        "demos/supplements-3d/"
+      ]
     },
     {
       "id": "watch-3d",

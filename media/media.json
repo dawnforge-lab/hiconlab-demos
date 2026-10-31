@@ -53,6 +53,15 @@
       "height": 1080,
       "seconds": 36.9,
       "recordedAt": "2026-10-31T19:13:41.631Z"
+    },
+    "supplements-3d": {
+      "video": "supplements-3d.mp4",
+      "posterWebp": "supplements-3d-poster.webp",
+      "posterJpg": "supplements-3d-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 39.1,
+      "recordedAt": "2026-10-31T19:20:38.831Z"
     }
   }
 }

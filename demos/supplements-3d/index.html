@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upwich electrolyte tablets with sweeteners · Made in Droitwich Spa</title>
+  <meta name="description" content="Fizzing electrolyte tablets made in Droitwich Spa with salt from the town’s brine. 500 mg sodium, 300 mg potassium and 60 mg magnesium a tablet. £7.50 for 20.">
+  <meta name="theme-color" content="#f3f1ea">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2313232d%22/%3E%3Cpath d=%22M32 12 49 22v20L32 52 15 42V22z M15 22l17 10 17-10 M32 32v20%22 fill=%22none%22 stroke=%22%23dfe04e%22 stroke-width=%224%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/fonts/mona-sans-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/spline-sans-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script type="importmap">
+  { "imports": {
+    "three": "../../shared/vendor/three@0.187.0/three.module.js",
+    "three/addons/": "../../shared/vendor/three@0.187.0/addons/"
+  } }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2.8 20 7.4v9.2l-8 4.6-8-4.6V7.4z M4 7.4l8 4.6 8-4.6 M12 12v9.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-basket" viewBox="0 0 24 24"><path d="M3.5 9h17l-1.6 10.2a1.6 1.6 0 0 1-1.6 1.3H6.7a1.6 1.6 0 0 1-1.6-1.3z M8 9l3-5.5 M16 9l-3-5.5 M9.5 13v4 M14.5 13v4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4.5v14 M6.5 13l5.5 5.5 5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19.5 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M6 12h12M12 6v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M4.5 11V9.5A3.5 3.5 0 0 1 8 6h11 M16 3l3 3-3 3 M19.5 13v1.5A3.5 3.5 0 0 1 16 18H5 M8 21l-3-3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-van" viewBox="0 0 24 24"><path d="M2.5 6.5h11v10h-11z M13.5 10h4l3 3.2v3.3h-7 M6.5 19a1.8 1.8 0 1 0 0-.1 M17 19a1.8 1.8 0 1 0 0-.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader__glass" aria-hidden="true">
+      <svg viewBox="0 0 80 110">
+        <path class="loader__water" d="M14 44 L66 44 L62 100 Q62 104 58 104 L22 104 Q18 104 18 100 Z"/>
+        <path class="loader__outline" d="M8 8 L72 8 L64 102 Q63.5 108 58 108 L22 108 Q16.5 108 16 102 Z"/>
+        <rect class="loader__tablet" x="30" y="94" width="20" height="6" rx="3"/>
+        <circle class="loader__b" cx="36" cy="88" r="2"/>
+        <circle class="loader__b" cx="44" cy="84" r="1.5"/>
+        <circle class="loader__b" cx="40" cy="78" r="2.4"/>
+        <circle class="loader__b" cx="47" cy="90" r="1.8"/>
+        <circle class="loader__b" cx="33" cy="80" r="1.4"/>
+      </svg>
+    </div>
+    <p class="loader__text"><span class="loader__label">Pouring the water</span> <span class="loader__pct">0%</span></p>
+  </div>
+
+  <div class="stage" id="stage" aria-hidden="true">
+    <canvas id="scene"></canvas>
+  </div>
+  <img class="still" id="still" alt="" hidden width="1200" height="1200">
+
+  <header class="masthead">
+    <a class="wordmark" href="#top" aria-label="Upwich, back to the top">
+      <svg class="wordmark__mark" aria-hidden="true"><use href="#i-cube"/></svg>
+      <span class="wordmark__name">Upwich</span>
+    </a>
+    <nav class="masthead__nav" aria-label="Main">
+      <a href="#label">The label</a>
+      <a href="#inside">Inside</a>
+      <a href="#fizz">In the glass</a>
+      <a href="#flavours">Flavours</a>
+    </nav>
+    <div class="masthead__end">
+      <a class="btn btn--small btn--ghost masthead__buy" href="#buy">Buy</a>
+      <button class="basket-btn" id="basket-open" type="button" aria-haspopup="dialog" aria-controls="basket">
+        <svg aria-hidden="true"><use href="#i-basket"/></svg>
+        <span class="basket-btn__label">Basket</span>
+        <span class="basket-btn__count" id="basket-count" aria-hidden="true">0</span>
+        <span class="visually-hidden" id="basket-count-text">, empty</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="scene scene--hero scene--left" id="top" data-pose="hero" aria-labelledby="hero-title">
+      <div class="copy">
+        <p class="eyebrow"><span class="eyebrow__dot"></span>Upwich electrolyte tablets with sweeteners</p>
+        <h1 id="hero-title" class="display">A pinch of Droitwich in every drink.</h1>
+        <p class="lede">Drop one Upwich tablet in 500 ml of water and you get a light, not-too-sweet drink with sodium, potassium and magnesium in it. We make them in Droitwich Spa, where salt has been made from the brine for more than two thousand years.</p>
+        <div class="actions">
+          <a class="btn" href="#buy">Buy a tube <span class="btn__price">£7.50</span></a>
+          <a class="link" href="#label">Read the label <svg aria-hidden="true"><use href="#i-down"/></svg></a>
+        </div>
+        <dl class="facts">
+          <div><dt>In a tube</dt><dd>20 tablets</dd></div>
+          <div><dt>Sodium</dt><dd>500 mg a tablet</dd></div>
+          <div><dt>Sugar</dt><dd>0 g, 6 kcal</dd></div>
+          <div><dt>Price</dt><dd>£7.50 a tube</dd></div>
+        </dl>
+      </div>
+
+    </section>
+
+    <section class="scene scene--right" id="label" data-pose="label" aria-labelledby="label-title">
+      <div class="copy">
+        <p class="eyebrow"><span class="eyebrow__num">01</span>The label</p>
+        <h2 id="label-title" class="display">Turn it round. Read all of it.</h2>
+        <p class="lede">The whole panel is printed on the tube, not hidden under a flap. This is what one tablet gives you, dissolved in 500 ml of water.</p>
+        <ul class="minerals">
+          <li><span class="minerals__n">500<small>mg</small></span><span class="minerals__l">Sodium <em>a tablet</em></span></li>
+          <li><span class="minerals__n">300<small>mg</small></span><span class="minerals__l">Potassium <em>15% NRV a tablet</em></span></li>
+          <li><span class="minerals__n">60<small>mg</small></span><span class="minerals__l">Magnesium <em>16% NRV a tablet</em></span></li>
+        </ul>
+        <div class="claims">
+          <p class="claims__h">What these minerals do, in the approved wording</p>
+          <p>Potassium contributes to normal muscle function.</p>
+          <p>Magnesium contributes to electrolyte balance and to the reduction of tiredness and fatigue.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scene--left" id="inside" data-pose="inside" aria-labelledby="inside-title">
+      <div class="copy">
+        <p class="eyebrow"><span class="eyebrow__num">02</span>Inside</p>
+        <h2 id="inside-title" class="display">Twenty in a tube.</h2>
+        <p class="lede">Each tablet is pressed hard and dry, so it won’t crumble in a jersey pocket. The spring in the cap holds them still, so the tube doesn’t rattle when you run.</p>
+        <table class="weights">
+          <caption>One tablet, by weight</caption>
+          <thead><tr><th scope="col">Ingredient</th><th scope="col"><span class="visually-hidden">Share</span></th><th scope="col">g</th></tr></thead>
+          <tbody id="weights"></tbody>
+          <tfoot><tr><th scope="row">Total</th><td></td><td>5.00</td></tr></tfoot>
+        </table>
+        <p class="note">Only the flavouring changes between flavours. Everything else is the same in all three.</p>
+      </div>
+    </section>
+
+    <section class="scene scene--left scene--fizz" id="fizz" data-pose="fizz" aria-labelledby="fizz-title">
+      <div class="copy copy--sticky">
+        <p class="eyebrow"><span class="eyebrow__num">03</span>In the glass</p>
+        <h2 id="fizz-title" class="display display--md">Drop one in 500 ml.</h2>
+        <p class="lede">It sinks, fizzes for about two minutes and leaves you a light, fruity drink with a little salt to it. Not syrupy, and nothing like a sweet shop.</p>
+        <div class="clock" aria-hidden="true">
+          <span class="clock__time" id="clock-time">0:00</span>
+          <span class="clock__state" id="clock-state">Scroll to drop it in</span>
+          <span class="clock__bar"><span class="clock__fill" id="clock-fill"></span></span>
+        </div>
+        <table class="nutrition">
+          <caption>Nutrition, each tablet in 500 ml of water</caption>
+          <thead><tr><th scope="col">Typical values</th><th scope="col">1 tablet</th><th scope="col">2 tablets</th><th scope="col">%NRV*</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Energy</th><td>26 kJ/6 kcal</td><td>52 kJ/12 kcal</td><td></td></tr>
+            <tr><th scope="row">Fat, saturates, sugars, protein</th><td>0 g</td><td>0 g</td><td></td></tr>
+            <tr><th scope="row">Carbohydrate</th><td>1.0 g</td><td>2.0 g</td><td></td></tr>
+            <tr class="sub"><th scope="row">of which polyols</th><td>1.0 g</td><td>2.0 g</td><td></td></tr>
+            <tr><th scope="row">Salt</th><td>1.25 g</td><td>2.5 g</td><td></td></tr>
+            <tr><th scope="row">Sodium</th><td>500 mg</td><td>1,000 mg</td><td></td></tr>
+            <tr><th scope="row">Potassium</th><td>300 mg</td><td>600 mg</td><td>30%</td></tr>
+            <tr><th scope="row">Magnesium</th><td>60 mg</td><td>120 mg</td><td>32%</td></tr>
+            <tr><th scope="row">Chloride</th><td>350 mg</td><td>700 mg</td><td>88%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">*Nutrient reference value, for the daily dose of two tablets. Energy counts the citric acid (1.24 g a tablet) as well as the sorbitol (1.00 g). Salt is sodium × 2.5; one tablet’s 1.25 g is 21% of an adult’s 6&nbsp;g reference intake.</p>
+      </div>
+    </section>
+
+    <section class="scene scene--left" id="flavours" data-pose="flavours" aria-labelledby="flavours-title">
+      <div class="copy">
+        <p class="eyebrow"><span class="eyebrow__num">04</span>Flavours</p>
+        <h2 id="flavours-title" class="display">Three flavours. Try them on.</h2>
+        <p class="lede">Pick one and the tube, the tablets and the glass change to match.</p>
+        <fieldset class="flavour-cards">
+          <legend class="visually-hidden">Flavour</legend>
+          <label class="flavour-card" data-flavour="lemon">
+            <input type="radio" name="flavour" value="lemon" checked>
+            <span class="flavour-card__chip" style="--chip:#dfe04e"></span>
+            <span class="flavour-card__name">Lemon &amp; lime</span>
+            <span class="flavour-card__note">Sharp and clean. The one most people start with.</span>
+          </label>
+          <label class="flavour-card" data-flavour="blackcurrant">
+            <input type="radio" name="flavour" value="blackcurrant">
+            <span class="flavour-card__chip" style="--chip:#4a1f4f"></span>
+            <span class="flavour-card__name">Blackcurrant</span>
+            <span class="flavour-card__note">Deep and a bit tart, nothing like squash.</span>
+          </label>
+          <label class="flavour-card" data-flavour="orange">
+            <input type="radio" name="flavour" value="orange">
+            <span class="flavour-card__chip" style="--chip:#e8622f"></span>
+            <span class="flavour-card__name">Blood orange</span>
+            <span class="flavour-card__note">Bittersweet, with a little warmth to it.</span>
+          </label>
+        </fieldset>
+        <p class="showing" aria-live="polite">Showing <strong id="showing">Lemon &amp; lime</strong></p>
+      </div>
+    </section>
+
+    <section class="scene scene--right scene--buy" id="buy" data-pose="buy" aria-labelledby="buy-title">
+      <div class="copy copy--buy">
+        <p class="eyebrow"><span class="eyebrow__num">05</span>Buy</p>
+        <h2 id="buy-title" class="display">Get a tube.</h2>
+        <p class="buy__product">Upwich electrolyte tablets with sweeteners, tube of 20</p>
+        <form class="buy" id="buy-form" novalidate>
+          <fieldset class="buy__group">
+            <legend>Flavour</legend>
+            <div class="chips">
+              <label class="chip" data-flavour="lemon"><input type="radio" name="buy-flavour" value="lemon" checked><span class="chip__dot" style="--chip:#dfe04e"></span>Lemon &amp; lime</label>
+              <label class="chip" data-flavour="blackcurrant"><input type="radio" name="buy-flavour" value="blackcurrant"><span class="chip__dot" style="--chip:#4a1f4f"></span>Blackcurrant</label>
+              <label class="chip" data-flavour="orange"><input type="radio" name="buy-flavour" value="orange"><span class="chip__dot" style="--chip:#e8622f"></span>Blood orange</label>
+            </div>
+          </fieldset>
+          <fieldset class="buy__group">
+            <legend>How often</legend>
+            <div class="plans">
+              <label class="plan" data-plan="once">
+                <input type="radio" name="plan" value="once" checked>
+                <span class="plan__name">Just this once</span>
+                <span class="plan__price">£7.50 <small>a tube</small></span>
+              </label>
+              <label class="plan" data-plan="sub">
+                <input type="radio" name="plan" value="sub">
+                <span class="plan__name"><svg aria-hidden="true"><use href="#i-repeat"/></svg>Every 4 weeks</span>
+                <span class="plan__price">£6.00 <small>a tube</small></span>
+                <span class="plan__note">Repeat deliveries post free. Skip or cancel any time.</span>
+              </label>
+            </div>
+          </fieldset>
+          <div class="buy__row">
+            <div class="qty" role="group" aria-labelledby="qty-label">
+              <span class="qty__label" id="qty-label">Tubes</span>
+              <button class="qty__btn" type="button" id="qty-minus" aria-label="One fewer tube"><svg aria-hidden="true"><use href="#i-minus"/></svg></button>
+              <output class="qty__n" id="qty" aria-live="polite">1</output>
+              <button class="qty__btn" type="button" id="qty-plus" aria-label="One more tube"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+            </div>
+            <p class="buy__sum" id="buy-sum">20 tablets · £7.50</p>
+          </div>
+          <button class="btn btn--wide btn--add" type="submit" id="add">
+            <span class="btn__text" id="add-text">Add to basket · £7.50</span>
+            <span class="btn__done" aria-hidden="true"><svg><use href="#i-check"/></svg>Added</span>
+          </button>
+          <p class="buy__delivery"><svg aria-hidden="true"><use href="#i-van"/></svg><span id="delivery-note">Free UK delivery on orders of £15 or more, otherwise £2.95. Posted from Droitwich the next working day.</span></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <aside class="basket" id="basket" role="dialog" aria-modal="true" aria-labelledby="basket-title" hidden>
+    <div class="basket__scrim" data-close></div>
+    <div class="basket__panel" tabindex="-1">
+      <div class="basket__head">
+        <h2 class="basket__title" id="basket-title">Your basket</h2>
+        <button class="basket__close" type="button" data-close aria-label="Close basket"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+      <p class="basket__empty" id="basket-empty">Your basket is empty. A tube of 20 is £7.50.</p>
+      <ul class="basket__lines" id="basket-lines"></ul>
+      <div class="basket__foot" id="basket-foot" hidden>
+        <dl class="totals">
+          <div><dt>Subtotal</dt><dd id="t-sub">£0.00</dd></div>
+          <div><dt>Delivery</dt><dd id="t-del">£0.00</dd></div>
+          <div class="totals__total"><dt>Total</dt><dd id="t-total">£0.00</dd></div>
+        </dl>
+        <p class="totals__vat" id="t-vat">Includes £0.00 VAT</p>
+        <p class="totals__nudge" id="t-nudge" hidden></p>
+        <p class="totals__sub-note" id="t-subnote" hidden>Your subscription then comes every 4 weeks with free delivery. Skip or cancel any time.</p>
+        <button class="btn btn--wide" type="button" id="checkout">Go to checkout</button>
+        <p class="basket__demo" id="checkout-note" hidden role="status">Checkout is switched off in this demo, so nothing has been ordered.</p>
+      </div>
+    </div>
+  </aside>
+
+  <footer class="footer">
+    <div class="footer__brand">
+      <span class="wordmark__name">Upwich</span>
+      <p>Electrolyte tablets from Droitwich Spa. Named after the Upwich brine pit, the deepest of the town’s three.</p>
+    </div>
+    <div>
+      <h2 class="footer__h">Where we are</h2>
+      <p>Unit 6, Brinefield Yard<br>Droitwich Spa, Worcestershire WR9 8QE</p>
+    </div>
+    <div>
+      <h2 class="footer__h">Talk to us</h2>
+      <p>01632 960418, weekdays 9:00–17:00<br>hello@upwich.example</p>
+    </div>
+    <div class="footer__small">
+      <h2 class="footer__h">Small print</h2>
+      <p>Food supplement with sweeteners. Take up to two tablets a day, each in 500 ml of water; do not exceed this. Food supplements should not be used as a substitute for a varied diet and a healthy lifestyle. Keep out of reach of young children. Excessive consumption may produce laxative effects. Prices include VAT.</p>
+    </div>
+    <p class="footer__demo">A Hiconlab demo. All businesses, people and data are fictional.</p>
+  </footer>
+
+  <script src="../../shared/vendor/gsap@3.15.0/gsap.min.js"></script>
+  <script src="../../shared/vendor/gsap@3.15.0/ScrollTrigger.min.js"></script>
+  <script src="../../shared/tour/tour.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/scene.js"></script>
+  <script src="assets/js/tour.js"></script>
+</body>
+</html>
