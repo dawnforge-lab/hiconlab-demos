@@ -1,0 +1,149 @@
+{
+  "demos": [
+    {
+      "id": "conversational-search",
+      "number": 1,
+      "title": "Conversational product search",
+      "service": "ecommerce",
+      "kind": "ai-ecommerce",
+      "summary": "Search that understands the job, not just the keyword: autocomplete, then a scripted assistant that streams answers with product cards and follow-up chips.",
+      "source": "docs/sources/ai-shopping-assistant.md",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "ai-chat-assistant",
+      "number": 2,
+      "title": "AI chat assistant",
+      "service": "ai-workflows",
+      "kind": "ai-ecommerce",
+      "summary": "A help assistant that answers from the business's own content, recommends products, confirms before adding to the basket and hands over to a person.",
+      "source": "docs/sources/ai-shopping-assistant.md",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "garage-saas",
+      "number": 3,
+      "title": "Garage management software",
+      "service": "web-development",
+      "kind": "saas",
+      "summary": "Workshop board, ramps, parts and invoicing for an independent garage, redesigned as a modern SaaS.",
+      "source": "docs/sources/garage-manager.md",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "job-scheduling-saas",
+      "number": 4,
+      "title": "Job scheduling software",
+      "service": "web-development",
+      "kind": "saas",
+      "summary": "Quotes, crew scheduling, job sheets on the phone and invoicing for a trades business.",
+      "source": "docs/sources/job-management.md",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "kreativehub",
+      "number": 5,
+      "title": "Kreativehub",
+      "service": "web-design",
+      "kind": "website-recreation",
+      "summary": "A showcase recreating the current kreativehub.net design.",
+      "tryIt": false,
+      "status": "planned"
+    },
+    {
+      "id": "colour-and-style",
+      "number": 6,
+      "title": "The Colour and Style",
+      "service": "web-design",
+      "kind": "website-recreation",
+      "summary": "A showcase recreating the current thecolourandstyle.com design.",
+      "tryIt": false,
+      "status": "planned"
+    },
+    {
+      "id": "dentist",
+      "number": 7,
+      "title": "Dental practice website",
+      "service": "web-design",
+      "kind": "website",
+      "summary": "A calm, trustworthy site for an independent UK dental practice, with treatments, fees and online booking.",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "hair-salon",
+      "number": 8,
+      "title": "Hair salon website",
+      "service": "web-design",
+      "kind": "website",
+      "summary": "A salon site with services, stylists and booking.",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "exterior-cleaning",
+      "number": 9,
+      "title": "Exterior cleaning website",
+      "service": "web-design",
+      "kind": "website",
+      "summary": "A local exterior cleaning company: services, before and after, instant quote.",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "auto-repair",
+      "number": 10,
+      "title": "Auto repair website",
+      "service": "web-design",
+      "kind": "website",
+      "summary": "An independent garage's website: MOTs, servicing and repairs with online booking.",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "strapi-cms",
+      "number": 11,
+      "title": "Headless CMS publishing",
+      "service": "web-development",
+      "kind": "cms",
+      "summary": "Edit a page in Strapi, publish, and watch the webhook revalidate the live site.",
+      "source": "docs/sources/hiconlab-strapi.md",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "supplements-3d",
+      "number": 12,
+      "title": "3D supplements showcase",
+      "service": "web-design",
+      "kind": "3d",
+      "summary": "A scroll-driven 3D product story for a supplements brand.",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "watch-3d",
+      "number": 13,
+      "title": "3D watch showcase",
+      "service": "web-design",
+      "kind": "3d",
+      "summary": "A scroll-driven 3D product story for a watchmaker: rotate, exploded view, colour change.",
+      "tryIt": true,
+      "status": "planned"
+    },
+    {
+      "id": "gym",
+      "number": 14,
+      "title": "Gym website",
+      "service": "web-design",
+      "kind": "website",
+      "summary": "An independent gym's site with classes, timetable and membership.",
+      "tryIt": true,
+      "status": "planned"
+    }
+  ]
+}

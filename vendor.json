@@ -1,0 +1,96 @@
+{
+  "copy": [
+    {
+      "from": "node_modules/three/LICENSE",
+      "to": "shared/vendor/three@0.187.0/"
+    },
+    {
+      "from": "node_modules/three/build/three.module.js",
+      "to": "shared/vendor/three@0.187.0/"
+    },
+    {
+      "from": "node_modules/three/build/three.core.js",
+      "to": "shared/vendor/three@0.187.0/"
+    },
+    {
+      "from": "node_modules/gsap/dist/gsap.min.js",
+      "to": "shared/vendor/gsap@3.15.0/"
+    },
+    {
+      "from": "node_modules/gsap/dist/ScrollTrigger.min.js",
+      "to": "shared/vendor/gsap@3.15.0/"
+    },
+    {
+      "from": "node_modules/gsap/dist/SplitText.min.js",
+      "to": "shared/vendor/gsap@3.15.0/"
+    },
+    {
+      "from": "node_modules/gsap/dist/CustomEase.min.js",
+      "to": "shared/vendor/gsap@3.15.0/"
+    },
+    {
+      "from": "node_modules/gsap/dist/Flip.min.js",
+      "to": "shared/vendor/gsap@3.15.0/"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/libs/draco/gltf",
+      "to": "shared/vendor/three@0.187.0/draco"
+    },
+    {
+      "from": "node_modules/gsap/README.md",
+      "to": "shared/vendor/gsap@3.15.0/"
+    }
+  ],
+  "modules": [
+    {
+      "from": "node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/loaders/DRACOLoader.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/loaders/RGBELoader.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/environments/RoomEnvironment.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/postprocessing/EffectComposer.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/postprocessing/RenderPass.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    },
+    {
+      "from": "node_modules/three/examples/jsm/postprocessing/OutputPass.js",
+      "base": "node_modules/three/examples/jsm",
+      "to": "shared/vendor/three@0.187.0/addons"
+    }
+  ]
+}
