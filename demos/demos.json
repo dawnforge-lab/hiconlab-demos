@@ -129,12 +129,16 @@
     {
       "id": "auto-repair",
       "number": 10,
-      "title": "Auto repair website",
+      "title": "Ten to Two Garage, Shrewsbury: garage website",
       "service": "web-design",
       "kind": "website",
-      "summary": "An independent garage's website: MOTs, servicing and repairs with online booking.",
+      "summary": "Website for an independent Shrewsbury garage: put your reg in the number plate, see your car and MOT date, pick an MOT or service priced for your engine with VAT shown, choose a drop-off or wait slot, and watch the job card get stamped.",
       "tryIt": true,
-      "status": "planned"
+      "status": "built",
+      "pages": [
+        "demos/auto-repair/",
+        "demos/auto-repair/prices.html"
+      ]
     },
     {
       "id": "strapi-cms",

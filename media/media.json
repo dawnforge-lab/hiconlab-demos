@@ -107,6 +107,15 @@
       "height": 1080,
       "seconds": 39.3,
       "recordedAt": "2026-10-31T20:13:53.912Z"
+    },
+    "auto-repair": {
+      "video": "auto-repair.mp4",
+      "posterWebp": "auto-repair-poster.webp",
+      "posterJpg": "auto-repair-poster.jpg",
+      "width": 1920,
+      "height": 1080,
+      "seconds": 35.8,
+      "recordedAt": "2026-10-31T20:36:15.031Z"
     }
   }
 }
