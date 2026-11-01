@@ -119,7 +119,7 @@
     history: [{ date: '2026-04-09', service: 'General service', mileage: 113200, total: 241.8 }, { date: '2025-03-20', service: 'Brakes', mileage: 106480, total: 312.0, note: 'Discs and pads, front' }] });
   vehicle({ plate: 'SF18 UVC', make: 'Toyota', model: 'Yaris Icon', year: 2018, colour: 'Tokyo red', mileage: 38410, vin: 'VNKKG3D370A274186', motDue: '2027-03-29', serviceDue: '2027-03-12', clientId: 'c-marsh',
     history: [{ date: '2026-03-12', service: 'Interim service', mileage: 35020, total: 85.0 }, { date: '2025-03-04', service: 'Brakes', mileage: 30660, total: 186.0, note: 'Rear shoes and drums' }] });
-  vehicle({ plate: 'DA66 RFK', make: 'Kia', model: "Cee'd 2", year: 2016, colour: 'Graphite', mileage: 77320, vin: 'U5YHN516AHL390561', motDue: '2027-08-11', serviceDue: '2027-04-29', clientId: 'c-qureshi',
+  vehicle({ plate: 'DA66 RFK', make: 'Kia', model: 'Cee’d 2', year: 2016, colour: 'Graphite', mileage: 77320, vin: 'U5YHN516AHL390561', motDue: '2027-08-11', serviceDue: '2027-04-29', clientId: 'c-qureshi',
     history: [{ date: '2025-10-30', service: 'Oil & filter', mileage: 69850, total: 89.0 }] });
   vehicle({ plate: 'NX15 FJD', make: 'BMW', model: '320d SE', year: 2015, colour: 'Alpine white', mileage: 121000, vin: 'WBA8E51060K382915', motDue: '2027-06-03', serviceDue: '2027-01-20', clientId: 'c-bland',
     history: [{ date: '2024-08-22', service: 'Cam belt', mileage: 104300, total: 365.0, note: 'Timing chain inspected' }] });

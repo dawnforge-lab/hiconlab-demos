@@ -13,7 +13,7 @@ HiconTour.define(async function (t) {
   // LK19 XRT turns up.
   await t.click('[data-action="arrived"][data-id="lk19"]', { after: 1100 });
 
-  await t.caption('Drag a car onto a ramp and pick who works on it');
+  await t.caption('Get cars on ramps in a couple of clicks');
   // Drag it to In progress: the start-work picker asks who and where.
   await t.drag('.card[data-id="lk19"] .card-title', '#col-in_progress .col-body', { after: 300 });
   await t.waitFor('.dialog input[name="mech"]', 4000);
@@ -32,7 +32,7 @@ HiconTour.define(async function (t) {
   await t.wait(900);
 
   // Open the car that's waiting for its invoice.
-  await t.caption('Enter the cost and your markup is added for you');
+  await t.caption('Enter the cost, the markup’s added for you');
   await t.click('.card[data-id="sf18"] .card-title', { after: 300 });
   await t.waitFor('#invoice', 4000);
   await t.wait(1100);

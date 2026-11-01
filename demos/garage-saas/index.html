@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workshop · Calder &amp; Price Motors · Liftbay</title>
   <meta name="description" content="Liftbay workshop software: the board, ramps, parts and invoicing for Calder & Price Motors in Kendal. A Hiconlab demo with fictional data.">
-  <meta name="theme-color" content="#141619">
+  <meta name="theme-color" content="#F5F5F6">
   <link rel="preload" href="assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/martian-mono-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23C9F03E'/%3E%3Cpath d='M9 7v18M23 7v18' stroke='%23141619' stroke-width='3' stroke-linecap='round'/%3E%3Crect x='5' y='14' width='22' height='4' rx='1.5' fill='%23141619'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F6E66'/%3E%3Cpath d='M9 7v18M23 7v18' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round'/%3E%3Crect x='5' y='14' width='22' height='4' rx='1.5' fill='%23FFFFFF'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
@@ -16,24 +15,24 @@
 
   <header class="topbar">
     <a class="brand" href="#/board" aria-label="Liftbay, go to the workshop board">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#C9F03E"/><path d="M9 7v18M23 7v18" stroke="#141619" stroke-width="3" stroke-linecap="round"/><rect x="5" y="14" width="22" height="4" rx="1.5" fill="#141619"/></svg>
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0F6E66"/><path d="M9 7v18M23 7v18" stroke="#fff" stroke-width="3" stroke-linecap="round"/><rect x="5" y="14" width="22" height="4" rx="1.5" fill="#fff"/></svg>
       <span class="brand-word">Liftbay</span>
     </a>
     <span class="topbar-tenant">Calder &amp; Price<br>Kendal</span>
-    <button class="btn btn-lime" type="button" data-action="new-booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>New</button>
+    <button class="btn btn-primary" type="button" data-action="new-booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>New</button>
   </header>
 
   <div class="app">
     <nav class="side" id="side" aria-label="Main">
       <a class="brand" href="#/board">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#C9F03E"/><path d="M9 7v18M23 7v18" stroke="#141619" stroke-width="3" stroke-linecap="round"/><rect x="5" y="14" width="22" height="4" rx="1.5" fill="#141619"/></svg>
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0F6E66"/><path d="M9 7v18M23 7v18" stroke="#fff" stroke-width="3" stroke-linecap="round"/><rect x="5" y="14" width="22" height="4" rx="1.5" fill="#fff"/></svg>
         <span class="brand-word">Liftbay</span>
       </a>
       <div class="tenant">
         <span class="tenant-badge" aria-hidden="true">C&amp;P</span>
         <div><div class="tenant-name">Calder &amp; Price Motors</div><div class="tenant-sub">Kendal · 3 ramps</div></div>
       </div>
-      <button class="btn btn-lime side-new" type="button" data-action="new-booking" aria-label="New booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>New booking</span></button>
+      <button class="btn btn-primary side-new" type="button" data-action="new-booking" aria-label="New booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>New booking</span></button>
       <div class="nav" id="nav"></div>
       <div class="side-foot">
         <div class="me">

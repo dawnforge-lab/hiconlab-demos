@@ -41,27 +41,25 @@
     var first = new Date(ym[0], ym[1] - 1, 1, 12), days = new Date(ym[0], ym[1], 0).getDate();
     var lead = (first.getDay() + 6) % 7;
     var minM = '2026-10', maxM = '2026-12';
-    var h = pageHead('Calendar', 'Mon–Fri, 08:00–16:00 · ' + D.company.ramps + ' ramps · ' + CAP + ' workshop hours a day · bookings up to ' + D.company.bookAhead + ' days ahead',
-      '<button type="button" class="btn btn-primary" data-action="new-booking">' + icon('plus') + 'New booking</button>');
+    var h = pageHead('Calendar', 'Mon–Fri, 08:00–16:00 · ' + D.company.ramps + ' ramps · ' + CAP + ' workshop hours a day · bookings up to ' + D.company.bookAhead + ' days ahead');
     h += '<div class="cal-wrap"><section class="panel" aria-labelledby="cal-h"><div class="cal-head">' +
       '<button type="button" class="icon-btn" data-action="cal-prev" aria-label="Previous month"' + (S.calMonth <= minM ? ' disabled' : '') + '>' + icon('chevLeft') + '</button>' +
       '<h2 id="cal-h">' + L.MONTHS[ym[1] - 1] + ' ' + ym[0] + '</h2>' +
       '<button type="button" class="icon-btn" data-action="cal-next" aria-label="Next month"' + (S.calMonth >= maxM ? ' disabled' : '') + '>' + icon('chevRight') + '</button>' +
       '<button type="button" class="btn btn-sm" data-action="cal-today">Today</button>' +
-      '<div class="cal-legend"><span><i style="background:var(--ink)"></i>Booked</span><span><i style="background:var(--amber)"></i>Nearly full</span><span><i style="background:var(--red)"></i>Over</span></div></div>' +
+      '<div class="cal-legend"><span><i style="background:#9FA2A9"></i>Booked</span><span><i style="background:var(--amber)"></i>Nearly full</span><span><i style="background:var(--red)"></i>Over</span></div></div>' +
       (S.calMonth === minM ? '<p class="panel-note" style="margin-bottom:10px">Bookings before 1 October are in your previous system.</p>' : '') +
-      '<div class="cal" role="grid" aria-labelledby="cal-h">' + ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(function (d) { return '<div class="cal-dow" role="columnheader">' + d + '</div>'; }).join('');
+      '<div class="cal" role="group" aria-labelledby="cal-h">' + ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(function (d) { return '<div class="cal-dow" aria-hidden="true">' + d + '</div>'; }).join('');
     for (var i = 0; i < lead; i++) h += '<div class="day is-out" aria-hidden="true"></div>';
     for (var d = 1; d <= days; d++) {
       var iso = ym[0] + '-' + U.pad(ym[1]) + '-' + U.pad(d), wd = U.dow(iso);
-      if (wd === 0 || wd === 6) { h += '<div class="day is-closed" role="gridcell"><span class="day-n">' + d + '</span><span class="day-car day-closed">Closed</span></div>'; continue; }
+      if (wd === 0 || wd === 6) { h += '<div class="day is-closed"><span class="day-n">' + d + '</span><span class="day-closed">Closed</span></div>'; continue; }
       var list = dayJobs(iso), hrs = dayHours(list);
       var shown = list.filter(function (j) { return j.status !== 'cancelled'; });
-      h += '<button type="button" role="gridcell" class="day' + (iso === TODAY ? ' is-today' : '') + '" aria-pressed="' + (S.calDay === iso) + '" data-action="cal-day" data-day="' + iso + '" aria-label="' + L.fmtLong(iso) + ': ' + L.plural(shown.length, 'car') + ', ' + hrs + ' of ' + CAP + ' hours">' +
-        '<span class="day-n">' + d + '</span><span class="day-cars">' + shown.slice(0, 3).map(function (j) { return '<span class="day-car"><b>' + esc(j.plate) + '</b> ' + esc(j.service) + '</span>'; }).join('') +
-        (shown.length > 3 ? '<span class="day-more">+' + (shown.length - 3) + ' more</span>' : '') + '</span>' +
-        (shown.length ? '<span class="day-count">' + shown.length + '</span>' : '') +
-        (shown.length ? '<span class="day-fill">' + fillBar(hrs) + '<span class="fill-txt">' + L.halves(hrs) + ' of ' + CAP + '\u00a0h</span></span>' : '') + '</button>';
+      // Each day carries a count and how full it is; the cars themselves are in the day panel.
+      h += '<button type="button" class="day' + (iso === TODAY ? ' is-today' : '') + '" aria-pressed="' + (S.calDay === iso) + '" data-action="cal-day" data-day="' + iso + '">' +
+        '<span class="day-n"><span class="sr-only">' + L.DAYS[wd] + ' </span>' + d + '<span class="sr-only"> ' + L.MONTHS[ym[1] - 1] + (shown.length ? ',' : ', nothing booked') + '</span></span>' +
+        (shown.length ? '<span class="day-fill"><span class="fill-txt"><b>' + shown.length + '<span class="fill-unit"> ' + (shown.length === 1 ? 'car' : 'cars') + '</span></b><span class="fill-h">' + L.halves(hrs) + '\u00a0h<span class="sr-only"> of ' + CAP + ' booked</span></span></span>' + fillBar(hrs) + '</span>' : '') + '</button>';
     }
     h += '</div></section>';
     var sel = S.calDay, list2 = dayJobs(sel), hrs2 = dayHours(list2), wd2 = U.dow(sel);
@@ -72,7 +70,7 @@
       if (hrs2 > CAP) h += '<div class="notice" style="margin-top:12px">' + icon('alert') + '<span>May not fit: ' + (hrs2 - CAP) + ' h over. Think about moving a long job.</span></div>';
       h += '<ul class="day-list" style="margin-top:8px">' + (list2.length ? list2.map(function (j) {
         var v = L.veh(j), end = j.time ? U.hm(Number(j.time.slice(0, 2)) * 60 + Number(j.time.slice(3)) + Math.round(j.estHours * 60)) : '';
-        var st = j.status === 'cancelled' ? '<span class="tag tag-red">Cancelled</span>' : j.status === 'no_show' ? '<span class="tag tag-red">No-show</span>' : j.status === 'booked' ? (j.online ? '<span class="tag tag-steel">Online</span>' : '') : '<span class="status st-' + j.status + '">' + ({ new: j.arrivedAt ? 'Here, waiting for a ramp' : 'Arriving', in_progress: 'In progress', waiting_parts: 'Waiting parts', ready: 'Ready', delivered: 'Delivered' })[j.status] + '</span>';
+        var st = j.status === 'cancelled' ? '<span class="flag flag-red">Cancelled</span>' : j.status === 'no_show' ? '<span class="flag flag-red">No-show</span>' : j.status === 'booked' ? (j.online ? '<span class="flag">Booked online</span>' : '') : '<span class="status st-' + j.status + '">' + ({ new: j.arrivedAt ? 'Here, waiting for a ramp' : 'Arriving', in_progress: 'In progress', waiting_parts: 'Waiting parts', ready: 'Ready', delivered: 'Delivered' })[j.status] + '</span>';
         return '<li><span class="day-time">' + (j.time ? j.time + '–' + end : j.fitIn ? 'Fit in' : 'Walk-in') + '</span><div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + plate(j.plate, 'sm') + st + '</div>' +
           '<p class="day-what"><a href="#/job/' + j.id + '">' + esc(L.carName(v)) + '</a><span class="day-sep"> · </span><span>' + esc(j.service) + ' · ' + L.hoursTxt(j.estHours) + '</span></p></div></li>';
       }).join('') : '<li style="display:block" class="panel-note">Nothing booked yet.</li>') + '</ul>';
@@ -118,7 +116,7 @@
         var c = S.clients[r.v.clientId], motSoon = r.v.motDue <= U.addDays(TODAY, 30);
         return '<tr class="is-row" data-action="open-vehicle" data-plate="' + esc(r.v.plate) + '"><td><div class="cell-vehicle">' + plate(r.v.plate) + '<div><button type="button" class="link-btn cell-strong" data-action="open-vehicle" data-plate="' + esc(r.v.plate) + '">' + esc(L.carName(r.v)) + '</button><div class="cell-sub">' + r.v.year + ' · ' + esc(r.v.colour) + '</div><div class="cell-sub sm-only">' + esc(S.clients[r.v.clientId].company || S.clients[r.v.clientId].name) + '</div></div></div></td>' +
           '<td class="hide-sm">' + esc(c.company || c.name) + '</td><td class="r money hide-sm">' + r.visits + '</td><td class="c-end"><span class="cell-sub">' + L.fmtDate(r.last) + '</span></td><td class="r money hide-sm">' + (r.miles ? r.miles.toLocaleString('en-GB') + ' mi' : '—') + '</td>' +
-          '<td class="hide-sm">' + (motSoon ? '<span class="tag tag-amber">' + L.fmtDate(r.v.motDue) + '</span>' : L.fmtDate(r.v.motDue)) + '</td></tr>';
+          '<td class="hide-sm">' + (motSoon ? '<span class="flag flag-amber">' + L.fmtDate(r.v.motDue) + '</span>' : L.fmtDate(r.v.motDue)) + '</td></tr>';
       }).join('') : '<tr><td colspan="6" class="panel-note">No vehicle matches “' + esc(S.vehQ) + '”.</td></tr>') + '</tbody></table></div>' +
       (rows.length > shown.length ? '<div class="show-more"><button type="button" class="btn" data-action="veh-more">Show more · ' + (rows.length - shown.length) + ' left</button></div>' : '') + '</section>';
     return h;
@@ -139,7 +137,7 @@
         (next ? '<div class="notice info">' + icon('calendar') + '<span>Booked in for <a href="#/job/' + next.id + '"><b>' + esc(next.service) + '</b> on ' + L.fmtDay(next.date) + ' at ' + next.time + '</a></span></div>' : '') +
         '<div class="client-box"><div class="who">' + esc(c.company || c.name) + '</div><span>' + esc(c.phone) + (c.email ? ' · ' + esc(c.email) : '') + '</span></div>' +
         '<dl class="dl" style="margin-bottom:18px"><dt>Mileage</dt><dd>' + (v.mileage ? v.mileage.toLocaleString('en-GB') + ' mi' : '—') + '</dd><dt>VIN</dt><dd class="mono">' + esc(v.vin) + '</dd><dt>MOT due</dt><dd>' + L.fmtDate(v.motDue) + '</dd><dt>Service due</dt><dd>' + L.fmtDate(v.serviceDue) + '</dd></dl>' +
-        '<h3 style="font-weight:760;font-stretch:112%;font-size:16px;margin-bottom:10px">Service history</h3><ol class="timeline">' + (hist.length ? hist.map(function (x) {
+        '<h3 style="font-weight:600;font-size:15px;margin-bottom:10px">Service history</h3><ol class="timeline">' + (hist.length ? hist.map(function (x) {
           return '<li><div class="tl-top"><span>' + (x.id ? '<a href="#/job/' + x.id + '">' + esc(x.service) + '</a>' : esc(x.service)) + '</span><span class="mono">' + (x.note === 'No-show' ? 'no-show' : money(x.total)) + '</span></div><div class="tl-sub">' + L.fmtDate(x.date) + ' · ' + (x.miles || 0).toLocaleString('en-GB') + ' mi' + (x.old ? ' · from your old system' : '') + '</div></li>';
         }).join('') : '<li>No visits yet.</li>') + '</ol>',
       foot: '<button type="button" class="btn" data-close>Close</button>' + (c.email ? '<button type="button" class="btn btn-primary" data-send>' + icon('mail') + 'Email service history</button>' : ''),
@@ -177,7 +175,7 @@
         var c = x.c, r = x.r;
         return '<tr><td><div class="cell-strong">' + esc(c.company || c.name) + '</div><div class="cell-sub">' + (c.company ? esc(c.name) + ' · ' : '') + (c.type === 'business' ? '<span class="tag tag-line" style="height:20px">' + c.termsDays + '-day terms</span>' : 'Private') + '</div><div class="cell-sub sm-only">' + esc(c.phone) + '</div></td>' +
           '<td class="hide-sm"><div>' + esc(c.phone) + '</div><div class="cell-sub">' + esc(c.email || 'No email') + '</div></td><td class="r money hide-sm">' + Object.keys(r.cars).length + '</td><td class="r money hide-sm">' + r.visits + '</td>' +
-          '<td class="r hide-sm">' + (r.open ? '<span class="tag tag-cobalt">' + r.open + '</span>' : '<span class="cell-sub">0</span>') + '</td><td class="hide-sm"><span class="cell-sub">' + (r.last ? L.fmtDate(r.last) : 'First visit due') + '</span></td><td class="c-end"><span class="cell-sub">' + (r.next ? L.fmtDay(r.next) : r.open ? 'On the board' : '—') + '</span></td></tr>';
+          '<td class="r hide-sm">' + (r.open ? '<span class="cell-strong">' + r.open + '</span>' : '<span class="cell-sub">0</span>') + '</td><td class="hide-sm"><span class="cell-sub">' + (r.last ? L.fmtDate(r.last) : 'First visit due') + '</span></td><td class="c-end"><span class="cell-sub">' + (r.next ? L.fmtDay(r.next) : r.open ? 'On the board' : '—') + '</span></td></tr>';
       }).join('') : '<tr><td colspan="7" class="panel-note">No client matches “' + esc(S.cliQ) + '”.</td></tr>') + '</tbody></table></div>' +
       (rows.length > shown.length ? '<div class="show-more"><button type="button" class="btn" data-action="cli-more">Show more · ' + (rows.length - shown.length) + ' left</button></div>' : '') + '</section>';
     return h;
@@ -188,10 +186,10 @@
   // ---- Invoices ------------------------------------------------------------
   S.invFilter = 'all'; S.invPage = 1;
   function invState(i) {
-    if (i.paidAt) return { key: 'paid', html: '<span class="tag tag-green">' + icon('check') + 'Paid</span>' };
+    if (i.paidAt) return { key: 'paid', html: '<span class="paid-txt">Paid</span>' };
     if (i.dueDate && i.dueDate < TODAY) return { key: 'overdue', html: '<span class="tag tag-red">Overdue · ' + L.fmtDay(i.dueDate) + '</span>' };
     if (i.dueDate) return { key: 'unpaid', html: '<span class="tag tag-amber">Due ' + L.fmtDay(i.dueDate) + '</span>' };
-    return { key: 'unpaid', html: '<span class="tag tag-steel">Not paid</span>' };
+    return { key: 'unpaid', html: '<span class="cell-sub">Not paid</span>' };
   }
   V.invoices = function () {
     var all = S.invoices.slice().sort(function (a, b) { return b.number.localeCompare(a.number); });
@@ -234,8 +232,8 @@
     var c = L.cli(j), v = L.veh(j), co = S.company;
     return '<div class="doc"><div class="doc-top"><div><div class="doc-co">' + esc(co.name) + '</div><div class="doc-small">' + co.address.map(esc).join(', ') + '<br>' + esc(co.phone) + ' · ' + esc(co.email) + '<br>VAT ' + esc(co.vatNumber) + '</div></div>' +
       '<div class="doc-title"><b>Invoice</b><span class="mono">' + i.number + '</span>' + (i.paidAt ? '<br><span class="paid-stamp">PAID</span>' : '') + '</div></div>' +
-      '<div class="doc-cols"><div><h4>Bill to</h4>' + esc(c.company || c.name) + '<br><span class="doc-small">' + (c.address ? c.address.map(esc).join('<br>') : esc(c.email || c.phone)) + '</span></div>' +
-      '<div><h4>Vehicle</h4>' + esc(j.plate) + '<br><span class="doc-small">' + esc(L.carName(v)) + '</span></div><div><h4>Dates</h4><span class="doc-small">Issued ' + L.fmtDate(i.issuedAt) + '<br>' + (i.dueDate ? 'Due ' + L.fmtDate(i.dueDate) : 'Due on collection') + '</span></div></div>' +
+      '<div class="doc-cols"><div><h3>Bill to</h3>' + esc(c.company || c.name) + '<br><span class="doc-small">' + (c.address ? c.address.map(esc).join('<br>') : esc(c.email || c.phone)) + '</span></div>' +
+      '<div><h3>Vehicle</h3>' + esc(j.plate) + '<br><span class="doc-small">' + esc(L.carName(v)) + '</span></div><div><h3>Dates</h3><span class="doc-small">Issued ' + L.fmtDate(i.issuedAt) + '<br>' + (i.dueDate ? 'Due ' + L.fmtDate(i.dueDate) : 'Due on collection') + '</span></div></div>' +
       '<table class="table"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Each</th><th class="r">Amount</th></tr></thead><tbody>' + i.lines.map(function (l) { return '<tr><td>' + esc(l.title) + '</td><td class="r money">' + l.qty + '</td><td class="r money">' + money(l.unit) + '</td><td class="r money">' + money(l.total) + '</td></tr>'; }).join('') + '</tbody></table>' +
       '<div class="doc-totals"><div class="sum-row"><span>Subtotal</span><b>' + money(i.sub) + '</b></div><div class="sum-row"><span>VAT 20%</span><b>' + money(i.vat) + '</b></div><div class="sum-row total"><span>Total</span><b>' + money(i.total) + '</b></div></div>' +
       '<p class="doc-foot">' + esc(co.invoiceFooter) + ' Company no. ' + esc(co.companyNumber) + '.</p></div>';
@@ -250,15 +248,15 @@
     var body;
     if (m.kind === 'invoice') {
       var i = L.invoice(m.invoiceId);
-      body = '<h3>Your invoice for ' + esc(i.plate) + '</h3><p>Hi ' + esc(name) + ',</p><p>Thanks for bringing your ' + esc(L.carName(L.veh(j))) + ' to us. Your invoice <b>' + i.number + '</b> for <b>' + money(i.total) + '</b> (including ' + money(i.vat) + ' VAT) is attached.</p>' +
+      body = '<h2>Your invoice for ' + esc(i.plate) + '</h2><p>Hi ' + esc(name) + ',</p><p>Thanks for bringing your ' + esc(L.carName(L.veh(j))) + ' to us. Your invoice <b>' + i.number + '</b> for <b>' + money(i.total) + '</b> (including ' + money(i.vat) + ' VAT) is attached.</p>' +
         (j.status === 'ready' ? '<p>Your car is ready to collect. We’re open until 4pm today.</p>' : '') + (i.dueDate && !i.paidAt ? '<p>Payment is due by ' + L.fmtLong(i.dueDate) + '.</p>' : '') +
         '<span class="email-attach">' + icon('file') + m.attachment + '</span>';
     } else if (m.kind === 'ready') {
-      body = '<h3>' + esc(j.plate) + ' is ready to collect</h3><p>Hi ' + esc(name) + ',</p><p>Good news: the work on your ' + esc(L.carName(L.veh(j))) + ' is finished and it’s ready for you. Come in any time before 4pm; we’ll go through what we did when you pick it up.</p>';
+      body = '<h2>' + esc(j.plate) + ' is ready to collect</h2><p>Hi ' + esc(name) + ',</p><p>Good news: the work on your ' + esc(L.carName(L.veh(j))) + ' is finished and it’s ready for you. Come in any time before 4pm; we’ll go through what we did when you pick it up.</p>';
     } else if (m.kind === 'booking') {
-      body = '<h3>You’re booked in</h3><p>Hi ' + esc(name) + ',</p><p>Thanks for booking with us. Here are the details:</p><p><b>' + esc(j.plate) + '</b> · ' + esc(j.service) + '<br>' + L.fmtLong(j.date) + (j.time ? ' at ' + j.time : '') + '</p><p>Drop the car at Unit 3, Fellgate Yard. If anything changes, just reply to this email or ring us on 01632 960418.</p>';
+      body = '<h2>You’re booked in</h2><p>Hi ' + esc(name) + ',</p><p>Thanks for booking with us. Here are the details:</p><p><b>' + esc(j.plate) + '</b> · ' + esc(j.service) + '<br>' + L.fmtLong(j.date) + (j.time ? ' at ' + j.time : '') + '</p><p>Drop the car at Unit 3, Fellgate Yard. If anything changes, just reply to this email or ring us on 01632 960418.</p>';
     } else {
-      body = '<h3>Service history for ' + esc(m.plate) + '</h3><p>Hi,</p><p>As promised, the full service history we hold for this vehicle is attached.</p><span class="email-attach">' + icon('file') + esc(m.attachment) + '</span>';
+      body = '<h2>Service history for ' + esc(m.plate) + '</h2><p>Hi,</p><p>As promised, the full service history we hold for this vehicle is attached.</p><span class="email-attach">' + icon('file') + esc(m.attachment) + '</span>';
     }
     return '<div class="email-card">' + brand + body + '<p class="email-foot">Calder &amp; Price Motors · Unit 3, Fellgate Yard, Kendal LA9 6QZ · 01632 960418<br>Sent with Liftbay</p></div>';
   }
@@ -323,7 +321,7 @@
   function spark(days) {
     var w = 220, h = 34, max = Math.max.apply(null, days.map(function (d) { return d.v; }));
     var pts = days.map(function (d, i) { return (i / (days.length - 1) * w).toFixed(1) + ',' + (h - d.v / max * (h - 4) - 2).toFixed(1); }).join(' ');
-    return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="34" preserveAspectRatio="none" aria-hidden="true"><polyline points="' + pts + '" fill="none" stroke="#C9F03E" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
+    return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="34" preserveAspectRatio="none" aria-hidden="true"><polyline points="' + pts + '" fill="none" stroke="#0F6E66" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
   }
 
   function dayChart(days) {
@@ -348,11 +346,11 @@
     return { svg: s + '</svg>', avg: avg };
   }
 
-  function hbars(rows, valueKey, fmt, labelW) {
+  function hbars(rows, valueKey, fmt, labelW, label) {
     var narrow = window.innerWidth <= 760;
     var W = narrow ? 320 : 520, rowH = 38, pl = narrow ? Math.min(labelW || 150, 128) : labelW || 150, pr = 64, H = rows.length * rowH;
     var max = Math.max.apply(null, rows.map(function (r) { return r[valueKey]; }));
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">';
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(label + ': ' + rows.map(function (r) { return r.name + ' ' + fmt(r[valueKey]); }).join(', ')) + '">';
     rows.forEach(function (r, i) {
       var y = i * rowH, bw = Math.max(4, (W - pl - pr) * r[valueKey] / max);
       var tip = r.tip || (r.name + ': ' + fmt(r[valueKey]));
@@ -391,10 +389,10 @@
     h += chartPanel('rev', 'Revenue by day', 'Invoiced each working day in October, ex VAT', dc.svg,
       '<table class="table"><thead><tr><th>Day</th><th class="r">Revenue ex VAT</th></tr></thead><tbody>' + R.days.map(function (d) { return '<tr><td>' + L.fmtDay(d.d) + '</td><td class="r money">' + money(d.v) + '</td></tr>'; }).join('') + '</tbody></table>',
       '<div class="legend"><span><i></i>Invoiced</span><span><i class="hi"></i>Today so far</span><span><i class="avg"></i>Daily average ' + L.money0(dc.avg) + '</span></div><span>Best day: ' + L.fmtDay(R.days.slice().sort(function (a, b) { return b.v - a.v; })[0].d) + '</span>', true);
-    h += chartPanel('svc', 'Top 5 services', 'Finished jobs this month', hbars(R.services.map(function (s) { return { name: s.name, n: s.n, tip: s.name + ': ' + s.n + ' jobs, ' + L.money0(s.v) }; }), 'n', function (v) { return v + ' jobs'; }),
+    h += chartPanel('svc', 'Top 5 services', 'Finished jobs this month', hbars(R.services.map(function (s) { return { name: s.name, n: s.n, tip: s.name + ': ' + s.n + ' jobs, ' + L.money0(s.v) }; }), 'n', function (v) { return v + ' jobs'; }, null, 'Top 5 services this month'),
       '<table class="table"><thead><tr><th>Service</th><th class="r">Jobs</th><th class="r">Revenue</th></tr></thead><tbody>' + R.services.map(function (s) { return '<tr><td>' + esc(s.name) + '</td><td class="r money">' + s.n + '</td><td class="r money">' + money(s.v) + '</td></tr>'; }).join('') + '</tbody></table>',
       'Revenue from these five: ' + L.money0(R.services.reduce(function (s, x) { return s + x.v; }, 0)));
-    h += chartPanel('mech', 'Jobs per mechanic', 'Jobs started this month', hbars(R.mech.map(function (m) { return { name: m.name, n: m.n, tip: m.name + ': ' + m.n + ' jobs, ' + m.fin + ' finished, ' + m.hrs + ' ramp hours' }; }), 'n', function (v) { return v + ' jobs'; }, 120),
+    h += chartPanel('mech', 'Jobs per mechanic', 'Jobs started this month', hbars(R.mech.map(function (m) { return { name: m.name, n: m.n, tip: m.name + ': ' + m.n + ' jobs, ' + m.fin + ' finished, ' + m.hrs + ' ramp hours' }; }), 'n', function (v) { return v + ' jobs'; }, 120, 'Jobs per mechanic this month'),
       '<table class="table"><thead><tr><th>Mechanic</th><th class="r">Jobs</th><th class="r">Finished</th><th class="r">Ramp hours</th></tr></thead><tbody>' + R.mech.map(function (m) { return '<tr><td>' + esc(m.name) + '</td><td class="r money">' + m.n + '</td><td class="r money">' + m.fin + '</td><td class="r money">' + m.hrs + '</td></tr>'; }).join('') + '</tbody></table>',
       R.mech.map(function (m) { return esc(m.name.split(' ')[0]) + ' ' + m.fin + ' finished'; }).join(' · '));
     h += '<section class="panel chart chart-wide" aria-labelledby="ramps-h"><div class="panel-head"><div><h2 id="ramps-h">Ramp hours used</h2><p class="panel-note">Hours with a car on each ramp, against ' + R.ramps[0].avail + ' open hours this month (to yesterday)</p></div></div>' +

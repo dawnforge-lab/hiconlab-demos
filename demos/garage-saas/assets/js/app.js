@@ -21,11 +21,11 @@
   try { var savedCol = localStorage.getItem('liftbay.board.col'); if (savedCol) S.mobileCol = savedCol; } catch (e) { /* storage blocked */ }
 
   var COLS = [
-    { id: 'new', label: 'Arriving today', short: 'Arriving', color: 'var(--steel)' },
-    { id: 'in_progress', label: 'In progress', short: 'In progress', color: 'var(--cobalt)' },
-    { id: 'waiting_parts', label: 'Waiting parts', short: 'Waiting', color: 'var(--plum)' },
-    { id: 'ready', label: 'Ready', short: 'Ready', color: 'var(--green)' },
-    { id: 'delivered', label: 'Delivered', short: 'Delivered', color: 'var(--stone)' },
+    { id: 'new', label: 'Arriving today', short: 'Arriving' },
+    { id: 'in_progress', label: 'In progress', short: 'In progress' },
+    { id: 'waiting_parts', label: 'Waiting parts', short: 'Waiting' },
+    { id: 'ready', label: 'Ready', short: 'Ready' },
+    { id: 'delivered', label: 'Delivered', short: 'Delivered' },
   ];
   function colLabel(id) { var c = COLS.find(function (x) { return x.id === id; }); return c ? c.label : id; }
 
@@ -41,6 +41,7 @@
   function fmtDay(s) { var d = dateOf(s); return DAYS[d.getDay()].slice(0, 3) + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3); }
   function fmtLong(s) { var d = dateOf(s); return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear(); }
   function fmtTime(s) { return s ? s.slice(11, 16) : ''; }
+  function fmtHead(s) { var d = dateOf(s); return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()]; }
   function fmtWhen(s) { if (!s) return ''; return (s.slice(0, 10) === TODAY ? 'Today' : fmtDay(s)) + ', ' + fmtTime(s); }
   function halves(h) { var w = Math.floor(h), f = h - w; return f ? (w ? w : '') + '½' : String(w); }
   function hoursTxt(h) { return halves(h) + '\u00a0h'; }
@@ -212,6 +213,7 @@
     var main = document.getElementById('main');
     var fk = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.fk : null;
     var html = views[route.name](route.param);
+    closeMenu();
     main.innerHTML = '<div class="view">' + html + footer() + '</div>';
     if (!opts.fresh || !painted) main.firstChild.style.animation = 'none';
     painted = true;
@@ -236,30 +238,22 @@
   function commit() { render(); }
 
   // ---- Board ---------------------------------------------------------------
-  function rampArt(hasCar) {
-    return '<svg class="ramp-art" viewBox="0 0 92 104" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">' +
-      '<rect x="2" y="2" width="88" height="100" rx="7" stroke-dasharray="3 5"/>' +
-      '<rect x="5" y="44" width="8" height="16" rx="1.5" fill="currentColor" stroke="none"/><rect x="79" y="44" width="8" height="16" rx="1.5" fill="currentColor" stroke="none"/>' +
-      (hasCar
-        ? '<path d="M13 47 31 30M13 57l18 17M79 47 61 30M79 57 61 74"/>' +
-          '<g class="car" stroke-width="1.6"><rect x="27" y="12" width="38" height="80" rx="13" fill="#24282E"/><path d="M31 35c9-5 21-5 30 0M31 70c9 4 21 4 30 0"/><path d="M33 38v29M59 38v29" opacity=".55"/><path d="M27 31h-3M65 31h3"/></g>'
-        : '<path d="M13 49h14M13 55h14M79 49H65M79 55H65"/>') +
-      '</svg>';
-  }
-
+  // A calm ramps summary: one card, three cells, a thin bar against planned time.
   function rampTile(r) {
     var j = rampJob(r);
-    if (!j) return '<div class="ramp is-free"><div class="ramp-body"><div class="ramp-head"><span class="ramp-dot"></span>RAMP ' + r + '</div><div class="ramp-free">Free</div><div class="ramp-meta">Ready for the next car</div></div>' + rampArt(false) + '</div>';
-    var v = veh(j), el = elapsed(j), over = isOver(j), waiting = j.status === 'waiting_parts';
-    var pct = Math.min(100, Math.round(el / (j.estHours * 60) * 100));
+    if (!j) return '<div class="ramp is-free"><div class="ramp-head">Ramp ' + r + '</div><div class="ramp-free">Free</div><div class="ramp-meta">Ready for the next car</div></div>';
+    var el = elapsed(j), over = isOver(j), waiting = j.status === 'waiting_parts';
+    var pct = Math.max(3, Math.min(100, Math.round(el / (j.estHours * 60) * 100)));
     var cls = 'ramp' + (over ? ' is-over' : '') + (waiting ? ' is-waiting' : '') + (S.rampFlash === r ? ' is-filling' : '');
+    var flag = waiting ? 'Waiting parts' : over ? 'Over its ' + hoursTxt(j.estHours) : 'Planned ' + hoursTxt(j.estHours);
     return '<a class="' + cls + '" href="#/job/' + j.id + '" data-ramp="' + r + '">' +
-      '<div class="ramp-body"><div class="ramp-head"><span class="ramp-dot"></span>RAMP ' + r + '</div>' +
-      '<div class="ramp-row">' + plate(j.plate, 'sm') + '<span class="ramp-time" data-elapsed="' + j.id + '">' + durTxt(el) + '</span></div>' +
-      (waiting ? '<div class="ramp-state">Waiting parts · ' + esc(j.waitReason || 'Waiting') + '</div>' : over ? '<div class="ramp-state">Over its ' + hoursTxt(j.estHours) + '</div>' : '') +
-      '<div class="ramp-meta"><b>' + esc(person(j.mechanic) ? person(j.mechanic).name : 'No mechanic') + '</b> · ' + esc(j.service) + '</div>' +
-      '<div class="ramp-track" aria-hidden="true"><i style="width:' + pct + '%"></i></div></div>' + rampArt(true) + '</a>';
+      '<div class="ramp-head">Ramp ' + r + '<span class="ramp-flag">' + flag + '</span></div>' +
+      '<div class="ramp-row">' + plate(j.plate, 'sm') + '<span class="ramp-time" data-elapsed="' + j.id + '">' + rampTime(el) + '</span></div>' +
+      '<div class="ramp-meta"><b>' + esc(person(j.mechanic) ? person(j.mechanic).name : 'No mechanic') + '</b> · ' + esc(waiting ? (j.waitReason || 'Waiting') : j.service) + '</div>' +
+      '<div class="ramp-track" aria-hidden="true"><i style="width:' + pct + '%"></i></div></a>';
   }
+
+  function rampTime(min) { return min < 1 ? 'Just started' : durTxt(min); }
 
   function whenChip(j, col) {
     if (col === 'new') {
@@ -269,41 +263,43 @@
     }
     if (col === 'delivered') return '<span class="card-when" title="Handed over">' + fmtTime(j.deliveredAt) + '</span>';
     var d = daysIn(j);
-    return '<span class="card-when' + (d >= 5 ? ' is-late' : '') + '" title="In the workshop since ' + fmtDay(j.arrivedAt || j.date) + '">' + (d === 0 ? 'today' : d + ' d') + '</span>';
+    if (d === 0) return '';
+    return '<span class="card-when' + (d >= 5 ? ' is-late' : '') + '" title="In the workshop since ' + fmtDay(j.arrivedAt || j.date) + '">' + d + ' d</span>';
   }
 
   function cardHTML(j) {
     var v = veh(j), c = cli(j), col = j.status;
-    var badges = [];
-    if (col === 'new' && c.noShows) badges.push('<span class="tag tag-amber">' + plural(c.noShows, 'previous no-show') + '</span>');
-    if (j.reviewNote) badges.push('<span class="tag tag-amber" title="' + esc(j.reviewNote) + '">' + icon('alert') + 'Check details</span>');
-    if (j.noCharge) badges.push('<span class="tag tag-stone">No charge</span>');
-    if (c.type === 'business' && col !== 'delivered') badges.push('<span class="tag tag-line">' + icon('building') + 'Business</span>');
+    // One quiet line of facts instead of coloured badges.
+    var meta = [];
+    if (col === 'new' && c.noShows) meta.push(plural(c.noShows, 'previous no-show'));
+    if (j.reviewNote) meta.push('<span title="' + esc(j.reviewNote) + '">Check details</span>');
+    if (j.noCharge) meta.push('No charge');
+    if (c.type === 'business' && col !== 'delivered' && col !== 'ready') meta.push('Business');
     var req = qtyOf(partsRequested(j)), waitingParts = partsWaiting(j);
     if (col !== 'delivered' && col !== 'ready') {
-      if (req) badges.push('<span class="tag tag-plum">' + icon('box') + plural(req, 'part') + ' requested</span>');
-      else if (waitingParts && col !== 'waiting_parts') badges.push('<span class="tag tag-plum">' + icon('box') + plural(waitingParts, 'part') + ' on order</span>');
-      else if (!waitingParts && j.parts.length && (col === 'in_progress' || col === 'waiting_parts')) badges.push('<span class="tag tag-green">' + icon('check') + 'Parts arrived</span>');
-      if (unpricedOf(j)) badges.push('<span class="tag tag-amber">' + unpricedOf(j) + ' to price</span>');
+      if (req) meta.push(plural(req, 'part') + ' requested');
+      else if (waitingParts && col !== 'waiting_parts') meta.push(plural(waitingParts, 'part') + ' on order');
+      else if (!waitingParts && j.parts.length && (col === 'in_progress' || col === 'waiting_parts')) meta.push('Parts arrived');
+      if (unpricedOf(j)) meta.push(unpricedOf(j) + ' to price');
     }
-    var state = '', inv = '', foot = '', alert = false;
-    if (col === 'waiting_parts') state = '<div class="card-state plum">' + icon('pause') + '<span>' + esc(j.waitReason || 'Waiting') + (j.parts.some(function (p) { return p.eta && p.status === 'ordered'; }) ? ' · due ' + esc(j.parts.find(function (p) { return p.eta; }).eta) : '') + '</span></div>';
+    var state = '', inv = '', foot = '';
+    if (col === 'waiting_parts') state = '<div class="card-state">' + icon('pause') + '<span>' + esc(j.waitReason || 'Waiting') + (j.parts.some(function (p) { return p.eta && p.status === 'ordered'; }) ? ' · due ' + esc(j.parts.find(function (p) { return p.eta; }).eta) : '') + '</span></div>';
     if (col === 'ready') {
       if (needsInvoice(j)) {
-        alert = true;
-        state = '<div class="card-state red">' + icon('receipt') + '<span>Work done · ' + (j.invoiceIds.length ? 'additional invoice needed' : 'invoice needed') + (unpricedOf(j) ? ' · ' + unpricedOf(j) + ' to price' : '') + '</span></div>';
+        state = '<div class="card-state red">' + icon('receipt') + '<span>' + (j.invoiceIds.length ? 'Additional invoice needed' : 'Invoice needed') + (unpricedOf(j) ? ' · ' + unpricedOf(j) + ' to price' : '') + '</span></div>';
       } else if (unpaidOf(j).length) {
-        state = '<div class="card-state green">' + icon('checkCircle') + '<span>Invoiced · waiting for the client</span></div>';
+        state = '<div class="card-state green">' + icon('checkCircle') + '<span>Invoiced · waiting for payment</span></div>';
       } else {
         state = '<div class="card-state green">' + icon('checkCircle') + '<span>' + (j.noCharge && !j.invoiceIds.length ? 'No charge' : 'Paid') + ' · ready to hand over</span></div>';
       }
     }
-    if ((col === 'ready' || col === 'delivered') && j.invoiceIds.length) inv = '<div class="card-inv">' + icon('receipt') + invoicesOf(j).map(function (i) { return i.number; }).join(', ') + '</div>';
+    if ((col === 'ready' || col === 'delivered') && j.invoiceIds.length) inv = '<div class="card-inv">' + invoicesOf(j).map(function (i) { return i.number; }).join(', ') + '</div>';
 
     if (col === 'new') {
       if (!j.arrivedAt) {
-        foot = '<button type="button" class="btn btn-primary btn-sm" data-action="arrived" data-id="' + j.id + '" data-fk="arr-' + j.id + '">' + icon('check') + 'Arrived</button>';
-        if (j.time && U.hm(nowMin()) > j.time) state = '<div class="card-late"><span title="Booked for ' + j.time + ', not here yet">Late</span><span class="card-late-acts"><button type="button" class="link-btn" data-action="reschedule" data-id="' + j.id + '">Reschedule</button><button type="button" class="link-btn" data-action="no-show" data-id="' + j.id + '">No-show</button></span></div>';
+        foot = '<button type="button" class="btn btn-sm" data-action="arrived" data-id="' + j.id + '" data-fk="arr-' + j.id + '">' + icon('check') + 'Arrived</button>';
+        // One action on the card: Reschedule and No-show live in its menu.
+        if (j.time && U.hm(nowMin()) > j.time) state = '<div class="card-late">Late, not here yet</div>';
       }
       else foot = '<span class="card-foot-note ok">' + icon('check') + 'Arrived ' + fmtTime(j.arrivedAt) + ' · waiting for a ramp</span>';
     } else if (col === 'in_progress') {
@@ -313,22 +309,22 @@
     } else if (col === 'ready') {
       if (needsInvoice(j)) foot = '<a class="btn btn-sm" href="#/job/' + j.id + '" data-fk="inv-' + j.id + '">' + icon('receipt') + 'Invoice</a>';
       else if (unpaidOf(j).length) {
-        foot = '<button type="button" class="btn btn-primary btn-sm" data-action="pay" data-id="' + j.id + '" data-fk="pay-' + j.id + '">' + icon('card') + 'Mark as paid</button>';
+        foot = '<button type="button" class="btn btn-sm" data-action="pay" data-id="' + j.id + '" data-fk="pay-' + j.id + '">' + icon('card') + 'Mark as paid</button>';
         if (c.type === 'business' && c.termsDays) foot += '<button type="button" class="btn btn-sm" data-action="handover-terms" data-id="' + j.id + '">Hand over · pay by ' + fmtDay(unpaidOf(j)[0].dueDate) + '</button>';
-      } else foot = '<button type="button" class="btn btn-go btn-sm" data-action="deliver" data-id="' + j.id + '" data-fk="del-' + j.id + '">' + icon('handover') + 'Mark as delivered</button>';
+      } else foot = '<button type="button" class="btn btn-sm" data-action="deliver" data-id="' + j.id + '" data-fk="del-' + j.id + '">' + icon('handover') + 'Mark as delivered</button>';
     } else if (col === 'delivered') {
       var unpaid = unpaidOf(j);
-      foot = unpaid.length && unpaid[0].dueDate ? '<span class="card-foot-note" style="color:var(--amber);font-weight:650">Not paid · due ' + fmtDay(unpaid[0].dueDate) + '</span>' : '<span class="card-foot-note">Handed over ' + fmtTime(j.deliveredAt) + '</span>';
+      foot = unpaid.length && unpaid[0].dueDate ? '<span class="card-foot-note" style="color:var(--amber);font-weight:550">Not paid · due ' + fmtDay(unpaid[0].dueDate) + '</span>' : '<span class="card-foot-note">Handed over ' + fmtTime(j.deliveredAt) + '</span>';
     }
     var moveBtn = '<button type="button" class="move-btn" data-action="move-menu" data-id="' + j.id + '" aria-haspopup="menu" aria-expanded="false" data-fk="mv-' + j.id + '" aria-label="Move ' + esc(j.plate) + ' to another column">' + icon('move') + '<span aria-hidden="true">Move</span></button>';
 
-    var cls = 'card' + (alert ? ' is-alert' : '') + (col === 'delivered' ? ' is-delivered' : '') + (S.flash === j.id ? ' is-new' : '');
+    var cls = 'card' + (col === 'delivered' ? ' is-delivered' : '') + (S.flash === j.id ? ' is-new' : '');
     return '<article class="' + cls + '" data-id="' + j.id + '" data-status="' + col + '">' +
       '<div class="card-top"><div class="card-id">' + plate(j.plate) + (j.mechanic && col !== 'new' ? avatar(j.mechanic) : '') + '</div>' + whenChip(j, col) + '</div>' +
       '<a class="card-title" href="#/job/' + j.id + '" draggable="false">' + esc(carName(v)) + '<span class="sr-only">, ' + esc(j.plate) + '</span></a>' +
       '<p class="card-service">' + esc(j.service) + '</p>' +
-      (col !== 'ready' && col !== 'delivered' ? '<p class="card-problem">' + esc(j.problem) + '</p>' : '') +
-      '<div class="card-badges">' + badges.join('') + '</div>' + state + inv +
+      (col === 'new' ? '<p class="card-problem">' + esc(j.problem) + '</p>' : '') +
+      '<p class="card-meta">' + meta.join(' · ') + '</p>' + state + inv +
       '<div class="card-foot">' + foot + moveBtn + '</div></article>';
   }
 
@@ -356,18 +352,19 @@
     var busy = [1, 2, 3].filter(rampJob).length;
     var cols = boardColumns();
     var older = S.history.filter(function (j) { return j.status === 'delivered'; }).length + S.jobs.filter(function (j) { return j.status === 'delivered' && !onBoard(j); }).length;
-    var al = alerts();
+    // Over-time shows on its ramp below, so the attention line only carries what needs doing.
+    var al = alerts().filter(function (a) { return a.key !== 'over'; });
     var h = '';
-    h += '<header class="page-head"><div><p class="eyebrow" data-clock>' + fmtLong(TODAY) + ' · ' + U.hm(nowMin()) + '</p><div class="head-inline"><h1 class="page-title">Workshop</h1>' +
-      '<p class="page-sub"><b>' + toArrive + '</b> still to arrive today · <b>' + ahead + '</b> upcoming bookings</p></div></div>' +
+    h += '<header class="page-head"><div><h1 class="page-title">Workshop</h1>' +
+      '<p class="page-sub"><span data-clock>' + fmtHead(TODAY) + ' · ' + U.hm(nowMin()) + '</span> · <b>' + toArrive + '</b> still to arrive · <b>' + ahead + '</b> upcoming bookings</p></div>' +
       '<div class="head-actions"><label class="search"><span class="sr-only">Find a car on the board</span>' + icon('search') + '<input type="search" id="board-search" data-fk="board-search" placeholder="Plate, car or client" value="' + esc(S.query) + '" autocomplete="off"></label>' +
       '<button type="button" class="btn" data-action="walk-in">' + icon('walk') + 'Walk-in</button></div></header>';
     h += '<div class="alerts" aria-label="Needs attention">' + al.map(function (a) { return '<div class="alert alert-' + a.kind + '" data-alert="' + a.key + '">' + icon(a.icon) + '<p>' + a.html + '</p></div>'; }).join('') + '</div>';
     if (al.length) h += '<nav class="alert-pills" aria-label="Needs attention (short)">' + al.map(function (a) { return '<a class="alert-pill alert-' + a.kind + '" href="#/job/' + a.first.id + '">' + icon(a.icon) + '<span>' + esc(a.short) + '</span></a>'; }).join('') + '</nav>';
-    h += '<section class="bay dk" aria-label="Ramps"><div class="bay-intro"><div><div class="bay-label">Ramps in use</div><div class="bay-count">' + busy + '<span> / 3</span></div></div><p class="bay-hint">Live from the workshop. Times count from when the car went up.</p></div>' + [1, 2, 3].map(rampTile).join('') + '</section>';
-    h += '<section aria-labelledby="board-h"><div class="board-tools"><h2 id="board-h">Today’s board</h2><p class="board-hint">' + icon('move') + 'Drag a card to move it, or use Move on the card</p></div>';
+    h += '<section class="ramps" aria-labelledby="ramps-h"><div class="section-head"><h2 id="ramps-h">Ramps</h2><span class="section-note">' + busy + ' of 3 in use · timed from when the car went up</span></div><div class="ramps-grid">' + [1, 2, 3].map(rampTile).join('') + '</div></section>';
+    h += '<section aria-labelledby="board-h"><div class="board-tools"><h2 id="board-h">Today’s board</h2><p class="board-hint">' + icon('move') + 'Drag a card, or use Move</p></div>';
     h += '<div class="col-switch" role="tablist" aria-label="Board columns">' + COLS.map(function (c) {
-      return '<button type="button" role="tab" id="tab-' + c.id + '" aria-controls="col-' + c.id + '" aria-selected="' + (S.mobileCol === c.id) + '" data-action="show-col" data-col="' + c.id + '"><i style="background:' + c.color + '"></i>' + c.short + ' <span class="n">' + cols[c.id].length + '</span></button>';
+      return '<button type="button" role="tab" id="tab-' + c.id + '" aria-controls="col-' + c.id + '" aria-selected="' + (S.mobileCol === c.id) + '" data-action="show-col" data-col="' + c.id + '"><i class="dot dot-' + c.id + '"></i>' + c.short + ' <span class="n">' + cols[c.id].length + '</span></button>';
     }).join('') + '</div>';
     h += '<div class="board-scroll"><div class="board">' + COLS.map(function (c) {
       var list = cols[c.id];
@@ -459,9 +456,26 @@
     S.flash = j.id;
     if (from !== to && window.innerWidth <= 760) { S.mobileCol = to; }
     commit();
+    revealMove(j, o.ramp || o.toRamp);
     toast(esc(msg));
     announce(msg);
     return true;
+  }
+
+  // On a phone the board shows one column at a time, so bring the result of a move into view:
+  // the ramps strip slides to the ramp that filled, the column tab to the new column, and the
+  // page scrolls the moved card to just below the sticky column tabs.
+  function revealMove(j, ramp) {
+    if (window.innerWidth > 760 || route.name !== 'board') return;
+    var smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    var strip = document.querySelector('.ramps-grid'), cell = ramp && document.querySelector('.ramp[data-ramp="' + ramp + '"]');
+    if (strip && cell) strip.scrollTo({ left: cell.offsetLeft - 16, behavior: smooth });
+    var sw = document.querySelector('.col-switch'), tab = document.getElementById('tab-' + j.status);
+    if (sw && tab) sw.scrollTo({ left: tab.offsetLeft - 16, behavior: smooth });
+    var card = document.querySelector('.card[data-id="' + j.id + '"]');
+    if (!card) return;
+    var bars = 58 + (sw ? sw.offsetHeight : 0) + 12;
+    window.scrollTo({ top: Math.max(0, card.getBoundingClientRect().top + window.scrollY - bars), behavior: smooth });
   }
 
   function markArrived(j) {
@@ -494,7 +508,8 @@
     var id = 'dlg-' + Date.now();
     scrim.innerHTML = '<div class="dialog ' + (o.drawer ? 'drawer ' : '') + (o.cls || '') + '" role="dialog" aria-modal="true" aria-labelledby="' + id + '">' +
       '<div class="dialog-head"><div><h2 id="' + id + '">' + o.title + '</h2>' + (o.sub ? '<p>' + o.sub + '</p>' : '') + '</div><button type="button" class="icon-btn" data-close aria-label="Close">' + icon('x') + '</button></div>' +
-      '<div class="dialog-body">' + (o.body || '') + '</div>' + (o.foot ? '<div class="dialog-foot">' + o.foot + '</div>' : '') + '</div>';
+      // A document preview scrolls without any controls inside, so its body takes focus itself.
+      '<div class="dialog-body"' + (/dialog-doc/.test(o.cls || '') ? ' tabindex="0" role="region" aria-label="Invoice"' : '') + '>' + (o.body || '') + '</div>' + (o.foot ? '<div class="dialog-foot">' + o.foot + '</div>' : '') + '</div>';
     document.body.appendChild(scrim);
     var dlg = scrim.firstChild;
     var api = {
@@ -665,9 +680,14 @@
     el.className = 'menu'; el.setAttribute('role', 'menu'); el.setAttribute('aria-label', 'Move ' + j.plate + ' to');
     el.innerHTML = '<div class="menu-title">Move ' + esc(j.plate) + ' to</div>' + COLS.filter(function (c) { return c.id !== j.status; }).map(function (c) {
       var why = moveBlock(j, c.id);
-      return '<button type="button" role="menuitem" data-to="' + c.id + '"' + (why ? ' aria-disabled="true"' : '') + '><span class="dot" style="background:' + c.color + '"></span>' + c.label + (why ? '<small>' + why + '</small>' : '') + '</button>';
+      return '<button type="button" role="menuitem" data-to="' + c.id + '"' + (why ? ' aria-disabled="true"' : '') + '><span class="dot dot-' + c.id + '"></span>' + c.label + (why ? '<small>' + why + '</small>' : '') + '</button>';
     }).join('');
-    document.body.appendChild(el);
+    // A booking that hasn't turned up can also be moved to another day or marked as a no-show.
+    if (j.status === 'new' && !j.arrivedAt && !j.walkIn) {
+      el.innerHTML += '<div class="menu-sep" role="separator"></div><button type="button" role="menuitem" data-action="reschedule" data-id="' + j.id + '">' + icon('calendar') + 'Reschedule…</button>' +
+        (j.time && U.hm(nowMin()) > j.time ? '<button type="button" role="menuitem" data-action="no-show" data-id="' + j.id + '">' + icon('x') + 'Mark as no-show</button>' : '');
+    }
+    document.getElementById('main').appendChild(el); // inside the main landmark; it is fixed-positioned
     var r = btn.getBoundingClientRect(), w = el.offsetWidth, h = el.offsetHeight;
     var left = Math.min(window.innerWidth - w - 12, Math.max(12, r.right - w));
     var top = r.bottom + 6 + h > window.innerHeight - 8 ? r.top - h - 6 : r.bottom + 6;
@@ -675,7 +695,14 @@
     btn.setAttribute('aria-expanded', 'true');
     var items = Array.prototype.slice.call(el.querySelectorAll('button'));
     items[0].focus({ preventScroll: true });
+    // Keyboard focus follows the mouse, so only one item ever looks selected.
+    el.addEventListener('mousemove', function (e) {
+      el.classList.remove('is-kbd');
+      var it = e.target.closest && e.target.closest('button');
+      if (it && document.activeElement !== it) it.focus({ preventScroll: true });
+    });
     function onKey(e) {
+      if (/^(Arrow|Home|End)/.test(e.key)) el.classList.add('is-kbd');
       var i = items.indexOf(document.activeElement);
       if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeMenu(); btn.focus(); }
       else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
@@ -772,7 +799,7 @@
         '<td class="r money c-qty">' + l.qty + '</td>' +
         '<td class="r money c-cost">' + (isPart ? (unpriced ? '—' : money(l.cost)) : '—') + '</td>' +
         '<td class="r money c-mark">' + (isPart ? l.markup + '%' : '—') + '</td>' +
-        '<td class="r money c-each">' + (unpriced ? '<span class="tag tag-amber">Needs a price</span>' : (l.qty > 1 ? l.qty + ' × ' : '') + money(U.unitPrice(l))) + '</td>' +
+        '<td class="r money c-each">' + (unpriced ? '<span class="flag flag-amber">Needs a price</span>' : (l.qty > 1 ? l.qty + ' × ' : '') + money(U.unitPrice(l))) + '</td>' +
         '<td class="r money c-total"><b>' + (unpriced ? '—' : money(U.lineTotal(l))) + '</b></td>' +
         '<td class="r c-act">' + act + '</td></tr>';
       if (S.priceEdit === l.id) {
@@ -834,7 +861,7 @@
     var draft = U.totalsOf(priced);
     var c = cli(j);
     var h = '<section class="panel inv o3' + (need ? ' is-needed' : '') + '" id="invoice" aria-labelledby="inv-h"><div class="inv-head"><div class="panel-head"><h2 id="inv-h">' + (invs.length > 1 ? 'Invoices' : 'Invoice') + '</h2>' +
-      (free ? '<span class="tag tag-stone">No charge</span>' : need ? '<span class="tag tag-red">' + (invs.length ? 'Additional invoice needed' : 'Invoice needed') + '</span>' : invs.length && !unpaidOf(j).length ? '<span class="tag tag-green">' + icon('check') + 'Paid</span>' : invs.length ? '<span class="tag tag-amber">Waiting for payment</span>' : '<span class="tag tag-stone">Draft</span>') + '</div>';
+      (free ? '<span class="flag">No charge</span>' : need ? '<span class="flag flag-red">' + (invs.length ? 'Additional invoice needed' : 'Invoice needed') + '</span>' : invs.length && !unpaidOf(j).length ? '<span class="flag flag-ok">Paid</span>' : invs.length ? '<span class="flag flag-amber">Waiting for payment</span>' : '<span class="flag">Draft</span>') + '</div>';
     var msg;
     if (free) msg = 'No charge: warranty or goodwill work. Nothing is invoiced; the lines stay on the job for the record.';
     else if (!invs.length) msg = j.status === 'ready' ? (unpriced ? 'The car is ready. Price the workshop’s line' + (unpriced > 1 ? 's' : '') + ' first, then create the invoice.' : 'The car is ready. Check nothing’s missing, then create the invoice.') : 'You can create it once the car is on Ready. The draft below updates as lines are added.';
@@ -847,7 +874,7 @@
       trail += i.sends.length ? i.sends.map(function (s) { return '<span class="ok">' + icon('mail') + 'Sent to ' + esc(s.to) + ' · ' + fmtWhen(s.at) + '</span>'; }).join('') : '<span>' + icon('mail') + (c.email ? 'Not emailed yet' : 'No email address, give it printed') + '</span>';
       trail += i.paidAt ? '<span class="ok">' + icon('checkCircle') + 'Paid by ' + esc(i.paidBy.toLowerCase()) + ' · ' + fmtWhen(i.paidAt) + '</span>' : i.dueDate ? '<span>' + icon('clock') + 'Payment due ' + fmtDay(i.dueDate) + '</span>' : '<span>' + icon('clock') + 'Not paid yet</span>';
       if (j.status === 'delivered' && j.deliveredAt) trail += '<span class="ok">' + icon('handover') + 'Handed over · ' + fmtWhen(j.deliveredAt) + '</span>';
-      return '<div class="inv-doc dk" data-invoice="' + i.id + '"><div class="inv-no">' + icon('receipt') + i.number + '</div><div class="inv-issued">Issued ' + fmtWhen(i.issuedAt) + '</div><div class="inv-amt">' + money(i.total) + '<small>incl. VAT</small></div>' +
+      return '<div class="inv-doc" data-invoice="' + i.id + '"><div class="inv-no">' + icon('receipt') + i.number + '</div><div class="inv-issued">Issued ' + fmtWhen(i.issuedAt) + '</div><div class="inv-amt">' + money(i.total) + '<small>incl. VAT</small></div>' +
         '<div class="inv-split"><span>Subtotal <b>' + money(i.sub) + '</b></span><span>VAT 20% <b>' + money(i.vat) + '</b></span></div><div class="inv-trail">' + trail + '</div></div>';
     }).join('');
     if (!free && (pending.length || !invs.length)) {
@@ -960,9 +987,9 @@
     var t = draft ? U.totalsOf(j.items.filter(function (l) { return !l.invoiceId; })) : inv;
     return '<div class="doc"><div class="doc-top"><div><div class="doc-co">' + esc(co.name) + '</div><div class="doc-small">' + co.address.map(esc).join(', ') + '<br>' + esc(co.phone) + ' · ' + esc(co.email) + '<br>VAT ' + esc(co.vatNumber) + '</div></div>' +
       '<div class="doc-title"><b>' + (draft ? 'Draft invoice' : 'Invoice') + '</b><span class="mono">' + (draft ? 'Number given on creation' : inv.number) + '</span>' + (!draft && inv.paidAt ? '<br><span class="paid-stamp">PAID</span>' : '') + '</div></div>' +
-      '<div class="doc-cols"><div><h4>Bill to</h4>' + esc(c.company || c.name) + '<br><span class="doc-small">' + (c.address ? c.address.map(esc).join('<br>') : esc(c.email || c.phone)) + '</span></div>' +
-      '<div><h4>Vehicle</h4>' + esc(j.plate) + '<br><span class="doc-small">' + esc(carName(v)) + ' · ' + (j.mileage || v.mileage).toLocaleString('en-GB') + ' mi</span></div>' +
-      '<div><h4>Dates</h4><span class="doc-small">Issued ' + (draft ? fmtDate(TODAY) : fmtDate(inv.issuedAt)) + (inv && inv.dueDate ? '<br>Due ' + fmtDate(inv.dueDate) : '<br>Due on collection') + '</span></div></div>' +
+      '<div class="doc-cols"><div><h3>Bill to</h3>' + esc(c.company || c.name) + '<br><span class="doc-small">' + (c.address ? c.address.map(esc).join('<br>') : esc(c.email || c.phone)) + '</span></div>' +
+      '<div><h3>Vehicle</h3>' + esc(j.plate) + '<br><span class="doc-small">' + esc(carName(v)) + ' · ' + (j.mileage || v.mileage).toLocaleString('en-GB') + ' mi</span></div>' +
+      '<div><h3>Dates</h3><span class="doc-small">Issued ' + (draft ? fmtDate(TODAY) : fmtDate(inv.issuedAt)) + (inv && inv.dueDate ? '<br>Due ' + fmtDate(inv.dueDate) : '<br>Due on collection') + '</span></div></div>' +
       '<table class="table"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Each</th><th class="r">Amount</th></tr></thead><tbody>' +
       lines.map(function (l) { return '<tr><td>' + esc(l.title) + '</td><td class="r money">' + l.qty + '</td><td class="r money">' + money(l.unit) + '</td><td class="r money">' + money(l.total) + '</td></tr>'; }).join('') + '</tbody></table>' +
       '<div class="doc-totals"><div class="sum-row"><span>Subtotal</span><b>' + money(t.sub) + '</b></div><div class="sum-row"><span>VAT 20%</span><b>' + money(t.vat) + '</b></div><div class="sum-row total"><span>Total</span><b>' + money(t.total) + '</b></div></div>' +
@@ -1245,8 +1272,8 @@
 
   // Keep the clock and ramp timers moving without re-rendering the board.
   setInterval(function () {
-    document.querySelectorAll('[data-clock]').forEach(function (el) { el.textContent = fmtLong(TODAY) + ' · ' + U.hm(nowMin()); });
-    document.querySelectorAll('[data-elapsed]').forEach(function (el) { var j = job(el.dataset.elapsed); if (j) el.textContent = durTxt(elapsed(j)); });
+    document.querySelectorAll('[data-clock]').forEach(function (el) { el.textContent = fmtHead(TODAY) + ' · ' + U.hm(nowMin()); });
+    document.querySelectorAll('[data-elapsed]').forEach(function (el) { var j = job(el.dataset.elapsed); if (j) el.textContent = rampTime(elapsed(j)); });
   }, rate > 1 ? 2000 : 15000);
 
   // ---- Public bits for screens.js and tour.js ---------------------------------
