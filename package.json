@@ -11,7 +11,8 @@
     "serve": "node tools/serve.mjs",
     "vendor": "node tools/vendor.mjs",
     "check": "node tools/check.mjs",
-    "record": "node tools/record.mjs"
+    "record": "node tools/record.mjs",
+    "build": "node tools/build-site.mjs"
   },
   "devDependencies": {
     "axe-core": "4.14.0",
