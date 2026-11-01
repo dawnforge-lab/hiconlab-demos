@@ -1,5 +1,5 @@
-/* Dryside: shared helpers for both pages (clock, dates, menu). */
-window.DS = (function () {
+/* Kingfield Gym: shared helpers for both pages (clock, dates, menu). */
+window.KG = (function () {
   'use strict';
 
   var params = new URLSearchParams(location.search);
@@ -75,7 +75,7 @@ window.DS = (function () {
 
   // Opening for a date: closed (with a reason), or the staffed hours that apply.
   function dayInfo(d) {
-    var D = window.DS_DATA, key = iso(d);
+    var D = window.KG_DATA, key = iso(d);
     if (D.closed[key]) return { closed: D.closed[key] };
     var bank = D.bankHolidays.indexOf(key) !== -1;
     var dn = bank ? 7 : isoDay(d);

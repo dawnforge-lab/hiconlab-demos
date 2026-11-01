@@ -1,9 +1,9 @@
-/* Dryside memberships: the chooser. Prices come from data.js; it also checks honestly
+/* Kingfield Gym memberships: the chooser. Prices come from data.js; it also checks honestly
    whether paying as you go would be cheaper for how often you'll come. */
 (function () {
   'use strict';
 
-  var D = window.DS_DATA, U = window.DS;
+  var D = window.KG_DATA, U = window.KG;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var form = $('[data-chooser]');
   if (!form) return;

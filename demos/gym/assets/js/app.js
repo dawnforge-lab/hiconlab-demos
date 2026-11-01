@@ -1,8 +1,8 @@
-/* Dryside homepage: this week's timetable, filters, booking and the hero's "today" board. */
+/* Kingfield Gym homepage: this week's timetable, filters, booking and the hero's "today" board. */
 (function () {
   'use strict';
 
-  var D = window.DS_DATA, U = window.DS;
+  var D = window.KG_DATA, U = window.KG;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
@@ -94,7 +94,7 @@
     clearBtn.hidden = !(state.type || state.coach || state.first);
   }
 
-  function tiles(s) {
+  function placeDots(s) {
     var out = '', taken = s.taken;
     for (var i = 0; i < s.cap; i++) out += '<i class="' + (i < taken ? 'is-taken' : '') + (bookings[s.id] && !bookings[s.id].waitlist && i === taken - 1 ? ' is-you' : '') + '"></i>';
     return out;
@@ -124,7 +124,7 @@
         '<p class="row-blurb">' + esc(s.cls.blurb) + '</p></div>' +
       (s.past ? '<div class="row-spaces"></div>' :
       '<div class="row-spaces' + (n > 0 && n <= 2 ? ' is-low' : '') + (n === 0 ? ' is-full' : '') + '">' +
-        '<span class="tiles-row" aria-hidden="true">' + tiles(s) + '</span><span class="sp-text">' + spacesText(s) + '</span>' +
+        '<span class="place-dots" aria-hidden="true">' + placeDots(s) + '</span><span class="sp-text">' + spacesText(s) + '</span>' +
         '<span class="visually-hidden">, ' + s.taken + ' of ' + s.cap + ' places taken</span></div>') +
       '<div class="row-act">' + action + '</div></li>';
   }
@@ -249,7 +249,7 @@
   }
   // One arrival line per booking type, used in the confirmation, the hero card and the .ics.
   function arrival(kind, plan, s) {
-    if (kind === 'first') return 'Come 10 minutes early and ring the bell at the old ticket window. ' + s.coach.first + ' will meet you and show you round.';
+    if (kind === 'first') return 'Come 10 minutes early and say hello at the front desk. ' + s.coach.first + ' will meet you and show you round.';
     if (kind === 'member') {
       var pays = priceFor(kind, plan, s).short !== 'Included';
       return 'Doors open 15 minutes before. Tap your fob at the door' + (pays ? ' and pay £' + D.prices.dropIn + ' at the desk.' : '.');
@@ -269,7 +269,7 @@
       bodyEl.innerHTML =
         '<form class="bk-form" data-step1 novalidate>' +
         '<fieldset class="bk-choices"><legend class="bk-q">Who’s coming?</legend>' +
-        choice('bk-kind', 'first', canFirst ? 'It’s my first time at Dryside' : 'It’s my first time', canFirst ? 'Free, once per person. ' + s.coach.first + ' will meet you at the door.' : 'This class isn’t a first session.' + (firstAlt ? ' Try ' + firstAlt.cls.name + ', ' + U.shortDate(firstAlt.date) + ' at ' + firstAlt.time + '.' : ''), !canFirst) +
+        choice('bk-kind', 'first', canFirst ? 'It’s my first time at Kingfield Gym' : 'It’s my first time', canFirst ? 'Free, once per person. ' + s.coach.first + ' will meet you at the door.' : 'This class isn’t a first session.' + (firstAlt ? ' Try ' + firstAlt.cls.name + ', ' + U.shortDate(firstAlt.date) + ' at ' + firstAlt.time + '.' : ''), !canFirst) +
         choice('bk-kind', 'member', 'I’m a member', 'Tell us which membership, so we show the right price.') +
         '<fieldset class="bk-plans" data-plans hidden><legend class="bk-plans-q">Which membership?</legend>' +
           Object.keys(PLANS).map(function (k) { return choice('bk-plan', k, PLANS[k].label, priceFor('member', k, s, bk.waitlist).short, false, true); }).join('') +
@@ -358,11 +358,11 @@
   }
 
   function makeRef() {
-    if (U.tourOn) return 'DS-7Q4K';
+    if (U.tourOn) return 'KG-7Q4K';
     var chars = 'ACDEFHJKMNPRTUVWXY3479', out = '', a = new Uint32Array(4);
     (window.crypto || window.msCrypto).getRandomValues(a);
     for (var i = 0; i < 4; i++) out += chars[a[i] % chars.length];
-    return 'DS-' + out;
+    return 'KG-' + out;
   }
 
   function confirm() {
@@ -416,14 +416,14 @@
 
   function downloadIcs(s, b) {
     var start = U.ukToUtc(s.date, s.time), end = U.ukToUtc(s.date, s.end);
-    var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Dryside//Timetable//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
-      'UID:' + b.ref + '-' + s.id + '@dryside.example', 'DTSTAMP:' + U.icsStamp(new Date()), 'DTSTART:' + U.icsStamp(start), 'DTEND:' + U.icsStamp(end),
-      'SUMMARY:' + U.icsText(s.cls.name + ' at Dryside'), 'LOCATION:' + U.icsText('Dryside, The Old Baths, Kenmore Row, Leicester LE2 0ZZ'),
+    var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kingfield Gym//Timetable//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+      'UID:' + b.ref + '-' + s.id + '@kingfieldgym.example', 'DTSTAMP:' + U.icsStamp(new Date()), 'DTSTART:' + U.icsStamp(start), 'DTEND:' + U.icsStamp(end),
+      'SUMMARY:' + U.icsText(s.cls.name + ' at Kingfield Gym'), 'LOCATION:' + U.icsText('Kingfield Gym, Unit 4, Wharf Yard, Leicester LE3 0ZZ'),
       'DESCRIPTION:' + U.icsText('With ' + s.coach.first + '. Reference ' + b.ref + '. ' + priceFor(b.kind, b.plan, s).text + '. ' + arrival(b.kind, b.plan, s)),
       'END:VEVENT', 'END:VCALENDAR'].map(U.icsFold);
     var blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
     var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = 'dryside-' + s.classId + '-' + U.iso(s.date) + '.ics';
+    a.href = URL.createObjectURL(blob); a.download = 'kingfield-' + s.classId + '-' + U.iso(s.date) + '.ics';
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
   }
@@ -493,5 +493,5 @@
   renderToday();
 
   // Hooks for the tour.
-  window.DS_APP = { state: state, update: update, days: days };
+  window.KG_APP = { state: state, update: update, days: days };
 })();

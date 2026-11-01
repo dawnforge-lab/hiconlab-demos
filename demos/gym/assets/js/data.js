@@ -1,6 +1,6 @@
-/* Dryside: classes, coaches, the weekly timetable, prices and opening hours.
+/* Kingfield Gym: classes, coaches, the weekly timetable, prices and opening hours.
    Everything here is fictional. */
-window.DS_DATA = (function () {
+window.KG_DATA = (function () {
   'use strict';
 
   // Class types use the international weight-plate colours.

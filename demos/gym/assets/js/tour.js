@@ -1,4 +1,4 @@
-/* Dryside: the scripted tour (about 36 s at 1920×1080).
+/* Kingfield Gym: the scripted tour (about 37 s at 1920×1080).
    "Today" is pinned to Tuesday 3 November, 11:20 in tour mode (see common.js).
    Settled hero → this week: Thursday, Strength, Nadia → book Lifting Foundations as a
    first-timer → confirmation → back to the hero, which now shows the booking (poster). */
@@ -10,10 +10,10 @@ HiconTour.ready(async function () {
 
 HiconTour.define(async function (t) {
   await t.wait(1200);
-  await t.caption('Newcomers see a real gym and a free first session');
-  await t.moveToPoint(window.innerWidth * 0.5, window.innerHeight * 0.4, 1000);
-  await t.wait(700);
-  await t.hover('[data-today] .today-list li', { at: [0.4, 0.5], hold: 1300 });
+  await t.moveToPoint(window.innerWidth * 0.62, window.innerHeight * 0.45, 1000);
+  await t.wait(300);
+  await t.caption('Newcomers see the gym and book a free first session', { place: 'top' });
+  await t.hover('.hero-actions .btn--primary', { hold: 2600 });
 
   // This week: Thursday, Strength, Nadia.
   await t.caption('Find a class by day, type or coach in seconds');
