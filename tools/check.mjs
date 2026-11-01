@@ -1,5 +1,6 @@
 // Automated part of the quality bar. For each demo it:
-//   - loads every page listed for the demo at 375px and 1440px with all non-local requests blocked
+//   - loads every page listed for the demo at 375px and 1440px with all non-local requests blocked,
+//     plus every hash route in its "routes" list (single-page apps such as the SaaS demos)
 //   - takes full-page and first-screen screenshots into .checks/<id>/
 //   - reports external requests, console errors, broken local files and horizontal overflow
 //   - runs axe-core (WCAG 2 A/AA) and reports serious and critical issues
@@ -62,8 +63,18 @@ function pagesOf(entry) {
   return [`demos/${entry.id}/`];
 }
 
+// Pages to load: each listed page, then each hash route of a single-page app on its first page.
+// Routes get the same checks as pages except the reduced-motion pass, which the page itself covers.
+function targetsOf(entry) {
+  const pages = pagesOf(entry);
+  return [
+    ...pages.map((path) => ({ path, reducedMotion: true })),
+    ...(entry.routes || []).map((route) => ({ path: pages[0] + route, reducedMotion: false })),
+  ];
+}
+
 function slug(p) {
-  return (p.replace(/^demos\/[^/]+\/?/, '').replace(/[/?.=&]+/g, '-').replace(/^-|-$/g, '') || 'home');
+  return (p.replace(/^demos\/[^/]+\/?/, '').replace(/[#/?.=&]+/g, '-').replace(/^-|-$/g, '') || 'home');
 }
 
 async function newContext(options, extra = {}, useHeaded = false) {
@@ -86,7 +97,7 @@ async function checkDemo(entry) {
   mkdirSync(dir, { recursive: true });
   const report = { id: entry.id, checkedAt: new Date().toISOString(), failures: [], warnings: [], pages: [] };
 
-  for (const pagePath of pagesOf(entry)) {
+  for (const { path: pagePath, reducedMotion } of targetsOf(entry)) {
     for (const vp of VIEWPORTS) {
       const label = `${slug(pagePath)}@${vp.name}`;
       const { context, blocked } = await newContext(vp.options);
@@ -156,6 +167,7 @@ async function checkDemo(entry) {
     }
 
     // Reduced motion: nothing should keep looping, and the page should still be usable.
+    if (!reducedMotion) continue;
     const { context } = await newContext(VIEWPORTS[1].options, { reducedMotion: 'reduce' });
     const page = await context.newPage();
     await page.goto(`${base}/${pagePath}`, { waitUntil: 'load' });

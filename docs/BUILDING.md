@@ -109,6 +109,8 @@ npm run record -- <id>           # media/<id>.mp4 and posters (add --headed for 
 ```
 Look at every screenshot in `.checks/<id>/` yourself (375px and 1440px, fold and full page, reduced motion, tour end) before you call it done.
 
+Single-page apps (the SaaS demos) put their screens behind hash routes, so a plain page check only sees the first screen. List every screen in the report as `"routes": ["#/calendar", "#/job/sf18", ...]` (one example of each detail page too); the lead adds it to `demos/demos.json` and the checker then loads each route at both widths with the same checks. Dialogs and menus are not covered: open them in your own Playwright run and check them with axe.
+
 When the demo is ready, do not edit `demos/demos.json` yourself (builders run in parallel). Put the entry in your report instead: `"status": "built"`, a `"title"` and `"summary"` that match the brand, and `"pages": ["demos/<id>/", "demos/<id>/<inner>.html"]` if it has more than one page. The lead updates the file.
 
 ## Phone numbers and addresses

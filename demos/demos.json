@@ -40,7 +40,17 @@
       "status": "built",
       "record": {
         "viewport": "1536x864"
-      }
+      },
+      "routes": [
+        "#/calendar",
+        "#/vehicles",
+        "#/clients",
+        "#/invoices",
+        "#/outbox",
+        "#/reports",
+        "#/settings",
+        "#/job/sf18"
+      ]
     },
     {
       "id": "job-scheduling-saas",
@@ -54,7 +64,19 @@
       "status": "built",
       "record": {
         "viewport": "1536x864"
-      }
+      },
+      "routes": [
+        "#/schedule",
+        "#/jobs",
+        "#/jobs/whitlockService",
+        "#/sheets",
+        "#/sheets/0417",
+        "#/quotes",
+        "#/invoices",
+        "#/invoices/INV-20261005-002",
+        "#/clients",
+        "#/reports"
+      ]
     },
     {
       "id": "kreativehub",
