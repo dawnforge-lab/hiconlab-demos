@@ -65,5 +65,7 @@ C. Invoice to handover: Invoice panel "Invoice needed" → Set price on unpriced
 
 Client tracking page: reference header, plate and car hero, status note, stepper Booked → Work in progress (or waiting for parts) → Ready; Ready shows "Your vehicle is ready to collect"; Collected shows "thank you" and the link expires.
 
-## Current look (move away from it)
-Navy brand palette (#213690 / #132055), plate yellow #f9d10c as primary buttons, Geist, slate-100 page, rounded-2xl cards with shadow, emoji used as badge icons, Light/Dim/Dark themes.
+## Current look
+After reviewing the first build (concrete paper, ink bay display, hi-vis lime), the user asked for a modern, clean SaaS look: "cluttered and way too colourful". Aim for neutral surfaces, one restrained accent, fewer competing panels and badges, and calm status colours.
+
+The real app today: navy brand palette (#213690 / #132055), plate yellow #f9d10c as primary buttons, Geist, slate-100 page, rounded-2xl cards with shadow, emoji used as badge icons, Light/Dim/Dark themes.

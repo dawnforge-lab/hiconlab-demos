@@ -41,5 +41,7 @@ A. Quote → job: quote sent → client opens portal (Sent → Viewed) → Appro
 B. Job → schedule → job sheet on a phone: new job with client, site, start/end, crew with roles → appears on the week grid → technician's phone job sheet (materials, timer, photos, work description) → "Mark as completed" → customer signature "Sign & complete".
 C. Approval → invoice → payment: Job Sheets Completed tab → review (parts, labour, photos, sign-off, planned vs actual) → Approve (stock deducted, labour line at hourly rate, job Ready to invoice) → "Approve & create invoice" → Send → Record payment → Paid.
 
-## Current look (move away from it)
-Zinc neutrals with blue #2563eb accent, Inter + Geist Mono eyebrows, dense 12.5–13px UI, 220px sidebar with a 2px blue active bar, shadcn-style pills and panels. It is already a "polished modern SaaS" look, so the redesign must be clearly more distinctive, not just a reskin.
+## Current look (the direction to follow)
+Zinc neutrals with blue #2563eb accent, Inter + Geist Mono eyebrows, dense 12.5–13px UI, 220px sidebar with a 2px blue active bar, shadcn-style pills and panels.
+
+After reviewing the first build (a themed "signwritten van" design), the user asked for a modern, clean SaaS look like this repo, not a themed or decorated one: "too cluttered, too AI designed". Use the real app's look as the starting point (neutral surfaces, one accent, quiet type, plenty of white space) and refine it, rather than inventing a theme.
