@@ -1,5 +1,5 @@
 /* Fanlight Dental: site behaviour.
-   Header and mobile menu, today's hours, the smile illustration, the town map
+   Header and mobile menu, today’s hours, the town map
    status, the finance calculator and the booking dialog. No backend: the booking
    confirms locally with a reference. */
 (function () {
@@ -174,83 +174,6 @@
       nextEl.setAttribute('data-date', dateKey(found.d));
       nextEl.setAttribute('data-time', found.s.time);
     }
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Smile illustration                                                  */
-  /* ------------------------------------------------------------------ */
-  // Upper front teeth, left to right, seen from the front. cerv is where the gum
-  // meets the middle of the tooth, bot is the biting edge. layer sets the drawing
-  // order (centrals in front). dx, dy, r are the crowded starting position.
-  var TEETH = [
-    { w: 28, cerv: 62, bot: 128, t: 'pm', layer: 0, dx: 0, dy: 1, r: -2 },
-    { w: 32, cerv: 60, bot: 134, t: 'pm', layer: 1, dx: 1, dy: 2, r: 3 },
-    { w: 40, cerv: 52, bot: 146, t: 'c', layer: 2, dx: 5, dy: -5, r: -6 },
-    { w: 44, cerv: 60, bot: 140, t: 'l', layer: 3, dx: 9, dy: 3, r: 11 },
-    { w: 56, cerv: 55, bot: 152, t: 'i', layer: 4, dx: 3, dy: 2, r: -5 },
-    { w: 56, cerv: 55, bot: 152, t: 'i', layer: 4, dx: -4, dy: 0, r: 6 },
-    { w: 44, cerv: 60, bot: 140, t: 'l', layer: 3, dx: -10, dy: 4, r: -12 },
-    { w: 40, cerv: 52, bot: 146, t: 'c', layer: 2, dx: -4, dy: -5, r: 6 },
-    { w: 32, cerv: 60, bot: 134, t: 'pm', layer: 1, dx: -1, dy: 2, r: -3 },
-    { w: 28, cerv: 62, bot: 128, t: 'pm', layer: 0, dx: 0, dy: 0, r: 2 },
-  ];
-  function n(v) { return Math.round(v * 10) / 10; }
-  function toothPath(x, w, cerv, b, t) {
-    var y0 = cerv - 18, i = w * 0.1, L = x + 1, R = x + w - 1;
-    var p = 'M' + n(x + i) + ',' + y0 + ' C' + n(x + i * 0.3) + ',' + (cerv + 10) + ' ' + L + ',' + (b - 36) + ' ' + L + ',' + (b - 14);
-    if (t === 'i' || t === 'l') {
-      var rr = t === 'i' ? 9 : 14;
-      p += ' Q' + L + ',' + b + ' ' + (L + rr) + ',' + b + ' C' + n(x + w * 0.38) + ',' + (b + 1.5) + ' ' + n(x + w * 0.62) + ',' + (b + 1.5) + ' ' + (R - rr) + ',' + b + ' Q' + R + ',' + b + ' ' + R + ',' + (b - 14);
-    } else if (t === 'c') {
-      p += ' C' + (L + 1) + ',' + (b - 6) + ' ' + n(x + w * 0.3) + ',' + (b - 3) + ' ' + n(x + w * 0.52) + ',' + b + ' C' + n(x + w * 0.74) + ',' + (b - 3) + ' ' + (R - 1) + ',' + (b - 6) + ' ' + R + ',' + (b - 14);
-    } else {
-      p += ' C' + (L + 1) + ',' + (b - 2) + ' ' + n(x + w * 0.3) + ',' + b + ' ' + n(x + w * 0.5) + ',' + b + ' C' + n(x + w * 0.7) + ',' + b + ' ' + (R - 1) + ',' + (b - 2) + ' ' + R + ',' + (b - 14);
-    }
-    return p + ' C' + R + ',' + (b - 36) + ' ' + n(x + w - i * 0.3) + ',' + (cerv + 10) + ' ' + n(x + w - i) + ',' + y0 + ' Z';
-  }
-  function buildSmile(svg) {
-    var gap = 2, total = -gap;
-    TEETH.forEach(function (t) { total += t.w + gap; });
-    var x = (480 - total) / 2;
-    var groups = [];
-    TEETH.forEach(function (t) {
-      var cx = x + t.w / 2;
-      var cuffTop = t.cerv - 20;
-      var g = '<g class="tooth-g" style="--dx:' + t.dx + ';--dy:' + t.dy + ';--r:' + t.r + ';--ox:' + n(cx) + 'px;--oy:' + t.cerv + 'px">' +
-        '<path class="tooth" d="' + toothPath(x, t.w, t.cerv, t.bot, t.t) + '"/>' +
-        (t.t === 'i' || t.t === 'l' ? '<path class="shine" d="M' + n(x + t.w * 0.3) + ',' + (t.cerv + 18) + ' q-2,20 1,' + (t.bot - t.cerv - 44) + '"/>' : '') +
-        '<path class="gum-cuff" d="M' + n(x - 3) + ',' + cuffTop + ' L' + n(x - 3) + ',' + (t.cerv + 14) + ' Q' + n(cx) + ',' + (t.cerv - 12) + ' ' + n(x + t.w + 3) + ',' + (t.cerv + 14) + ' L' + n(x + t.w + 3) + ',' + cuffTop + ' Z"/>' +
-        '<path class="gum-line" d="M' + n(x - 0.5) + ',' + (t.cerv + 12) + ' Q' + n(cx) + ',' + (t.cerv - 12) + ' ' + n(x + t.w + 0.5) + ',' + (t.cerv + 12) + '"/>' +
-        '</g>';
-      groups.push({ layer: t.layer, html: g });
-      x += t.w + gap;
-    });
-    groups.sort(function (a, b) { return a.layer - b.layer; });
-    var back = '<path class="gum-back" d="M6,76 C4,26 80,8 240,6 C400,8 476,26 474,76 L452,80 L28,80 Z"/>';
-    var lip = '<path class="lip-line" d="M6,76 C4,26 80,8 240,6 C400,8 476,26 474,76"/>';
-    svg.innerHTML = back + groups.map(function (g) { return g.html; }).join('') + lip;
-    svg.setAttribute('viewBox', '-6 2 492 160');
-  }
-  $$('svg.smile').forEach(buildSmile);
-
-  // Treatment page: drag through a typical plan.
-  var viewer = $('[data-smile-viewer]');
-  if (viewer) {
-    var vSvg = $('svg.smile', viewer);
-    var range = $('#plan-week', viewer);
-    var vWeek = $('[data-week]', viewer);
-    var vAligner = $('[data-aligner]', viewer);
-    var update = function () {
-      var w = +range.value;
-      var p = w / 40;
-      var k = 1 - (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
-      vSvg.style.setProperty('--k', k.toFixed(3));
-      vWeek.textContent = w === 0 ? 'Before you start' : w === 40 ? 'Week 40: finished' : 'Week ' + w;
-      vAligner.textContent = w === 0 ? 'Scan and plan' : w === 40 ? 'Retainers from here' : 'Aligner ' + Math.ceil(w / 2) + ' of 20';
-      range.setAttribute('aria-valuetext', vWeek.textContent + ', ' + vAligner.textContent);
-    };
-    range.addEventListener('input', update);
-    update();
   }
 
   /* ------------------------------------------------------------------ */
