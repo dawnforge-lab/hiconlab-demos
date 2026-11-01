@@ -33,11 +33,11 @@ Georgian townhouse, not clinic. The site should feel like the building: pale Bat
 2. `treatment.html`: clear aligners: who it suits, the five steps, a drag-to-see illustration of a typical plan moving the teeth, three fixed fees with what's included, a finance calculator (0% over 12 months, 9.9% APR over 24 or 36), FAQs, booking a consultation.
 3. Booking (both pages): an accessible dialog. Reason → new or existing patient → day and time → details with validation → confirmation with a reference.
 
-## Tour (about 37 s at 1920×1080)
+## Tour (about 42 s at 1920×1080)
 In tour mode the clock is pinned to Tuesday 10 November, 09:20 (so the late opening shows and the video never dates), slots are deterministic and the reference is fixed (FD-1011-K7Q2).
 1. 0–2 s: settled hero, no entrance animation.
 2. 2–8 s: scroll to treatments, rest on the clear aligners row.
-3. 8–12 s: the aligners feature; the teeth straighten from week 0 to week 40.
+3. 8–12 s: the aligners feature: the photo of an aligner in its case and the facts beside it; the cursor rests on “How it works and what it costs”.
 4. 12–17 s: the fee card (prices on the wall), then the Fanlight Plan.
 5. 17–20 s: back to the top; the hero card advertises the next free check-up (Tue 10 Nov, 10:30); click “Book it”.
 6. 20–32 s: new patient, that same day and time, details, confirm, the booked state.
@@ -51,10 +51,11 @@ Shared look: "Kodak Portra 400 colour, gentle film grain, soft window light, sag
 - `clare`, `rohan`, `jan`, `delroy`: chest-up portraits, 85mm f/2.2, sage panelling or limestone behind, closed-mouth or gentle smiles.
 - `patient`: woman in a mustard cardigan on an oak bench by the window, chatting, bare bench.
 - `consult`: woman in an oatmeal jumper mid-conversation in the consultation room, closed-mouth smile.
+- `aligners` (round three, replaces the drawn teeth on the homepage aligners feature, 1536×1024, seed 5023): "Editorial still life photograph: a small open pale sage-green aligner case on a worn oak windowsill, holding a clear transparent dental aligner tray, with a tall Georgian sash window and pale Bath stone reveal beside it, soft overcast daylight, a sprig of rosemary in a small glass and a brass window catch slightly out of focus. 50mm at f/2.8, Kodak Portra 400 colour, gentle film grain, quiet and calm, Georgian townhouse in Somerset. No text, no logos, no people."
 - Rohan’s portrait was lightly retouched with fal-ai/nano-banana-2/edit to remove skin specks.
 
 ## fal spend
-Round one: 13 images on fal-ai/flux-2-pro ($0.03 per processed megapixel, 1.3–1.7 MP each) and one fal-ai/nano-banana-2/edit ($0.08, 2K) to blank the book spines. Round two: 4 flux-2-pro images (two surgery and two consultation options) and two nano-banana-2 edits (door repaint, Rohan retouch). Rejected along the way: the first Rohan portrait, the first patient photo (magazines with fake mastheads), the oak-worktop surgery, the wide-smile aligner patient. Estimated total: about $1.40 of the $5 budget. Originals are in the builder's scratchpad, not in the repo.
+Round one: 13 images on fal-ai/flux-2-pro ($0.03 per processed megapixel, 1.3–1.7 MP each) and one fal-ai/nano-banana-2/edit ($0.08, 2K) to blank the book spines. Round two: 4 flux-2-pro images (two surgery and two consultation options) and two nano-banana-2 edits (door repaint, Rohan retouch). Rejected along the way: the first Rohan portrait, the first patient photo (magazines with fake mastheads), the oak-worktop surgery, the wide-smile aligner patient. Estimated total: about $1.40 of the $5 budget. Round three (owner review: the drawn teeth on the homepage looked odd): 4 flux-2-pro options at 1536×1024 (1.57 MP, about $0.05 each): an aligner beside an open case on an oak sill, a closed case and aligner on an oak table, a hand holding an aligner by the window, and the chosen open case on the sill. About $0.19 of a $1.50 allowance, so about $1.60 in all. Originals are in the builder's scratchpad, not in the repo.
 
 ## Notes
 - Lazy images switch to eager loading after the page settles, so full-page screenshots and fast scrolling never show empty frames.

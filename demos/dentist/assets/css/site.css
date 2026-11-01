@@ -318,10 +318,8 @@ a.treat-row:hover .chev, a.treat-row.is-tour-hover .chev { transform: translateX
 .feature .stats { display: flex; flex-wrap: wrap; gap: 14px 40px; margin: 28px 0 32px; padding: 0; list-style: none; }
 .feature .stats li { font-size: .92rem; color: var(--on-sage-2); }
 .feature .stats strong { display: block; font: 400 2rem/1.1 var(--serif); color: var(--on-sage); }
-.smile-card { background: rgba(245, 240, 230, .06); border: 1px solid rgba(245, 240, 230, .16); border-radius: 6px; padding: clamp(18px, 3vw, 34px); }
-.smile-card .smile-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; font-size: .9rem; color: var(--on-sage-2); }
-.smile-card .smile-meta strong { font: 400 1.35rem/1.1 var(--serif); color: var(--on-sage); }
-.smile-card .smile-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; color: var(--on-sage-2); }
+.feature-photo { margin: 0; }
+.feature-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius); box-shadow: 0 24px 60px -28px rgba(10, 24, 19, .55); }
 
 /* The smile illustration */
 .smile { --k: 1; --gum: #eab5a4; --gum-edge: #c97f6c; --line: var(--ink); --enamel: #fbf8f2; display: block; width: 100%; height: auto; }
@@ -335,8 +333,6 @@ a.treat-row:hover .chev, a.treat-row.is-tour-hover .chev { transform: translateX
   transform-box: view-box; transform-origin: var(--ox) var(--oy);
   transform: translate(calc(var(--dx) * var(--k) * 1px), calc(var(--dy) * var(--k) * 1px)) rotate(calc(var(--r) * var(--k) * 1deg));
 }
-.smile.is-animated .tooth-g { transition: transform 2.2s var(--ease); }
-.feature .smile { --gum: #e2a895; --gum-edge: #b86c5a; --line: #17302a; }
 
 /* ---------- Fees and plan ---------- */
 .fees { background: var(--stone); }

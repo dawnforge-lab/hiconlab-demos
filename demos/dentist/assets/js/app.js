@@ -233,34 +233,6 @@
   }
   $$('svg.smile').forEach(buildSmile);
 
-  // Homepage: the smile straightens once, when it scrolls into view.
-  $$('[data-smile-auto]').forEach(function (card) {
-    var svg = $('svg.smile', card);
-    var weekEl = $('[data-week]', card);
-    var played = false;
-    function play() {
-      if (played) return;
-      played = true;
-      if (reduceMotion) { svg.style.setProperty('--k', '0'); if (weekEl) weekEl.textContent = 'Week 40'; return; }
-      svg.classList.add('is-animated');
-      requestAnimationFrame(function () { requestAnimationFrame(function () { svg.style.setProperty('--k', '0'); }); });
-      if (weekEl) {
-        var start = performance.now();
-        (function tick(t) {
-          var p = Math.min(1, (t - start) / 2200);
-          weekEl.textContent = 'Week ' + Math.round(p * 20) * 2;
-          if (p < 1) requestAnimationFrame(tick);
-        })(start);
-      }
-    }
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) { if (en.isIntersecting && en.intersectionRatio > 0.45) { play(); io.disconnect(); } });
-      }, { threshold: [0, 0.45, 0.8] });
-      io.observe(card);
-    } else { play(); }
-  });
-
   // Treatment page: drag through a typical plan.
   var viewer = $('[data-smile-viewer]');
   if (viewer) {

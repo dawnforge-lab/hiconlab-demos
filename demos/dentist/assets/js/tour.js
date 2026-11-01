@@ -1,6 +1,6 @@
-/* Fanlight Dental: the scripted tour (about 36 s at 1920×1080).
+/* Fanlight Dental: the scripted tour (about 42 s at 1920×1080).
    The clock is pinned to Tuesday 10 November, 09:20 in tour mode (see app.js).
-   Settled hero → treatments → the teeth straighten → the fee card and plan →
+   Settled hero → treatments → the clear aligners feature → the fee card and plan →
    back to the hero → book the advertised check-up → booked, shown on the hero (poster). */
 HiconTour.ready(async function () {
   var img = document.querySelector('.hero-figure img');
@@ -18,10 +18,10 @@ HiconTour.define(async function (t) {
   await t.scrollTo('#treatments', { offset: 96, duration: 1500 });
   await t.hover('.treat-row[href="treatment.html"]', { hold: 700 });
 
-  // The aligners feature: the teeth straighten as it comes into view.
+  // The aligners feature: the photo, the facts, and the way into the treatment page.
   await t.scrollTo('.feature', { offset: 40, duration: 1200 });
-  await t.move('.smile-card', { at: [0.62, 0.6] });
-  await t.waitFor(function () { return /Week 40/.test(document.querySelector('.smile-card [data-week]').textContent); }, 6000);
+  await t.wait(500);
+  await t.hover('.feature .btn--light', { hold: 1800 });
   await t.wait(300);
 
   // Prices on the wall: take a moment on the fee card, then the plan.
