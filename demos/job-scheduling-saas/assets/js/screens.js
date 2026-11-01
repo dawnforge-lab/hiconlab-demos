@@ -68,31 +68,25 @@
     ];
     if (!sh.fixed) pvaRows.push(['Total ex VAT', pl.parts + pl.labour, tot.net, money]);
     var pva = pvaRows.filter(function (r) { return r[1] || r[2]; }).map(function (r) {
-      var max = Math.max(r[1], r[2]) || 1, diff = r[2] - r[1];
+      var diff = r[2] - r[1];
       var dtxt = diff === 0 ? 'On plan' : (diff > 0 ? '+' : '−') + r[3](Math.abs(diff));
-      return '<div class="pva__row' + (r[0] === 'Total ex VAT' ? ' is-total' : '') + '"><span class="pva__k">' + r[0] + '</span>' +
-        '<span class="pva__bars" aria-hidden="true"><i class="pva__plan" style="width:' + (r[1] / max * 100) + '%"></i><i class="pva__act' + (diff > 0 ? ' is-over' : '') + '" style="width:' + (r[2] / max * 100) + '%"></i></span>' +
-        '<span class="pva__v"><span class="muted">' + r[3](r[1]) + '</span> → <b>' + r[3](r[2]) + '</b></span><span class="pva__d' + (diff > 0 ? ' is-over' : diff < 0 ? ' is-under' : '') + '">' + dtxt + '</span></div>';
+      return '<tr' + (r[0] === 'Total ex VAT' ? ' class="is-total"' : '') + '><td>' + r[0] + '</td><td class="num muted">' + r[3](r[1]) + '</td><td class="num">' + r[3](r[2]) + '</td><td class="num pva__d' + (diff > 0 ? ' is-over' : '') + '">' + dtxt + '</td></tr>';
     }).join('');
 
     var approved = sh.status === 'APPROVED';
-    var stamp = approved ? '<div class="stamp stamp--ok' + (S.changed.stamp === sh.no ? ' is-landing' : '') + '" role="img" aria-label="Approved by ' + esc(sh.approvedBy) + '"><span class="stamp__big">Approved</span><span class="stamp__small">' + esc(stampDate(sh.approvedAt)) + ' · J. LOWE</span></div>' :
-      sh.status === 'REJECTED' ? '<div class="stamp stamp--back" role="img" aria-label="Sent back"><span class="stamp__big">Sent back</span><span class="stamp__small">2 NOV · J. LOWE</span></div>' : '';
+    var note = approved ? '<p class="docnote docnote--ok">' + icon('check') + '<span>Approved by ' + esc(sh.approvedBy) + ', ' + esc(sh.approvedAt.replace('Today, ', 'today at ')) + (inv ? '. Invoiced as <a class="ref" href="#/invoices/' + inv.ref + '">' + inv.ref + '</a>' : '') + '.</span></p>'
+      : sh.status === 'REJECTED' ? '<p class="docnote docnote--back">' + icon('undo') + '<span><b>Sent back:</b> ' + esc(sh.rejectReason) + '</span></p>' : '';
 
-    return '<article class="paper paper--sheet" aria-labelledby="sheet-h">' +
-      '<div class="paper__binding" aria-hidden="true"></div>' +
-      '<header class="sheet__head"><div><p class="sheet__kind">Job sheet · ' + esc(D.company.name) + '</p><h2 class="sheet__title" id="sheet-h">' + esc(sheetTitle(sh)) + '</h2></div>' +
-        '<p class="serial serial--big"><span>No.</span> ' + sh.no + '</p></header>' +
+    return '<article class="paper paper--sheet' + (approved ? ' is-approved' : '') + '" aria-labelledby="sheet-h">' +
+      '<header class="doc__head"><div><p class="eyebrow">Job sheet ' + sh.no + '</p><h2 class="doc__title" id="sheet-h">' + esc(sheetTitle(sh)) + '</h2></div>' + pill(sh.status) + '</header>' +
+      note +
       '<dl class="sheet__meta">' + meta + '</dl>' +
-      '<section class="sheet__sec"><h3>Work done</h3><p class="ruled">' + esc(sh.work) + '</p></section>' +
-      '<section class="sheet__sec"><h3>Parts used <span class="h-sum">' + money(tot.parts + tot.fixed) + '</span></h3><div class="tablewrap"><table class="ledger"><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Each</th><th class="num">Total</th></tr></thead><tbody>' + partRows + '</tbody></table></div></section>' +
-      '<section class="sheet__sec"><h3>Labour <span class="h-sum">' + money(tot.labour) + '</span></h3><div class="tablewrap"><table class="ledger"><thead><tr><th>Who</th><th class="num">On site</th><th class="num hide-s">Break</th><th class="num">Hours</th><th class="num hide-s">Rate</th><th class="num">Total</th></tr></thead><tbody>' + labourRows + '</tbody></table></div></section>' +
-      '<section class="sheet__sec"><h3>Site photos</h3>' + photos + '</section>' +
+      '<section class="sheet__sec"><h3>Work done</h3><p class="prose">' + esc(sh.work) + '</p></section>' +
+      '<section class="sheet__sec"><h3>Parts used <span class="h-sum">' + money(tot.parts + tot.fixed) + '</span></h3><div class="tablewrap" tabindex="0" role="region" aria-label="Parts used table"><table class="ledger"><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Each</th><th class="num">Total</th></tr></thead><tbody>' + partRows + '</tbody></table></div></section>' +
+      '<section class="sheet__sec"><h3>Labour <span class="h-sum">' + money(tot.labour) + '</span></h3><div class="tablewrap" tabindex="0" role="region" aria-label="Labour table"><table class="ledger"><thead><tr><th>Who</th><th class="num">On site</th><th class="num hide-s">Break</th><th class="num">Hours</th><th class="num hide-s">Rate</th><th class="num">Total</th></tr></thead><tbody>' + labourRows + '</tbody></table></div></section>' +
+      '<section class="sheet__sec"><h3>Photos</h3>' + photos + '</section>' +
       '<div class="sheet__two"><section class="sheet__sec"><h3>Customer sign-off</h3>' + sign + '</section>' +
-        '<section class="sheet__sec"><h3>Planned vs actual</h3><div class="pva">' + pva + '</div>' + (sh.plannedNote ? '<p class="pva__note">' + icon('pen') + esc(sh.plannedNote) + '</p>' : '') + '</section></div>' +
-      (sh.status === 'REJECTED' ? '<p class="sentback">' + icon('undo') + '<span><b>Sent back:</b> ' + esc(sh.rejectReason) + '</span></p>' : '') +
-      '<section class="office" aria-label="Office use"><h3>Office use only</h3><div class="office__grid">' +
-        '<span>Checked by<b>' + (approved ? esc(sh.approvedBy) : ' ') + '</b></span><span>Date<b>' + (approved ? esc(sh.approvedAt) : ' ') + '</b></span><span>Invoice<b>' + (inv ? '<a class="ref" href="#/invoices/' + inv.ref + '">' + inv.ref + '</a>' : ' ') + '</b></span></div>' + stamp + '</section>' +
+        '<section class="sheet__sec"><h3>Planned vs actual</h3><table class="ledger pva"><thead><tr><th><span class="sr">Measure</span></th><th class="num">Planned</th><th class="num">Actual</th><th class="num">Difference</th></tr></thead><tbody>' + pva + '</tbody></table>' + (sh.plannedNote ? '<p class="pva__note">' + esc(sh.plannedNote) + '</p>' : '') + '</section></div>' +
       '</article>';
   }
   function stampDate(s) {
@@ -123,7 +117,7 @@
   }
 
   A.screens.sheets = {
-    title: function (no) { return no ? 'Job sheet No. ' + no : 'Job sheets'; },
+    title: function (no) { return no ? 'Job sheet ' + no : 'Job sheets'; },
     render: function (no) {
       var tab = S.sheetTab;
       var list = S.sheets.filter(function (s) { return tab === 'ALL' || s.status === tab; });
@@ -136,16 +130,16 @@
       var rows = list.length ? list.map(function (s) {
         var c = S.clients[sheetClient(s)];
         return '<li><a class="srow' + (sel && sel.no === s.no ? ' is-active' : '') + '" href="#/sheets/' + s.no + '"' + (sel && sel.no === s.no ? ' aria-current="true"' : '') + '>' +
-          '<span class="srow__top"><span class="serial">No. ' + s.no + '</span>' + pill(s.status) + '</span>' +
+          '<span class="srow__top"><span>Sheet ' + s.no + '</span>' + pill(s.status) + '</span>' +
           '<b class="srow__title">' + esc(sheetTitle(s)) + '</b>' +
           '<span class="srow__meta">' + s.crew.map(function (m) { return avatar(m.id, 'avatar--xs'); }).join('') + '<span>' + esc(c.name) + ' · ' + A.relDay(s.date) + '</span><span class="srow__val">' + money(A.sheetTotals(s).gross) + '</span></span></a></li>';
       }).join('') : '<li class="empty">' + icon('check') + 'Nothing here.</li>';
 
       return '<div class="page page--sheets' + (no ? ' has-detail' : '') + '">' +
-        '<header class="phead phead--tight"><div><p class="eyebrow">Office review</p><h1>Job sheets</h1></div><p class="phead__sub">Engineers fill in a sheet on their phone and send it at the end of the day. Check it here, then turn it into an invoice.</p></header>' +
+        '<header class="phead phead--tight"><div><h1>Job sheets</h1><p class="phead__sub">Engineers fill in a sheet on their phone and send it at the end of the day. Check it here, then turn it into an invoice.</p></div></header>' +
         '<div class="sheets">' +
           '<aside class="sheets__list" aria-label="Job sheets"><div class="seg" role="group" aria-label="Show">' + tabs + '</div><ul class="slist">' + rows + '</ul></aside>' +
-          '<div class="sheets__detail">' + (sel ? '<a class="backlink" href="#/sheets">' + icon('back') + 'All sheets</a>' + '<div class="paperstack">' + sheetPaper(sel) + '</div>' + reviewBar(sel) : '<div class="emptypaper"><p>Pick a sheet to check it.</p></div>') + '</div>' +
+          '<div class="sheets__detail">' + (sel ? '<a class="backlink" href="#/sheets">' + icon('back') + 'All sheets</a>' + sheetPaper(sel) + reviewBar(sel) : '<div class="emptypaper"><p>Pick a sheet to check it.</p></div>') + '</div>' +
         '</div></div>';
     },
     mount: function (no) {
@@ -166,7 +160,7 @@
     var sh = A.findSheet(b.getAttribute('data-sheet')), p = sh.photos[+b.getAttribute('data-i')];
     A.openDialog({
       title: p.label + ': ' + esc(p.caption), className: 'dlg--photo',
-      body: '<img src="assets/img/' + p.src + '-1000.webp" width="1000" height="750" alt="' + esc(p.caption) + '"><p class="dlg__cap">Sheet No. ' + sh.no + ' · taken by ' + esc(S.teamById[sh.crew[0].id].first) + ' on ' + A.fmtDate(sh.date, 'long') + '</p>',
+      body: '<img src="assets/img/' + p.src + '-1000.webp" width="1000" height="750" alt="' + esc(p.caption) + '"><p class="dlg__cap">Sheet ' + sh.no + ' · taken by ' + esc(S.teamById[sh.crew[0].id].first) + ' on ' + A.fmtDate(sh.date, 'long') + '</p>',
     });
   };
 
@@ -177,11 +171,10 @@
     sh.approvedAt = 'Today, ' + t2(A.now());
     sh.approvedToday = true;
     job.status = 'READY_TO_INVOICE';
-    job.log.push({ t: t2(A.now()), text: 'Job sheet No. ' + sh.no + ' approved by ' + D.user.first });
-    A.log(null, 'Approved sheet No. ' + sh.no + ' for ' + S.clients[job.client].short);
+    job.log.push({ t: t2(A.now()), text: 'Job sheet ' + sh.no + ' approved by ' + D.user.first });
+    A.log(null, 'Approved sheet ' + sh.no + ' for ' + S.clients[job.client].short);
     S.changed.stamp = sh.no;
     A.refresh();
-    A.toast('Sheet No. ' + sh.no + ' approved. Van stock updated and the job is ready to invoice.');
     var nextBtn = document.querySelector('[data-action="create-invoice"]');
     if (nextBtn) nextBtn.focus({ preventScroll: true });
   };
@@ -189,7 +182,7 @@
   A.actions.reject = function (b) {
     var sh = A.findSheet(b.getAttribute('data-no')), lead = S.teamById[sh.crew[0].id];
     A.openDialog({
-      title: 'Send sheet No. ' + sh.no + ' back to ' + esc(lead.first),
+      title: 'Send sheet ' + sh.no + ' back to ' + esc(lead.first),
       body: '<form class="form"><label class="field"><span>What needs fixing?</span><textarea name="why" rows="3" required placeholder="For example: the parts list is missing the filter"></textarea></label>' +
         '<p class="form__lead">' + esc(lead.first) + ' gets a notification and the sheet goes back to them to edit.</p>' +
         '<div class="dlg__foot"><button type="button" class="btn btn--ghost" data-close>Cancel</button><button class="btn btn--primary" type="submit">' + icon('undo') + 'Send back</button></div></form>',
@@ -199,10 +192,10 @@
           sh.status = 'REJECTED';
           sh.rejectReason = e.target.why.value.trim();
           S.jobs[sh.job].status = 'SHEET_BACK';
-          A.log(null, 'Sent sheet No. ' + sh.no + ' back to ' + lead.first);
+          A.log(null, 'Sent sheet ' + sh.no + ' back to ' + lead.first);
           close();
           A.refresh();
-          A.toast('Sheet No. ' + sh.no + ' sent back to ' + esc(lead.first) + '.');
+          A.toast('Sheet ' + sh.no + ' sent back to ' + esc(lead.first) + '.');
           setTimeout(function () {
             var bl = document.querySelector('.srow.is-active') || document.querySelector('.srow');
             if (bl) bl.focus({ preventScroll: true });
@@ -231,7 +224,7 @@
     job.log.push({ t: t2(A.now()), text: 'Invoice ' + inv.ref + ' created' });
     A.log(null, 'Created ' + inv.ref + ' for ' + S.clients[job.client].short + ', ' + money(A.invTotals(inv).gross));
     A.go('#/invoices/' + inv.ref);
-    A.toast('Draft invoice ' + inv.ref + ' created from sheet No. ' + sh.no + '.');
+    A.toast('Draft invoice ' + inv.ref + ' created from sheet ' + sh.no + '.');
   };
 
   // ================================================================ Invoices
@@ -245,18 +238,17 @@
       return '<tr><td>' + esc(l.d) + '</td><td class="num">' + qty + '</td><td class="num">' + money(l.u) + '</td><td class="num">' + money(Math.round(l.q * l.u)) + '</td></tr>';
     }).join('');
     var paid = inv.status === 'PAID';
-    var stamp = paid ? '<div class="stamp stamp--paid' + (S.changed.stampInv === inv.ref ? ' is-landing' : '') + '" role="img" aria-label="Paid"><span class="stamp__big">Paid</span><span class="stamp__small">' + A.fmtDate(inv.paid).toUpperCase() + ' · ' + esc((inv.method || '').toUpperCase()) + '</span></div>' : '';
     return '<article class="paper paper--invoice" aria-labelledby="inv-h">' +
-      '<header class="inv__head"><div class="inv__from"><span class="roundel" aria-hidden="true">H<i>&amp;</i>L</span><div><b>' + esc(D.company.name) + '</b><span>' + D.company.address.join(', ') + '</span><span>' + D.company.phone + ' · ' + D.company.email + '</span><span>VAT reg. no. ' + D.company.vat + '</span></div></div>' +
-        '<div class="inv__title"><h2 id="inv-h">Invoice</h2><p class="serial">' + inv.ref + '</p></div></header>' +
-      '<div class="inv__meta"><div><dt>Bill to</dt><dd><b>' + esc(c.name) + '</b><br>' + esc(c.addr) + '<br>' + esc(c.pc) + '</dd></div>' +
+      '<header class="inv__head"><div class="inv__from"><div><b>' + esc(D.company.name) + '</b><span>' + D.company.address.join(', ') + '</span><span>' + D.company.phone + ' · ' + D.company.email + '</span><span>VAT reg. no. ' + D.company.vat + '</span></div></div>' +
+        '<div class="inv__title"><h2 id="inv-h">Invoice</h2><p class="ref">' + inv.ref + '</p>' + (paid ? '<p class="inv__paid">' + pill('PAID', 'Paid ' + A.fmtDate(inv.paid)) + '</p>' : '') + '</div></header>' +
+      '<dl class="inv__meta"><div><dt>Bill to</dt><dd><b>' + esc(c.name) + '</b><br>' + esc(c.addr) + '<br>' + esc(c.pc) + '</dd></div>' +
         '<div><dt>Issued</dt><dd>' + A.fmtDate(inv.issued, 'long') + '</dd><dt>Due</dt><dd>' + A.fmtDate(inv.due, 'long') + '</dd></div>' +
-        '<div><dt>For</dt><dd>' + esc(inv.title) + (inv.workDate ? ', ' + A.fmtDate(inv.workDate, 'long') : '') + '</dd><dt>Job</dt><dd class="ref">' + (job ? job.ref : '') + '</dd></div></div>' +
-      '<div class="tablewrap"><table class="ledger ledger--inv"><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit price</th><th class="num">Amount</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '<div><dt>For</dt><dd>' + esc(inv.title) + (inv.workDate ? ', ' + A.fmtDate(inv.workDate, 'long') : '') + '</dd><dt>Job</dt><dd class="ref">' + (job ? job.ref : '') + '</dd></div></dl>' +
+      '<div class="tablewrap" tabindex="0" role="region" aria-label="Invoice lines"><table class="ledger ledger--inv"><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit price</th><th class="num">Amount</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       '<div class="inv__foot"><p class="inv__pay">Pay by bank transfer using the link in your email, or call the office on ' + D.company.phone + '. Payment due within ' + D.company.terms + ' days. Thank you for having us.</p>' +
         '<dl class="inv__tot"><div><dt>Subtotal</dt><dd>' + money(tot.net) + '</dd></div><div><dt>VAT at 20%</dt><dd>' + money(tot.vat) + '</dd></div><div class="is-grand"><dt>Total</dt><dd>' + money(tot.gross) + '</dd></div>' +
         (inv.amountPaid ? '<div><dt>Paid</dt><dd>−' + money(inv.amountPaid) + '</dd></div><div class="is-bal"><dt>Balance due</dt><dd>' + money(tot.gross - inv.amountPaid) + '</dd></div>' : '') + '</dl></div>' +
-      stamp + '</article>';
+      '</article>';
   }
 
   function invSteps(inv) {
@@ -289,10 +281,10 @@
         var c = S.clients[inv.client], job = S.jobs[inv.job];
         return '<div class="page page--invoice"><header class="phead phead--tight"><div><a class="backlink backlink--top" href="#/invoices">' + icon('back') + 'Invoices</a><p class="eyebrow">' + inv.ref + '</p><h1>' + esc(c.name) + '</h1></div>' +
           '<div class="phead__status">' + pill(A.invStatus(inv)) + '<span class="phead__amt">' + money(A.invTotals(inv).gross) + '</span></div></header>' +
-          '<div class="invgrid"><div class="paperstack paperstack--inv">' + invoicePaper(inv) + '</div>' +
-          '<aside class="rail"><section class="panel"><h2 class="rail__h">Where it’s up to</h2>' + invSteps(inv) + '<div class="rail__act">' + invActions(inv) + '</div></section>' +
+          '<div class="invgrid"><div class="invdoc">' + invoicePaper(inv) + '</div>' +
+          '<aside class="rail" aria-label="Invoice actions"><section class="panel"><h2 class="rail__h">Where it’s up to</h2>' + invSteps(inv) + '<div class="rail__act">' + invActions(inv) + '</div></section>' +
             '<section class="panel"><h2 class="rail__h">Customer</h2><p class="rail__p"><b>' + esc(c.contact) + '</b><br>' + esc(c.addr) + ', ' + esc(c.pc) + '</p><p class="rail__p"><a href="tel:' + c.phone.replace(/\s/g, '') + '">' + icon('phone') + c.phone + '</a><br><a href="mailto:' + c.email + '">' + icon('mail') + esc(c.email) + '</a></p></section>' +
-            '<section class="panel"><h2 class="rail__h">Linked</h2><p class="rail__p"><a href="#/jobs/' + job.id + '">' + icon('jobs') + '<span class="ref">' + job.ref + '</span></a>' + (inv.sheet ? '<br><a href="#/sheets/' + inv.sheet + '">' + icon('sheets') + 'Job sheet No. ' + inv.sheet + '</a>' : '') + '</p>' +
+            '<section class="panel"><h2 class="rail__h">Linked</h2><p class="rail__p"><a href="#/jobs/' + job.id + '">' + icon('jobs') + '<span class="ref">' + job.ref + '</span></a>' + (inv.sheet ? '<br><a href="#/sheets/' + inv.sheet + '">' + icon('sheets') + 'Job sheet ' + inv.sheet + '</a>' : '') + '</p>' +
               '<button class="btn btn--ghost btn--sm" type="button" data-action="print">' + icon('print') + 'Print or save as PDF</button></section></aside></div></div>';
       }
       var tab = S.invTab;
@@ -314,10 +306,10 @@
           '<span class="icard__mid">' + esc(v.title) + '</span><span class="icard__bot"><span class="ref">' + v.ref + '</span>' + pill(st) + '</span>' +
           '<span class="icard__due">' + (st === 'PAID' ? 'Paid ' + A.fmtDate(v.paid) : 'Due ' + A.fmtDate(v.due)) + (v.status === 'PARTIAL' ? ' · ' + money(A.outstanding(v)) + ' left to pay' : '') + '</span></a></li>';
       }).join('');
-      return '<div class="page page--list"><header class="phead phead--tight"><div><p class="eyebrow">Money</p><h1>Invoices</h1></div>' +
+      return '<div class="page page--list"><header class="phead phead--tight"><div><h1>Invoices</h1></div>' +
         '<dl class="minifigs"><div><dt>Waiting to be paid</dt><dd>' + money(k.waiting) + '</dd></div><div class="is-warn"><dt>Overdue</dt><dd>' + money(k.overdue) + '</dd></div><div><dt>Paid in November</dt><dd>' + money(k.paidNov) + '</dd></div></dl></header>' +
         '<div class="seg" role="group" aria-label="Show">' + tabs + '</div>' +
-        '<div class="panel panel--table"><div class="tablewrap"><table class="table"><thead><tr><th class="hide-s">Invoice</th><th>Client</th><th class="hide-s">For</th><th class="num hide-s">Issued</th><th class="num hide-s">Due</th><th class="num">Total</th><th>Status</th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" class="empty">No invoices here.</td></tr>') + '</tbody></table></div></div>' +
+        '<div class="panel panel--table"><div class="tablewrap" tabindex="0" role="region" aria-label="Invoices"><table class="table"><thead><tr><th class="hide-s">Invoice</th><th>Client</th><th class="hide-s">For</th><th class="num hide-s">Issued</th><th class="num hide-s">Due</th><th class="num">Total</th><th>Status</th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" class="empty">No invoices here.</td></tr>') + '</tbody></table></div></div>' +
         '<ul class="icards">' + (cards || '<li class="empty">No invoices here.</li>') + '</ul></div>';
     },
     mount: function () {
@@ -413,8 +405,16 @@
   };
 
   // ================================================================ Jobs
-  var JOB_TABS = [['ACTIVE', 'Open'], ['PENDING', 'To schedule'], ['SCHEDULED', 'Booked'], ['IN_PROGRESS', 'On site'], ['COMPLETED', 'Sheet to check'], ['SHEET_BACK', 'Sheet sent back'], ['READY_TO_INVOICE', 'Ready to invoice'], ['INVOICED', 'Invoiced'], ['PAID', 'Paid']];
+  var JOB_TABS_OLD = [['ACTIVE', 'Open'], ['PENDING', 'To schedule'], ['SCHEDULED', 'Booked'], ['IN_PROGRESS', 'On site'], ['COMPLETED', 'Sheet to check'], ['SHEET_BACK', 'Sheet sent back'], ['READY_TO_INVOICE', 'Ready to invoice'], ['INVOICED', 'Invoiced'], ['PAID', 'Paid']];
   var ORDER = ['PENDING', 'IN_PROGRESS', 'SCHEDULED', 'SHEET_BACK', 'COMPLETED', 'READY_TO_INVOICE', 'INVOICED', 'PAID'];
+  // Five tabs, each a group of statuses; empty ones are hidden.
+  var JOB_TABS = [
+    ['ACTIVE', 'Open', ['PENDING', 'SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'SHEET_BACK', 'READY_TO_INVOICE']],
+    ['PENDING', 'Unscheduled', ['PENDING']],
+    ['SCHEDULED', 'Booked', ['SCHEDULED', 'IN_PROGRESS']],
+    ['TO_INVOICE', 'To invoice', ['COMPLETED', 'SHEET_BACK', 'READY_TO_INVOICE']],
+    ['DONE', 'Invoiced', ['INVOICED', 'PAID']],
+  ];
   S.jobTab = 'ACTIVE';
 
   function jobPill(job) {
@@ -438,10 +438,12 @@
       var all = Object.keys(S.jobs).map(function (k) { return S.jobs[k]; });
       var active = function (j) { return ['PENDING', 'SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'SHEET_BACK', 'READY_TO_INVOICE'].indexOf(j.status) >= 0; };
       var tab = S.jobTab;
-      var list = all.filter(function (j) { return tab === 'ACTIVE' ? active(j) : j.status === tab; })
+      var inTab = function (j, id) { var t = JOB_TABS.filter(function (x) { return x[0] === id; })[0]; return t[2].indexOf(j.status) >= 0; };
+      var list = all.filter(function (j) { return inTab(j, tab); })
         .sort(function (a, b) { var d = ORDER.indexOf(a.status) - ORDER.indexOf(b.status); return d || (a.ref < b.ref ? 1 : -1); });
       var tabs = JOB_TABS.map(function (t) {
-        var n = all.filter(function (j) { return t[0] === 'ACTIVE' ? active(j) : j.status === t[0]; }).length;
+        var n = all.filter(function (j) { return inTab(j, t[0]); }).length;
+        if (!n && t[0] !== tab) return '';
         return '<button class="seg__b' + (t[0] === tab ? ' is-active' : '') + '" type="button" data-action="job-tab" data-tab="' + t[0] + '" aria-pressed="' + (t[0] === tab) + '">' + t[1] + ' <span class="seg__n">' + n + '</span></button>';
       }).join('');
       var rows = list.map(function (j) {
@@ -450,7 +452,7 @@
       }).join('');
       return '<div class="page page--list"><header class="phead phead--tight"><div><p class="eyebrow">' + all.filter(active).length + ' open</p><h1>Jobs</h1></div><div class="phead__actions"><button class="btn btn--primary" type="button" data-action="new-job">' + icon('plus') + 'New job</button></div></header>' +
         '<div class="seg seg--scroll" role="group" aria-label="Show">' + tabs + '</div>' +
-        '<div class="panel panel--table"><div class="tablewrap"><table class="table"><thead><tr><th class="hide-s">Ref</th><th>Job</th><th class="hide-s">Client</th><th>Status</th><th class="hide-s">Team</th><th class="num hide-s">When</th><th class="num hide-s">Value inc VAT</th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" class="empty">No jobs here.</td></tr>') + '</tbody></table></div></div></div>';
+        '<div class="panel panel--table"><div class="tablewrap" tabindex="0" role="region" aria-label="Jobs"><table class="table"><thead><tr><th class="hide-s">Ref</th><th>Job</th><th class="hide-s">Client</th><th>Status</th><th class="hide-s">Team</th><th class="num hide-s">When</th><th class="num hide-s">Value inc VAT</th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" class="empty">No jobs here.</td></tr>') + '</tbody></table></div></div></div>';
     },
   };
   A.actions['job-tab'] = function (b) { S.jobTab = b.getAttribute('data-tab'); A.refresh(); };
@@ -472,15 +474,15 @@
     var logRows = (job.log || []).slice().reverse().map(function (l) { return '<li><span class="feed__t">' + l.t + '</span><span>' + esc(l.text) + '</span></li>'; }).join('');
     return '<div class="page page--job"><header class="phead phead--tight"><div><a class="backlink backlink--top" href="#/jobs">' + icon('back') + 'Jobs</a><p class="eyebrow ref">' + job.ref + '</p><h1>' + esc(job.title) + '</h1>' +
       '<p class="phead__sub">' + esc(c.name) + ' · ' + esc(c.area) + (job.gas ? ' · ' + icon('flame', 'i--gas') + 'Gas Safe job' : '') + '</p></div><div class="phead__status">' + jobPill(job) + (A.jobValue(job) ? '<span class="phead__amt">' + money(A.jobValue(job)) + '</span>' : '') + '</div></header>' +
-      '<ol class="jtrack" aria-label="Progress">' + steps + '</ol>' +
+      '<ol class="jtrack" aria-label="Progress" tabindex="0">' + steps + '</ol>' +
       '<div class="jobgrid"><div class="jobgrid__main">' +
         (job.note ? '<section class="panel"><h2 class="rail__h">From the office</h2><p class="rail__p">' + esc(job.note) + '</p></section>' : '') +
         '<section class="panel"><h2 class="rail__h">Visits</h2><ul class="visits">' + vRows + '</ul></section>' +
         '<section class="panel"><h2 class="rail__h">Paperwork</h2><ul class="paperlist">' +
-          (sh ? '<li><a href="#/sheets/' + sh.no + '">' + icon('sheets') + '<span>Job sheet <span class="serial">No. ' + sh.no + '</span></span>' + pill(sh.status) + '</a></li>' : '<li class="muted">' + icon('sheets') + 'No job sheet yet</li>') +
+          (sh ? '<li><a href="#/sheets/' + sh.no + '">' + icon('sheets') + '<span>Job sheet ' + sh.no + '</span>' + pill(sh.status) + '</a></li>' : '<li class="muted">' + icon('sheets') + 'No job sheet yet</li>') +
           (inv ? '<li><a href="#/invoices/' + inv.ref + '">' + icon('invoices') + '<span class="ref">' + inv.ref + '</span>' + pill(A.invStatus(inv)) + '</a></li>' : '<li class="muted">' + icon('invoices') + 'Not invoiced yet</li>') + '</ul></section>' +
         (logRows ? '<section class="panel"><h2 class="rail__h">Today</h2><ul class="joblog">' + logRows + '</ul></section>' : '') +
-      '</div><aside class="jobgrid__side">' +
+      '</div><aside class="jobgrid__side" aria-label="Site and team">' +
         '<section class="panel"><h2 class="rail__h">Site</h2><p class="rail__p">' + icon('pin') + esc(c.addr) + ', ' + esc(c.pc) + '</p><p class="rail__p"><b>' + esc(c.contact) + '</b><br><a href="tel:' + c.phone.replace(/\s/g, '') + '">' + icon('phone') + c.phone + '</a><br><a href="mailto:' + c.email + '">' + icon('mail') + esc(c.email) + '</a></p></section>' +
         '<section class="panel"><h2 class="rail__h">Team</h2><ul class="teamlist">' + (job.crew.length ? job.crew.map(function (p) { var t = S.teamById[p]; return '<li>' + avatar(p) + '<span><b>' + esc(t.name) + '</b><small>' + (p === job.lead ? 'Lead' : 'Crew') + ' · ' + esc(t.role) + '</small></span></li>'; }).join('') : '<li class="muted">Nobody yet</li>') + '</ul></section>' +
       '</aside></div></div>';
@@ -496,7 +498,7 @@
       var open = S.quotes.filter(function (q) { return ['SENT', 'VIEWED'].indexOf(q.status) >= 0; });
       return '<div class="page page--list"><header class="phead phead--tight"><div><p class="eyebrow">' + open.length + ' with customers</p><h1>Quotes</h1></div>' +
         '<dl class="minifigs"><div><dt>Out with customers</dt><dd>' + money(open.reduce(function (a, q) { return a + Math.round(q.net * 1.2); }, 0)) + '</dd></div><div><dt>Accepted in October</dt><dd>4</dd></div></dl></header>' +
-        '<div class="panel panel--table"><div class="tablewrap"><table class="table"><thead><tr><th>Ref</th><th>Quote for</th><th class="hide-s">Client</th><th class="num hide-s">Date</th><th class="num">Value inc VAT</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table></div></div></div>';
+        '<div class="panel panel--table"><div class="tablewrap" tabindex="0" role="region" aria-label="Quotes"><table class="table"><thead><tr><th>Ref</th><th>Quote for</th><th class="hide-s">Client</th><th class="num hide-s">Date</th><th class="num">Value inc VAT</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table></div></div></div>';
     },
   };
 
@@ -510,7 +512,7 @@
         return '<tr><td><b class="cell-title">' + esc(c.name) + '</b>' + (c.company ? '<small class="muted"> · business</small>' : '') + '</td><td class="hide-s">' + esc(c.area) + ' ' + esc(c.pc) + '</td><td class="hide-s"><a href="tel:' + c.phone.replace(/\s/g, '') + '">' + c.phone + '</a></td><td class="num">' + jobs + '</td><td class="num">' + (owed ? '<b>' + money(owed) + '</b>' : '<span class="muted">—</span>') + '</td></tr>';
       }).join('');
       return '<div class="page page--list"><header class="phead phead--tight"><div><p class="eyebrow">' + D.clients.length + ' clients</p><h1>Clients</h1></div></header>' +
-        '<div class="panel panel--table"><div class="tablewrap"><table class="table"><thead><tr><th>Name</th><th class="hide-s">Area</th><th class="hide-s">Phone</th><th class="num">Jobs</th><th class="num">Owed</th></tr></thead><tbody>' + rows + '</tbody></table></div></div></div>';
+        '<div class="panel panel--table"><div class="tablewrap" tabindex="0" role="region" aria-label="Clients"><table class="table"><thead><tr><th>Name</th><th class="hide-s">Area</th><th class="hide-s">Phone</th><th class="num">Jobs</th><th class="num">Owed</th></tr></thead><tbody>' + rows + '</tbody></table></div></div></div>';
     },
   };
 

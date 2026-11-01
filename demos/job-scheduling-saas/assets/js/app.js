@@ -25,7 +25,7 @@
   }
   function t2(min) { return String(Math.floor(min / 60)).padStart(2, '0') + ':' + String(min % 60).padStart(2, '0'); }
   function range(a, b) { return t2(a) + '–' + t2(b); }
-  function dur(m) { var h = Math.floor(m / 60), r = m % 60; return h ? h + ' h' + (r ? ' ' + r + ' min' : '') : r + ' min'; }
+  function dur(m) { var h = Math.floor(m / 60), r = m % 60, n = '\u00a0'; return h ? h + n + 'h' + (r ? n + r + n + 'min' : '') : r + n + 'min'; }
   function hoursText(h) { return (Math.round(h * 100) / 100).toString(); }
   function dObj(iso) { return new Date(iso + 'T12:00:00Z'); }
   function fmtDate(iso, style) {
@@ -212,15 +212,15 @@
     return '<span class="avatar avatar--' + id + (cls ? ' ' + cls : '') + '" title="' + esc(t.name) + '">' + t.initials + '</span>';
   }
   var STATUS = {
-    PENDING: ['To schedule', 'pending'], SCHEDULED: ['Booked', 'booked'], IN_PROGRESS: ['On site', 'live'],
-    COMPLETED: ['Sheet to check', 'check'], READY_TO_INVOICE: ['Ready to invoice', 'ready'], INVOICED: ['Invoiced', 'invoiced'],
-    PAID: ['Paid', 'paid'], CANCELLED: ['Cancelled', 'muted'], ON_HOLD: ['On hold', 'muted'],
-    DRAFT: ['Draft', 'muted'], SENT: ['Sent', 'invoiced'], OVERDUE: ['Overdue', 'overdue'], PARTIAL: ['Part paid', 'ready'],
-    APPROVED: ['Approved', 'paid'], REJECTED: ['Sent back', 'overdue'], SHEET_BACK: ['Sheet sent back', 'overdue'],
-    VIEWED: ['Viewed', 'ready'], ACCEPTED: ['Accepted', 'paid'], CONVERTED: ['Turned into a job', 'booked'], EXPIRED: ['Expired', 'muted'],
+    PENDING: ['Unscheduled', 'neutral'], SCHEDULED: ['Booked', 'neutral'], IN_PROGRESS: ['On site', 'blue'],
+    COMPLETED: ['Sheet to check', 'amber'], READY_TO_INVOICE: ['Ready to invoice', 'blue'], INVOICED: ['Invoiced', 'neutral'],
+    PAID: ['Paid', 'green'], CANCELLED: ['Cancelled', 'neutral'], ON_HOLD: ['On hold', 'neutral'],
+    DRAFT: ['Draft', 'neutral'], SENT: ['Sent', 'neutral'], OVERDUE: ['Overdue', 'red'], PARTIAL: ['Part paid', 'amber'],
+    APPROVED: ['Approved', 'green'], REJECTED: ['Sent back', 'red'], SHEET_BACK: ['Sheet sent back', 'red'],
+    VIEWED: ['Viewed', 'neutral'], ACCEPTED: ['Accepted', 'green'], CONVERTED: ['Turned into a job', 'neutral'], EXPIRED: ['Expired', 'neutral'],
   };
   function pill(status, label) {
-    var s = STATUS[status] || [status, 'muted'];
+    var s = STATUS[status] || [status, 'neutral'];
     return '<span class="pill pill--' + s[1] + '">' + esc(label || s[0]) + '</span>';
   }
   function clientName(id) { return S.clients[id] ? S.clients[id].name : ''; }
@@ -307,7 +307,7 @@
     { id: 'jobs', label: 'Jobs', icon: 'jobs' },
     { id: 'sheets', label: 'Job sheets', short: 'Sheets', icon: 'sheets', tab: true, badge: function (k) { return k.sheets; } },
     { id: 'quotes', label: 'Quotes', icon: 'quotes' },
-    { id: 'invoices', label: 'Invoices', icon: 'invoices', tab: true, badge: function (k) { return k.overdueCount; }, warn: true },
+    { id: 'invoices', label: 'Invoices', icon: 'invoices', tab: true },
     { id: 'clients', label: 'Clients', icon: 'clients' },
     { id: 'reports', label: 'Reports', icon: 'reports' },
   ];
@@ -317,7 +317,7 @@
     list.innerHTML = NAV.map(function (n) {
       var b = n.badge ? n.badge(k) : 0;
       return '<li><a class="nav__a' + (n.id === active ? ' is-active' : '') + '" href="#/' + n.id + '" data-nav="' + n.id + '"' + (n.id === active ? ' aria-current="page"' : '') + '>' +
-        n.label + (b ? '<span class="badge' + (n.warn ? ' badge--warn' : '') + '" aria-label="' + b + (n.warn ? ' overdue' : ' to check') + '">' + b + '</span>' : '') + '</a></li>';
+        icon(n.icon) + '<span>' + n.label + '</span>' + (b ? '<span class="badge" aria-label="' + b + ' to check">' + b + '</span>' : '') + '</a></li>';
     }).join('');
     var tabs = document.getElementById('tab-list');
     var inMore = NAV.filter(function (n) { return !n.tab; }).some(function (n) { return n.id === active; });
@@ -415,6 +415,7 @@
   }
 
   // The shortest name that still says who: "Whitlock", "Mehtas", "Old Dairy".
+  function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
   function clientTag(c) {
     var n = c.short.replace(/^(Mr|Mrs|Ms|the) /, '');
     if (c.company) return n.length <= 10 ? n : n.split(' ')[0];
@@ -429,10 +430,10 @@
     var cls = 'blk blk--' + job.type + ' is-' + st + (lead ? ' is-crew' : '') + (job.urgent ? ' is-urgent' : '') + (e.forced ? ' is-forced' : '') + (mins < 70 ? ' is-short' : '');
     var title = jobTitleOn(job, e.day);
     var label = range(e.start, e.end) + ', ' + title + ', ' + c.short + ', ' + c.area + '. ' + STATE_LABEL[st] + (lead ? ', with ' + lead.first : '');
-    var alt = '<span class="blk__alt" aria-hidden="true">' + (job.urgent ? '<b class="blk__urgent">Urgent</b> ' : '') + '<span class="blk__altname">' + esc(lead ? 'With ' + lead.first : compact ? clientTag(c) : c.short) + '</span></span>';
+    var alt = '<span class="blk__alt" aria-hidden="true">' + (job.urgent ? '<b class="blk__urgent">Urgent</b> ' : '') + '<span class="blk__altname">' + esc(lead ? 'With ' + lead.first : compact ? clientTag(c) : capFirst(c.short)) + '</span></span>';
     var inner = compact
       ? '<span class="blk__title" aria-hidden="true">' + esc(title) + '</span>' + alt + '<span class="blk__mtime" aria-hidden="true">' + t2(e.start) + '</span>'
-      : '<span class="blk__top" aria-hidden="true"><span class="blk__time">' + (mins < 60 ? t2(e.start) : range(e.start, e.end)) + '</span>' + (st === 'done' ? icon('check', 'blk__tick') : st === 'live' ? '<span class="blk__live" aria-hidden="true"></span>' : '') + '</span>' +
+      : '<span class="blk__top" aria-hidden="true"><span class="blk__time">' + (mins < 100 ? t2(e.start) : range(e.start, e.end)) + '</span>' + (st === 'done' ? icon('check', 'blk__tick') : '') + '</span>' +
         '<span class="blk__title" aria-hidden="true">' + (job.urgent ? '<b class="blk__urgent">Urgent</b> ' : '') + esc(title) + '</span>' +
         '<span class="blk__where" aria-hidden="true">' + (lead ? 'With ' + esc(lead.first) + ' · ' : '') + esc(c.short) + ' · ' + esc(c.area) + '</span>' + alt;
     return '<a class="' + cls + '" draggable="false" href="#/jobs/' + job.id + '" data-entry="' + e.id + '" style="left:' + pct(e.start) + ';width:' + wpct(mins) + '" title="' + esc(title + ' · ' + c.name) + '"><span class="sr">' + esc(label) + '</span>' + inner + '</a>';
@@ -447,7 +448,7 @@
         var a = list[i - 1], b = list[i];
         if (b.start - a.end >= 20 && !b.pending && !a.pending) {
           var m = travelMins(miles(S.clients[S.jobs[a.job].client], S.clients[S.jobs[b.job].client]));
-          html += '<span class="gap" style="left:' + pct(a.end) + ';width:' + wpct(b.start - a.end) + '" aria-hidden="true"><span class="gap__line"></span>' + (b.start - a.end >= 45 ? '<span class="gap__t">' + icon('van') + m + ' min</span>' : '') + '</span>';
+          html += '<span class="gap" style="left:' + pct(a.end) + ';width:' + wpct(b.start - a.end) + '" aria-hidden="true"><span class="gap__line"></span>' + (b.start - a.end >= 70 ? '<span class="gap__t">' + icon('van') + m + ' min</span>' : '') + '</span>';
         }
       }
     }
@@ -473,7 +474,7 @@
     var html = '';
     for (var h = 8; h <= 17; h++) {
       var hideLabel = !compact && S.scheduleDay === D.TODAY && Math.abs(h * 60 - now()) < 26;
-      html += '<span class="tick" style="left:' + pct(h * 60) + '"><span' + (hideLabel ? ' style="visibility:hidden"' : '') + '>' + (compact ? (h > 12 ? h - 12 : h) + (h >= 12 ? 'pm' : 'am') : t2(h * 60)) + '</span></span>';
+      html += '<span class="tick" style="left:' + pct(h * 60) + '"><span' + (hideLabel ? ' style="visibility:hidden"' : '') + '>' + t2(h * 60) + '</span></span>';
       if (!compact && h < 17) html += '<span class="tick tick--half" style="left:' + pct(h * 60 + 30) + '"></span>';
     }
     return html;
@@ -488,8 +489,16 @@
     return '<div class="fig' + (delta ? ' is-changed' : '') + '" data-fig="' + id + '">' +
       '<p class="fig__label">' + label + '</p>' +
       '<p class="fig__value" data-count="' + (extra && extra.count != null ? extra.count : '') + '">' + value + '</p>' +
-      '<p class="fig__foot">' + foot + '</p>' + (delta ? '<p class="fig__delta">' + icon('check') + delta + '</p>' : '') +
+      '<p class="fig__foot">' + foot + '</p>' + (delta ? '<p class="fig__delta">' + delta + '</p>' : '') +
       (extra && extra.after ? extra.after : '') + '</div>';
+  }
+
+  function sheetDays() {
+    var days = [];
+    S.sheets.forEach(function (sh) { if (sh.status === 'COMPLETED' && days.indexOf(sh.date) < 0) days.push(sh.date); });
+    days.sort();
+    var names = days.map(function (d) { return fmtDate(d, 'day'); });
+    return 'From ' + (names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0]);
   }
 
   screens.today = {
@@ -503,61 +512,41 @@
       if (trayUrgent) sub.push(trayUrgent + ' urgent call-out to place');
       sub.push(k.sheets ? k.sheets + ' job sheet' + (k.sheets === 1 ? '' : 's') + ' to check' : 'every job sheet checked');
 
-      var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-      var maxDay = Math.max.apply(null, k.paidByDay.concat([1]));
-      var bars = '<div class="minibars" aria-hidden="true">' + k.paidByDay.slice(0, 4).map(function (v, i) {
-        return '<span class="minibars__b' + (i === 3 ? ' is-today' : '') + '"><i style="height:' + Math.max(4, Math.round(v / maxDay * 100)) + '%"></i><em>' + days[i].charAt(0) + '</em></span>';
-      }).join('') + '</div>';
-
       var figs = [
         figure('today', 'On today', k.jobsToday + '<small> jobs</small>', k.peopleOut + ' people out · ' + k.tray + ' to schedule', S.booked.length ? '+' + S.booked.length + ' booked since 10:12' : ''),
-        figure('sheets', 'Job sheets to check', String(k.sheets), k.sheets ? 'From Tuesday and Wednesday' : 'All caught up', k.approvedToday ? k.approvedToday + ' approved today' : ''),
-        figure('ready', 'Ready to invoice', money(k.ready), k.readyCount + ' job' + (k.readyCount === 1 ? '' : 's') + ' signed off', k.readyCount !== b.readyCount ? (k.readyCount > b.readyCount ? '+' : '') + (k.readyCount - b.readyCount) + ' since 10:12' : ''),
-        figure('waiting', 'Waiting to be paid', money(k.waiting), k.waitingCount + ' invoices · <span class="t-warn">' + money(k.overdue) + ' overdue</span>', ''),
-        figure('paid', 'Paid in November', '<span data-countup="' + k.paidNov + '" data-from="' + (S.changed.paidFrom != null ? S.changed.paidFrom : k.paidNov) + '">' + money(k.paidNov) + '</span>', money(k.paidToday) + ' paid today', k.paidNov > b.paidNov ? '+' + money(k.paidNov - b.paidNov) + ' since 10:12' : '', { after: bars }),
+        figure('sheets', 'Sheets to check', String(k.sheets), k.sheets ? sheetDays() : 'All caught up', k.approvedToday ? k.approvedToday + ' approved today' : ''),
+        figure('waiting', 'Waiting to be paid', money(k.waiting), k.waitingCount + ' invoices · ' + money(k.overdue) + ' overdue', ''),
+        figure('paid', 'Paid in November', '<span data-countup="' + k.paidNov + '" data-from="' + (S.changed.paidFrom != null ? S.changed.paidFrom : k.paidNov) + '">' + money(k.paidNov) + '</span>', money(k.paidToday) + ' paid today', k.paidNov > b.paidNov ? '+' + money(k.paidNov - b.paidNov) + ' since 10:12' : ''),
       ].join('');
 
-      // Crew lanes (compact)
       var lanes = D.team.map(function (t) {
         var list = entriesFor(t.id, D.TODAY);
         var cur = list.filter(function (e) { return e.start <= now() && now() < e.end; })[0];
         var where = cur ? S.clients[S.jobs[cur.job].client].area : (list.filter(function (e) { return e.start > now(); })[0] ? 'On the way' : 'Free');
-        return '<div class="mlane"><div class="mlane__head">' + avatar(t.id) + '<span class="mlane__name">' + esc(t.first) + '<small>' + esc(where) + '</small></span></div>' +
+        return '<div class="mlane"><div class="mlane__head"><span class="mlane__name">' + esc(t.first) + '<small>' + esc(where) + '</small></span></div>' +
           '<div class="mlane__track">' + trackHTML(t.id, D.TODAY, true) + '</div></div>';
       }).join('');
 
+      // One list of what needs the office: sheets to check, then overdue invoices.
       var toCheck = S.sheets.filter(function (s) { return s.status === 'COMPLETED'; });
-      var checkRows = toCheck.length ? toCheck.map(function (s) {
+      var overdue = S.invoices.filter(function (v) { return invStatus(v) === 'OVERDUE'; });
+      var rows = toCheck.map(function (s) {
         var job = S.jobs[s.job], tot = sheetTotals(s);
-        return '<li><a class="checkrow" href="#/sheets/' + s.no + '"><span class="serial">No. ' + s.no + '</span>' +
-          '<span class="checkrow__main"><b>' + esc(job.title) + '</b><small>' + esc(clientName(job.client)) + ' · ' + relDay(s.date) + '</small></span>' +
-          '<span class="checkrow__crew">' + s.crew.map(function (c) { return avatar(c.id, 'avatar--sm'); }).join('') + '</span>' +
-          '<span class="checkrow__val">' + money(tot.gross) + '</span>' + icon('chev', 'i--end') + '</a></li>';
-      }).join('') : '<li class="empty">' + icon('check') + 'Nothing waiting. Every sheet is checked.</li>';
-
-      var waiting = S.invoices.filter(function (v) { return v.status === 'SENT' || v.status === 'PARTIAL'; }).sort(function (a, b) { return a.due < b.due ? -1 : 1; });
-      var moneyRows = waiting.slice(0, 5).map(function (v) {
-        var st = invStatus(v), late = st === 'OVERDUE';
+        return '<li><a class="todo" href="#/sheets/' + s.no + '"><span class="todo__main"><b>' + esc(job.title) + '</b><small>Sheet ' + s.no + ' · ' + esc(clientName(job.client)) + ' · ' + relDay(s.date) + '</small></span>' +
+          '<span class="todo__val">' + money(tot.gross) + '</span>' + icon('chev', 'i--end') + '</a></li>';
+      }).concat(overdue.map(function (v) {
         var days = Math.round((Date.parse(D.TODAY) - Date.parse(v.due)) / 864e5);
-        return '<li class="mrow' + (late ? ' is-late' : '') + '"><a href="#/invoices/' + v.ref + '"><span class="ref">' + v.ref + '</span><span class="mrow__who">' + esc(clientName(v.client)) + '</span></a>' +
-          '<span class="mrow__due">' + (late ? days + ' days overdue' : 'Due ' + (/^(Today|Tomorrow)$/.test(relDay(v.due)) ? relDay(v.due).toLowerCase() : relDay(v.due))) + '</span>' +
-          '<span class="mrow__amt">' + money(outstanding(v)) + '</span>' +
-          (late ? '<button class="btn btn--sm btn--line" type="button" data-action="chase" data-ref="' + v.ref + '"' + (v.chasedToday ? ' disabled' : '') + '>' + (v.chasedToday ? 'Reminder sent' : 'Send reminder') + '</button>' : '<span></span>') + '</li>';
-      }).join('');
-
-      var feed = S.activity.slice().reverse().slice(0, 8).map(function (a) {
-        return '<li class="feed__i' + (a.kind ? ' feed__i--' + a.kind : '') + '"><span class="feed__t">' + a.t + '</span>' +
-          (a.who ? avatar(a.who, 'avatar--sm') : '<span class="feed__dot">' + icon(a.kind === 'money' ? 'pound' : a.kind === 'alert' ? 'phone' : 'check') + '</span>') +
-          '<span class="feed__x">' + (a.who ? '<b>' + esc(S.teamById[a.who].first) + '</b> ' : '') + esc(a.text) + '</span></li>';
-      }).join('');
+        return '<li class="todo todo--money"><a class="todo__main" href="#/invoices/' + v.ref + '"><b>' + esc(clientName(v.client)) + ' owes ' + money(outstanding(v)) + '</b><small>' + v.ref + ' · ' + days + ' days overdue</small></a>' +
+          '<button class="btn btn--sm btn--line" type="button" data-action="chase" data-ref="' + v.ref + '"' + (v.chasedToday ? ' disabled' : '') + '>' + (v.chasedToday ? 'Reminded' : 'Remind') + '</button></li>';
+      })).join('');
 
       return '<div class="page page--today">' +
-        '<header class="phead"><div><p class="eyebrow">' + fmtDate(D.TODAY, 'long') + ' · ' + t2(now()) + '</p><h1>' + greet + ', ' + D.user.first + '.</h1>' +
+        '<header class="phead"><div><p class="eyebrow">' + fmtDate(D.TODAY, 'wd') + ' · ' + t2(now()) + '</p><h1>Good ' + greet.toLowerCase() + ', ' + D.user.first + '</h1>' +
         '<p class="phead__sub">' + sub.join(', ') + '.</p></div>' +
-        '<div class="phead__actions"><a class="btn btn--line" href="#/sheets">' + icon('sheets') + 'Check sheets</a><a class="btn btn--primary" href="#/schedule">' + icon('schedule') + 'Open the schedule</a></div></header>' +
+        '<div class="phead__actions"><a class="btn btn--primary" href="#/schedule">Open schedule</a></div></header>' +
         '<section class="figures" aria-label="Today’s figures">' + figs + '</section>' +
         '<div class="today-grid">' +
-          '<section class="panel panel--crew" aria-labelledby="h-crew"><header class="panel__head"><h2 id="h-crew">On the road</h2><a class="panel__link" href="#/schedule">Schedule ' + icon('arrow') + '</a></header>' +
+          '<section class="panel panel--crew" aria-labelledby="h-crew"><header class="panel__head"><h2 id="h-crew">Today</h2><a class="panel__link" href="#/schedule">Schedule ' + icon('arrow') + '</a></header>' +
             '<div class="mboard"><div class="mboard__ruler"><span></span><div class="mruler">' + rulerHTML(true) + '</div></div>' + lanes +
             '<div class="mboard__overlay" aria-hidden="true"><span class="now now--mini" data-nowline style="left:' + pct(now()) + '"></span></div></div>' +
             '<ul class="wholist">' + D.team.map(function (t) {
@@ -567,9 +556,8 @@
               return '<li>' + avatar(t.id) + '<span><b>' + esc(t.first) + '</b> ' + (job ? (cur ? 'at ' : 'next, ' + t2(e.start) + ': ') + esc(S.clients[job.client].short) + ', ' + esc(S.clients[job.client].area) : 'free for the rest of the day') + '</span></li>';
             }).join('') + '</ul>' +
           '</section>' +
-          '<section class="panel panel--check" aria-labelledby="h-check"><header class="panel__head"><h2 id="h-check">Job sheets to check <span class="count">' + toCheck.length + '</span></h2><a class="panel__link" href="#/sheets">All sheets ' + icon('arrow') + '</a></header><ul class="checklist">' + checkRows + '</ul></section>' +
-          '<section class="panel panel--money" aria-labelledby="h-money"><header class="panel__head"><h2 id="h-money">Money in</h2><a class="panel__link" href="#/invoices">Invoices ' + icon('arrow') + '</a></header><ul class="mlist">' + moneyRows + '</ul></section>' +
-          '<section class="panel panel--feed" aria-labelledby="h-feed"><header class="panel__head"><h2 id="h-feed">Today so far</h2></header><ol class="feed">' + feed + '</ol></section>' +
+          '<section class="panel panel--todo" aria-labelledby="h-todo"><header class="panel__head"><h2 id="h-todo">Needs attention</h2><span class="count">' + (toCheck.length + overdue.length) + '</span></header>' +
+            (rows ? '<ul class="todos">' + rows + '</ul>' : '<p class="empty">' + icon('check') + 'Nothing waiting on the office.</p>') + '</section>' +
         '</div></div>';
     },
     mount: function () {
@@ -606,18 +594,15 @@
   function trayHTML() {
     var cards = S.tray.map(function (key) {
       var job = S.jobs[key], c = S.clients[job.client];
-      return '<li class="tcard' + (job.urgent ? ' is-urgent' : '') + ' tcard--' + job.type + '" data-tray="' + key + '">' +
-        '<div class="tcard__top"><span class="tcard__grip" aria-hidden="true">' + icon('grip') + '</span>' +
-          (job.urgent ? '<span class="flag flag--urgent">Urgent</span>' : '<span class="flag">' + esc(D.types[job.type].label) + '</span>') +
-          '<span class="tcard__len">' + icon('clock') + dur(job.mins) + '</span></div>' +
+      return '<li class="tcard' + (job.urgent ? ' is-urgent' : '') + '" data-tray="' + key + '">' +
+        '<div class="tcard__top">' + (job.urgent ? pill('OVERDUE', 'Urgent') : '') + '<span class="tcard__len">' + dur(job.mins) + (job.gas ? ' · Gas Safe' : '') + '</span></div>' +
         '<h3 class="tcard__title">' + esc(job.title) + '</h3>' +
-        '<p class="tcard__who">' + esc(c.name) + ' · ' + esc(c.area) + ' ' + esc(c.pc) + '</p>' +
-        (job.note ? '<p class="tcard__note">' + esc(job.note) + '</p>' : '') +
-        '<div class="tcard__foot">' + (job.gas ? '<span class="gasneed">' + icon('flame') + 'Needs Gas Safe</span>' : '<span class="gasneed gasneed--any">Any plumber</span>') +
-          '<button class="btn btn--sm btn--line" type="button" data-action="assign" data-key="' + key + '">Assign</button></div></li>';
+        '<p class="tcard__who">' + esc(c.name) + ', ' + esc(c.area) + '</p>' +
+        (job.urgent && job.note ? '<p class="tcard__note">' + esc(job.note) + '</p>' : '') +
+        '<div class="tcard__foot"><button class="btn btn--sm btn--line" type="button" data-action="assign" data-key="' + key + '">Assign</button></div></li>';
     }).join('');
-    return '<section class="tray" aria-labelledby="h-tray"><header class="tray__head"><h2 id="h-tray">To schedule <span class="count">' + S.tray.length + '</span></h2>' +
-      '<p class="tray__hint">Drag a job onto someone’s day, or use Assign.</p></header>' +
+    return '<section class="tray" aria-labelledby="h-tray"><header class="tray__head"><h2 id="h-tray">Unscheduled <span class="count">' + S.tray.length + '</span></h2>' +
+      '<p class="tray__hint">Drag onto someone’s day, or use Assign.</p></header>' +
       (S.tray.length ? '<ul class="tray__list">' + cards + '</ul>' : '<p class="empty">' + icon('check') + 'Everything is booked in.</p>') + '</section>';
   }
 
@@ -635,7 +620,7 @@
       var lanes = D.team.map(function (t) {
         var booked = bookedMins(t.id, day);
         return '<div class="lane" data-person="' + t.id + '">' +
-          '<div class="lane__head">' + avatar(t.id) + '<span class="lane__who"><b>' + esc(t.name) + '</b><small>' + (t.gas ? icon('flame', 'i--gas') : '') + esc(t.lane) + '</small></span>' +
+          '<div class="lane__head">' + avatar(t.id) + '<span class="lane__who"><b>' + esc(t.name) + '</b><small>' + esc(t.lane) + '</small></span>' +
           '<span class="lane__hours">' + (booked ? dur(booked) : 'Free') + '</span></div>' +
           '<div class="lane__track" data-track="' + t.id + '">' + trackHTML(t.id, day) + '</div></div>';
       }).join('');
@@ -654,9 +639,9 @@
       agenda += absencesFor(S.mobilePerson, day).map(function (a) { return '<li class="ag__away"><span class="ag__time">' + t2(a.start) + '<small>' + t2(a.end) + '</small></span><span class="ag__main"><b>' + esc(a.label) + '</b><small>' + esc(a.note) + '</small></span></li>'; }).join('');
 
       return '<div class="page page--schedule">' +
-        '<header class="phead phead--tight"><div><p class="eyebrow">Week of 2 November</p><h1>Schedule</h1></div>' +
+        '<header class="phead phead--tight"><div><h1>Schedule</h1><p class="phead__sub">Week of 2 November</p></div>' +
         '<div class="daytabs" role="group" aria-label="Day">' + tabs + '</div>' +
-        '<ul class="legend" aria-label="Key"><li><i class="lg lg--done"></i>Done</li><li><i class="lg lg--live"></i>On site</li><li><i class="lg lg--booked"></i>Booked</li><li><i class="lg lg--travel"></i>Travel</li><li><i class="lg lg--away"></i>Away</li></ul></header>' +
+        '<ul class="legend" aria-label="Key"><li><i class="lg lg--booked"></i>Booked</li><li><i class="lg lg--live"></i>On site</li><li><i class="lg lg--done"></i>Done</li><li><i class="lg lg--away"></i>Away</li></ul></header>' +
         '<div class="sched">' + trayHTML() +
           '<section class="board" aria-label="' + esc(fmtDate(day, 'long')) + ' by engineer">' +
             '<div class="board__ruler"><span class="board__corner">' + (isToday ? 'Today' : fmtDate(day, 'wd')) + '</span><div class="ruler">' + rulerHTML(false) + '</div></div>' +

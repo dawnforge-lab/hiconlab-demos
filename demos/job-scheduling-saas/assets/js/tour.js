@@ -34,10 +34,11 @@ HiconTour.define(async (t) => {
   await t.wait(400);
   await t.scrollTo('.photos', { offset: 170, duration: 1200 });
   await t.hover('.photo:nth-child(2)', { hold: 800 });
-  await t.scrollTo('.office', { offset: 470, duration: 1200 });
+  await t.scrollTo('.pva', { offset: 330, duration: 1200 });
   await t.wait(500);
   await t.click('[data-action="approve"]', { after: 300 });
-  await t.waitFor('.stamp--ok', 3000);
+  await t.waitFor('.paper--sheet.is-approved', 3000);
+  await t.scrollTo(0, { duration: 700 });
   await t.wait(1500);
 
   // 4. Straight to an invoice, and it goes out.
@@ -54,7 +55,7 @@ HiconTour.define(async (t) => {
   await t.click('[data-nav="today"]', { after: 300 });
   await t.waitFor('.page--today', 3000);
   await t.wait(700);
-  await t.caption('Customers pay from the email, and the figures keep up');
+  await t.caption('Paid from the email, and the figures keep up');
   await t.wait(1300);
   await t.run(() => window.App.payByLink(window.App.S.invoices[window.App.S.invoices.length - 1].ref));
   await t.waitFor('.fig[data-fig="paid"].is-changed', 3000);
