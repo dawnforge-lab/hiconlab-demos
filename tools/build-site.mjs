@@ -2,7 +2,7 @@
 // files and the recorded media. Repo tooling and briefs (tools/, docs/) stay out.
 // Usage: node tools/build-site.mjs
 //
-// FRAME_ANCESTORS (space-separated origins, a Pages environment variable) lists the sites allowed to embed the demos;
+// FRAME_ANCESTORS (space-separated origins, an environment variable when building) lists the sites allowed to embed the demos;
 // add the staging site's origin there. The demos are noindex: the portfolio pages on hiconlab.com are the pages
 // meant for search.
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';

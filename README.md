@@ -35,10 +35,17 @@ QUALITY_BAR.md         what every demo is judged against
 
 ## Hosting
 
-The demos are published at `https://demos.hiconlab.com` on Cloudflare Pages, connected to this GitHub repo: every push to `main` deploys.
+The demos are published at `https://demos.hiconlab.com` from the Cloudflare Pages project `hiconlab-demos` (in Ebucurescu@gmail.com's Cloudflare account; also at `https://hiconlab-demos.pages.dev`). Deploys are direct uploads, not a Git connection, so publish after each change:
 
-- Pages project settings: build command `npm run build`, build output directory `dist`, environment variables `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1` (no browsers needed to build) and `FRAME_ANCESTORS` (the sites allowed to embed the demos, space-separated; default `https://hiconlab.com https://www.hiconlab.com`, add the staging site's origin).
-- Custom domain: `demos.hiconlab.com`, added in the Pages project (Custom domains), which creates the DNS record.
+```bash
+npx wrangler login                          # once per machine
+CLOUDFLARE_ACCOUNT_ID=465a8fc85098ab1ec8302aac08f9e1f2 npm run deploy
+```
+
+`npm run deploy` builds `dist/` and uploads it. `FRAME_ANCESTORS` (space-separated origins) sets which sites may embed the demos; the default is `https://hiconlab.com https://www.hiconlab.com`, so add the staging site's origin when deploying for staging tests.
+
+- Use `wrangler pages deploy` (as the script does), never `wrangler deploy` or `wrangler pages project create`: wrangler 4.15x turns those into a Workers deploy of the whole folder.
+- `demos.hiconlab.com` is a custom domain on the project. The hiconlab.com zone lives in another Cloudflare account, so its DNS has a CNAME `demos` → `hiconlab-demos.pages.dev`, set to DNS only (a proxied record hides the CNAME from Pages and verification fails).
 - Every page is `noindex`: the portfolio pages on hiconlab.com are the ones meant for search. hiconlab.com embeds the demos (its `DEMOS_URL`) and shows the videos from its own media library.
 
 ## Licences
